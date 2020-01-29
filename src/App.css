@@ -19,8 +19,23 @@ main{
   display: flex;
 }
 
+
+/* calendar styling */
+#calendarSection{
+  margin-top: 2rem;  
+  margin: 2rem;
+  width: 60vw;
+  height: 60vh;
+}
+
+#calendarSection h2{
+  text-align: center;
+
+
+}
+
 #calendar{
-  width: 50vw;
+  /*width: 50vw;*/
 }
 
 
@@ -30,7 +45,7 @@ main{
 }
 
 #examList{
-  width:50vw;
+  width:40vw;
   height: 60vh;
   
   overflow-y: scroll;

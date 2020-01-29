@@ -7,10 +7,10 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listViewPlugin from '@fullcalendar/list';
 import FullCalendar from '@fullcalendar/react';
-import { render } from 'react-dom';
 
 //Import custom components
 import ExamList from './ExamList.jsx'
+import Calendar from './Calendar.jsx'
 
 let currentViewEvents = [
   {
@@ -54,9 +54,13 @@ export default class App extends React.Component {
       <h3>Filters</h3>
       </div>
       <main>
+
+      <section id="calendarSection">
+        <h2>Calendar</h2>
       <div id="calendar">
-      <Calendar exams={this.state.semesterExams}/>
+      <Calendar exams={this.state.semesterExams} ref={this.calendarComponentRef}/>
       </div>
+      </section>
       
       <section id="examListSection">
       <h2>Exam List</h2>
@@ -92,41 +96,6 @@ export default class App extends React.Component {
   
   
     
-    //component for rendering caldendar view
-    class Calendar extends React.Component{
-      constructor (props) {
-        super(props);
-        this.formatFullCalendarEvents = this.formatFullCalendarEvents.bind(this);
-      }
-      
-      formatFullCalendarEvents(exams) {
-        let events = exams.map((exam) => {
-          //console.log(exam);
-          return {
-            title: `${exam.sectionNickname} ${exam.examName} - ${exam.assignedInstructor}`,
-            start: exam.examStart,
-            end: exam.examEnd  
-          }
-        })
-        
-        return events;
-      }
-      ;
-      
-      render(){
-        console.log(this.formatFullCalendarEvents(this.props.exams));
-        return (
-          <FullCalendar 
-          defaultView="timeGridWeek" 
-          plugins={[ dayGridPlugin, timeGridPlugin, listViewPlugin ]} 
-          ref={this.calendarComponentRef}
-          events = {this.formatFullCalendarEvents(this.props.exams)}
-          />
-          )
-          
-        }
-        
-      }
       
       
       
