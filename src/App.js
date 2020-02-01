@@ -56,7 +56,7 @@ export default class App extends React.Component {
       <main>
 
       <section id="calendarSection">
-        <h2>Calendar</h2>
+        {/* <h2>Calendar</h2> */}
       <div id="calendar">
       <Calendar exams={this.state.semesterExams} ref={this.calendarComponentRef}/>
       </div>

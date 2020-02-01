@@ -35,9 +35,12 @@ import FullCalendar from '@fullcalendar/react';
           return (
             <FullCalendar 
             defaultView="timeGridWeek" 
-            width={'650px'}
-            height={'500px'}
-            //aspectRatio={'1.3'}
+            height={664}
+            header={{
+              left: 'timeGridDay timeGridWeek, dayGridMonth',
+              center: 'title',
+              right: 'prev, next, today' 
+          }}
             plugins={[ dayGridPlugin, timeGridPlugin, listViewPlugin ]} 
             ref={this.props.ref}
             events = {this.formatFullCalendarEvents(this.props.exams)}

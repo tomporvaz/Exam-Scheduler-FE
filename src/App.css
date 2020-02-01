@@ -1,3 +1,6 @@
+
+
+
 header{
   display: flex;
   flex-direction: column;
@@ -24,8 +27,7 @@ main{
 #calendarSection{
   margin-top: 2rem;  
   margin: 2rem;
-  width: 60vw;
-  height: 60vh;
+
 }
 
 #calendarSection h2{
@@ -39,6 +41,8 @@ main{
 }
 
 
+
+
 /* examList styling */
 #examListSection{
   margin:2rem;
@@ -46,7 +50,7 @@ main{
 
 #examList{
   width:40vw;
-  height: 60vh;
+  height: 600px;
   
   overflow-y: scroll;
 
@@ -54,22 +58,29 @@ main{
 
 #examListSection h2{
   text-align:center;
+  margin: 0 0 1.5rem 0;
+  font-size: 1.75rem;
 }
 
 .examListItem{
   display: grid;
-  grid-template-columns: auto auto 1fr;
+  grid-template-columns: 1fr auto auto auto 1fr;
   grid-template-rows: auto auto;
+  grid-template-areas: 
+    ". date time description ."
+    ". . . description .";
 }
 
 .examListDate{
   margin: .5rem .3rem;
   line-height: 1.6rem;
+  grid-area: date;
 }
 
 .examListTime{
   margin: .5rem .3rem;
   line-height: 1.6rem;
+  grid-area: time;
 }
 
 .examListDescription{
@@ -78,6 +89,32 @@ main{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  grid-area: description;
 
 }
 
+@media (max-width: 1300px){
+  main{
+    display: block;
+  }
+
+  #examListSection{
+    margin:2rem .2rem;
+  }
+
+  #examList{
+    width:99%;
+    height: 600px;
+    margin: 0;
+    overflow-y: scroll;
+    /* border: solid 1px #000; */
+  }
+
+  #calendarSection{
+    margin-top: 2rem;  
+    margin: 2rem .2rem;
+  
+  }
+
+
+}
