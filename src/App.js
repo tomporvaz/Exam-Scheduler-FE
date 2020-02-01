@@ -11,6 +11,7 @@ import FullCalendar from '@fullcalendar/react';
 //Import custom components
 import ExamList from './ExamList.jsx'
 import Calendar from './Calendar.jsx'
+import ExamFilter from './ExamFilter.jsx'
 
 let currentViewEvents = [
   {
@@ -50,9 +51,8 @@ export default class App extends React.Component {
       <header>
       <h1>Exam Scheduler</h1>
       </header>
-      <div id="filterContainer">
-      <h3>Filters</h3>
-      </div>
+      <ExamFilter/>
+
       <main>
 
       <section id="calendarSection">
@@ -86,6 +86,8 @@ export default class App extends React.Component {
         this.setState({semesterExams: json});
         console.log(this.state.semesterExams);
       };
+      console.log(this.calendarComponentRef);
+
     }
     
     

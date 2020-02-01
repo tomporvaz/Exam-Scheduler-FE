@@ -15,6 +15,8 @@ import FullCalendar from '@fullcalendar/react';
           super(props);
           this.formatFullCalendarEvents = this.formatFullCalendarEvents.bind(this);
         }
+
+        calendarRef = React.createRef()
         
         formatFullCalendarEvents(exams) {
           let events = exams.map((exam) => {
@@ -29,9 +31,17 @@ import FullCalendar from '@fullcalendar/react';
           return events;
         }
         ;
+
+        handleViewObjectOnDatesRender = (info) => {
+          //console.log(this.calendarRef.current.calendar.view);
+          
+          //bubble up currentStart to app state, and focus examList based on app state
+          console.log(`currentStart of calendar = ${info.view.currentStart}`);
+        }
         
         render(){
           console.log(this.formatFullCalendarEvents(this.props.exams));
+
           return (
             <FullCalendar 
             defaultView="timeGridWeek" 
@@ -42,8 +52,9 @@ import FullCalendar from '@fullcalendar/react';
               right: 'prev, next, today' 
           }}
             plugins={[ dayGridPlugin, timeGridPlugin, listViewPlugin ]} 
-            ref={this.props.ref}
+            ref={this.calendarRef}
             events = {this.formatFullCalendarEvents(this.props.exams)}
+            datesRender={this.handleViewObjectOnDatesRender}
             />
             )
             
