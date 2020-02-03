@@ -29,11 +29,11 @@ let currentViewEvents = [
   //levelColors should come from server
   let levelColors = [
     {
-      level: "1st year",
+      level: "1st Year",
       color: "#E40066"
     },
     {
-      level: "2nd year",
+      level: "2nd Year",
       color: "#345995"
     }
   ]
@@ -79,7 +79,7 @@ export default class App extends React.Component {
       <h2>Exam List</h2>
       <div id="examList">
       
-      <ExamList exams={this.state.semesterExams}/>
+      <ExamList exams={this.state.semesterExams} levelColors={this.state.levelColors}/>
       
       </div>
       </section>
