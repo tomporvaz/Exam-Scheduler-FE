@@ -26,12 +26,25 @@ let currentViewEvents = [
   }
 ];
 
+  //levelColors should come from server
+  let levelColors = [
+    {
+      level: "1st year",
+      color: "#E40066"
+    },
+    {
+      level: "2nd year",
+      color: "#345995"
+    }
+  ]
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       semester: "9909",
-      semesterExams: []
+      semesterExams: [],
+      levelColors: levelColors
     }
   }
   
@@ -51,7 +64,7 @@ export default class App extends React.Component {
       <header>
       <h1>Exam Scheduler</h1>
       </header>
-      <ExamFilter/>
+      <ExamFilter levelColors={this.state.levelColors} />
 
       <main>
 
