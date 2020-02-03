@@ -64,11 +64,11 @@ main{
 
 .examListItem{
   display: grid;
-  grid-template-columns: 1fr auto auto auto 1fr;
+  grid-template-columns: 1fr auto auto auto auto 1fr;
   grid-template-rows: auto auto;
   grid-template-areas: 
-    ". date time description ."
-    ". . . description .";
+    ". date dot time description ."
+    ". . . . description .";
 }
 
 .examListDate{
@@ -91,6 +91,16 @@ main{
   flex-wrap: wrap;
   grid-area: description;
 
+}
+
+.levelColorDot{
+  margin: .5rem .3rem;
+  line-height: 1.6rem;
+  grid-area: dot;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  align-self: center;
 }
 
 @media (max-width: 1300px){
