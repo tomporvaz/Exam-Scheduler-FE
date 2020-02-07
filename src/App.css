@@ -11,16 +11,44 @@ header{
   width: 100vw;
 }
 
-#filterContainer{
-  height: 100px;
-  width:80vw;
-  margin: auto;
-  border: 1px solid black;
-}
+
 
 main{
   display: flex;
 }
+
+/* Exam Filter Styling */
+
+#filterContainer{
+  height: 100px;
+  width:80vw;
+  margin: 2rem auto;
+  display:grid;
+  grid-template-columns: auto 1fr auto;
+  justify-items: center;
+  align-items: center;
+
+  border: 1px solid black;
+  border-radius: 1rem;
+}
+
+.filterSelectionsContainer{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: start;
+}
+
+.filterSelectedItem{
+  width: auto;
+  height: 1rem;
+  border-radius: 1rem;
+  padding: .3rem 1rem;
+  margin: .5rem;
+}
+
 
 
 /* calendar styling */

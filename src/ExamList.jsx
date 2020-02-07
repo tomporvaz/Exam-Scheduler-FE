@@ -1,5 +1,6 @@
 import React from 'react';
-import moment from 'moment'
+import moment from 'moment';
+
 
 function ExamList(props){
   let examItems = props.exams.map((exam) => {
