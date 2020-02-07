@@ -20,11 +20,14 @@ import FullCalendar from '@fullcalendar/react';
         
         formatFullCalendarEvents(exams) {
           let events = exams.map((exam) => {
+            let levelColor = this.props.levelColors.find(levelColor => levelColor.level == exam.level);
             //console.log(exam);
             return {
               title: `${exam.sectionNickname} ${exam.examName} - ${exam.assignedInstructor}`,
               start: exam.examStart,
-              end: exam.examEnd  
+              end: exam.examEnd,
+              backgroundColor: levelColor.color,
+              borderColor: levelColor.color
             }
           })
           

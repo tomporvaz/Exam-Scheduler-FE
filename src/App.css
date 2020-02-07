@@ -64,7 +64,7 @@ main{
 
 .examListItem{
   display: grid;
-  grid-template-columns: 1fr auto auto auto auto 1fr;
+  grid-template-columns: 1fr 4rem  auto 9rem 60% 1fr;
   grid-template-rows: auto auto;
   grid-template-areas: 
     ". date dot time description ."
