@@ -38,13 +38,31 @@ let currentViewEvents = [
     }
   ]
 
+  //instructors should come from server
+  let instructors = [
+    {
+      "id": "js456",
+      "name": "Smartypants, Jone"
+    },
+    {
+      "id": "hu123",
+      "name": "Up, Harry"
+    },
+    {
+      "id": "jc890",
+      "name": "Cranium, John"
+    }
+  ]
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       semester: "9909",
       semesterExams: [],
-      levelColors: levelColors
+      currentExams:[],
+      levelColors: levelColors,
+      instructors: instructors
     }
   }
   
@@ -62,16 +80,26 @@ export default class App extends React.Component {
     return (
       <div className="App">
       <header>
+      
       <h1>Exam Scheduler</h1>
       </header>
-      <ExamFilter levelColors={this.state.levelColors} />
+      <ExamFilter 
+      levelColors={this.state.levelColors} 
+      instructors={this.state.instructors}
+      semesterExams={this.state.semesterExams}
+      currentExams={this.state.currentExams}
+      />
 
       <main>
 
       <section id="calendarSection">
         {/* <h2>Calendar</h2> */}
       <div id="calendar">
-      <Calendar exams={this.state.semesterExams} ref={this.calendarComponentRef} levelColors={this.state.levelColors}/>
+      <Calendar 
+      exams={this.state.currentExams.length === 0 ? this.state.semesterExams : this.state.currentExams} 
+      ref={this.calendarComponentRef} 
+      levelColors={this.state.levelColors}
+      />
       </div>
       </section>
       
@@ -79,7 +107,10 @@ export default class App extends React.Component {
       <h2>Exam List</h2>
       <div id="examList">
       
-      <ExamList exams={this.state.semesterExams} levelColors={this.state.levelColors}/>
+      <ExamList 
+      exams={this.state.currentExams.length === 0 ? this.state.semesterExams : this.state.currentExams} 
+      levelColors={this.state.levelColors}
+      />
       
       </div>
       </section>

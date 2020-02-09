@@ -14,11 +14,23 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Checkbox from '@material-ui/core/Checkbox';
+
 export default class ExamFilter extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      "open": false
+      "open": false,
+      "1st Year": false,
+      "2nd Year": false,
+      "Smartypants, Jone": false,
+      "Up, Harry": false,
+      "Cranium, John": false
     }
   }
 
@@ -32,6 +44,10 @@ export default class ExamFilter extends React.Component{
     this.setState({
       "open": false
     })
+  };
+
+  handleChange = name => event => {
+    this.setState({ ...this.state, [name]: event.target.checked });
   };
 
   render(){
@@ -49,28 +65,51 @@ export default class ExamFilter extends React.Component{
     <AddBoxIcon style={{fontSize: 60}} onClick={this.handleClickOpen}/>
     </IconButton>
 
-    <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+    <Dialog open={this.state.open} onClose={this.handleClose} fullWidth={true} maxWidth="sm" aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Filters</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            To subscribe to this website, please enter your email address here. We will send updates
-            occasionally.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Email Address"
-            type="email"
-            fullWidth
-          />
+
+          <FormControl component="fieldset" /* className={classes.formControl} */>
+          <FormLabel component="legend">Level</FormLabel>
+          <FormGroup>
+            <FormControlLabel
+              control={<Checkbox checked={this.state["1st Year"]} onChange={this.handleChange('1st Year')} value="1st Year" />}
+              label="1st Year"
+            />
+            <FormControlLabel
+              control={<Checkbox checked={this.state["2nd Year"]} onChange={this.handleChange('2nd Year')} value="2nd Year" />}
+              label="2nd Year"
+            />
+          </FormGroup>
+          </FormControl>
+
+          <FormControl component="fieldset" /* className={classes.formControl} */>
+          <FormLabel component="legend">Instructors</FormLabel>
+          <FormGroup>
+            <FormControlLabel
+              control={<Checkbox checked={this.state["Smartypants, Jone"]} onChange={this.handleChange('Smartypants, Jone')} value="Smartypants, Jone" />}
+              label="Smartypants, Jone"
+            />
+            <FormControlLabel
+              control={<Checkbox checked={this.state["Up, Harry"]} onChange={this.handleChange('Up, Harry')} value="Up, Harry" />}
+              label="Up, Harry"
+            />
+            <FormControlLabel
+              control={<Checkbox checked={this.state["Cranium, John"]} onChange={this.handleChange('Cranium, John')} value="Cranium, John" />}
+              label="Cranium, John"
+            />
+          </FormGroup>
+          </FormControl>
+
         </DialogContent>
+
+
         <DialogActions>
           <Button onClick={this.handleClose} color="primary">
             Cancel
           </Button>
           <Button onClick={this.handleClose} color="primary">
-            Subscribe
+            Apply
           </Button>
         </DialogActions>
       </Dialog>
