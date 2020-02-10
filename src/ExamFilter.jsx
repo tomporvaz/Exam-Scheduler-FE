@@ -26,11 +26,15 @@ export default class ExamFilter extends React.Component{
     super(props);
     this.state = {
       "open": false,
-      "1st Year": false,
-      "2nd Year": false,
-      "Smartypants, Jone": false,
-      "Up, Harry": false,
-      "Cranium, John": false
+      "levelFilters":{
+        "1st Year": false,
+        "2nd Year": false
+      },
+      "instructorFilters":{
+        "Smartypants, Jone": false,
+        "Up, Harry": false,
+        "Cranium, John": false
+      }
     }
   }
 
@@ -48,6 +52,14 @@ export default class ExamFilter extends React.Component{
 
   handleChange = name => event => {
     this.setState({ ...this.state, [name]: event.target.checked });
+  };
+
+  handleLevelFilter = name => event => {
+    this.setState({ ...this.state, levelFilters:{ ...this.state.levelFilters, [name]: event.target.checked }});
+  };
+
+  applyFilter = (filters) => {
+    this.props.filter(["2nd Year"]);
   };
 
   render(){
@@ -73,11 +85,11 @@ export default class ExamFilter extends React.Component{
           <FormLabel component="legend">Level</FormLabel>
           <FormGroup>
             <FormControlLabel
-              control={<Checkbox checked={this.state["1st Year"]} onChange={this.handleChange('1st Year')} value="1st Year" />}
+              control={<Checkbox checked={this.state.levelFilters["1st Year"]} onChange={this.handleLevelFilter('1st Year')} value="1st Year" />}
               label="1st Year"
             />
             <FormControlLabel
-              control={<Checkbox checked={this.state["2nd Year"]} onChange={this.handleChange('2nd Year')} value="2nd Year" />}
+              control={<Checkbox checked={this.state.levelFilters["2nd Year"]} onChange={this.handleLevelFilter('2nd Year')} value="2nd Year" />}
               label="2nd Year"
             />
           </FormGroup>
@@ -87,15 +99,15 @@ export default class ExamFilter extends React.Component{
           <FormLabel component="legend">Instructors</FormLabel>
           <FormGroup>
             <FormControlLabel
-              control={<Checkbox checked={this.state["Smartypants, Jone"]} onChange={this.handleChange('Smartypants, Jone')} value="Smartypants, Jone" />}
+              control={<Checkbox checked={this.state.instructorFilters["Smartypants, Jone"]} onChange={this.handleChange('Smartypants, Jone')} value="Smartypants, Jone" />}
               label="Smartypants, Jone"
             />
             <FormControlLabel
-              control={<Checkbox checked={this.state["Up, Harry"]} onChange={this.handleChange('Up, Harry')} value="Up, Harry" />}
+              control={<Checkbox checked={this.state.instructorFilters["Up, Harry"]} onChange={this.handleChange('Up, Harry')} value="Up, Harry" />}
               label="Up, Harry"
             />
             <FormControlLabel
-              control={<Checkbox checked={this.state["Cranium, John"]} onChange={this.handleChange('Cranium, John')} value="Cranium, John" />}
+              control={<Checkbox checked={this.state.instructorFilters["Cranium, John"]} onChange={this.handleChange('Cranium, John')} value="Cranium, John" />}
               label="Cranium, John"
             />
           </FormGroup>
@@ -108,7 +120,7 @@ export default class ExamFilter extends React.Component{
           <Button onClick={this.handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={this.handleClose} color="primary">
+          <Button onClick={() => this.applyFilter(null, this.props.semesterExams, this.props.currentExams)} color="primary">
             Apply
           </Button>
         </DialogActions>

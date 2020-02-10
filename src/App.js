@@ -86,8 +86,7 @@ export default class App extends React.Component {
       <ExamFilter 
       levelColors={this.state.levelColors} 
       instructors={this.state.instructors}
-      semesterExams={this.state.semesterExams}
-      currentExams={this.state.currentExams}
+      filter={() => this.examFilter()}
       />
 
       <main>
@@ -134,7 +133,15 @@ export default class App extends React.Component {
 
     }
     
-    
+    examFilter = (filters) => {
+      console.log("Apply Filter!")
+      let filteredExams = this.state.semesterExams.filter((exam) => exam.level === "2nd Year");
+      console.log(this.state.semesterExams);
+      console.log(filteredExams);
+      this.setState({
+        "currentExams": filteredExams
+      })
+    };
     
     
     
