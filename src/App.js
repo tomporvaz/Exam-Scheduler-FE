@@ -86,7 +86,7 @@ export default class App extends React.Component {
       <ExamFilter 
       levelColors={this.state.levelColors} 
       instructors={this.state.instructors}
-      filter={() => this.examFilter()}
+      filter={(field, filter) => this.examFilter(field, filter)}
       />
 
       <main>
@@ -133,9 +133,14 @@ export default class App extends React.Component {
 
     }
     
-    examFilter = (filters) => {
-      console.log("Apply Filter!")
-      let filteredExams = this.state.semesterExams.filter((exam) => exam.level === "2nd Year");
+    examFilter = (field, filters) => {
+      /*Adjust function to accept an array of filter objects
+      like, [{field: level, filter: "1st Year"}, {...}]
+      and process array with reduce using filter to reduce exams to only those
+      in filter.
+      */
+      console.log(`Apply Filter! ${filters}`)
+      let filteredExams = this.state.semesterExams.filter((exam) => exam[field] === filters);
       console.log(this.state.semesterExams);
       console.log(filteredExams);
       this.setState({

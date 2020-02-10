@@ -58,8 +58,13 @@ export default class ExamFilter extends React.Component{
     this.setState({ ...this.state, levelFilters:{ ...this.state.levelFilters, [name]: event.target.checked }});
   };
 
-  applyFilter = (filters) => {
-    this.props.filter(["2nd Year"]);
+  applyFilter = (field, filters) => {
+    /*
+    Use reduce function to create array of fliter objects 
+    like [{field: level, filter: "1st Year"},{...}]
+    */
+
+    this.props.filter("assignedInstructor", "Cranium, John");
   };
 
   render(){
@@ -120,7 +125,7 @@ export default class ExamFilter extends React.Component{
           <Button onClick={this.handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={() => this.applyFilter(null, this.props.semesterExams, this.props.currentExams)} color="primary">
+          <Button onClick={() => this.applyFilter()} color="primary">
             Apply
           </Button>
         </DialogActions>
