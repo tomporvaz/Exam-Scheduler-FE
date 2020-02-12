@@ -26,33 +26,33 @@ let currentViewEvents = [
   }
 ];
 
-  //levelColors should come from server
-  let levelColors = [
-    {
-      level: "1st Year",
-      color: "#E40066"
-    },
-    {
-      level: "2nd Year",
-      color: "#345995"
-    }
-  ]
+//levelColors should come from server
+let levelColors = [
+  {
+    level: "1st Year",
+    color: "#E40066"
+  },
+  {
+    level: "2nd Year",
+    color: "#345995"
+  }
+]
 
-  //instructors should come from server
-  let instructors = [
-    {
-      "id": "js456",
-      "name": "Smartypants, Jone"
-    },
-    {
-      "id": "hu123",
-      "name": "Up, Harry"
-    },
-    {
-      "id": "jc890",
-      "name": "Cranium, John"
-    }
-  ]
+//instructors should come from server
+let instructors = [
+  {
+    "id": "js456",
+    "name": "Smartypants, Jone"
+  },
+  {
+    "id": "hu123",
+    "name": "Up, Harry"
+  },
+  {
+    "id": "jc890",
+    "name": "Cranium, John"
+  }
+]
 
 export default class App extends React.Component {
   constructor(props) {
@@ -86,13 +86,13 @@ export default class App extends React.Component {
       <ExamFilter 
       levelColors={this.state.levelColors} 
       instructors={this.state.instructors}
-      filter={(field, filter) => this.examFilter(field, filter)}
+      filter={(filterObjects) => this.examFilter(filterObjects)}
       />
-
+      
       <main>
-
+      
       <section id="calendarSection">
-        {/* <h2>Calendar</h2> */}
+      {/* <h2>Calendar</h2> */}
       <div id="calendar">
       <Calendar 
       exams={this.state.currentExams.length === 0 ? this.state.semesterExams : this.state.currentExams} 
@@ -113,7 +113,7 @@ export default class App extends React.Component {
       
       </div>
       </section>
-
+      
       </main>
       </div>
       );
@@ -130,18 +130,41 @@ export default class App extends React.Component {
         console.log(this.state.semesterExams);
       };
       console.log(this.calendarComponentRef);
-
+      
     }
     
-    examFilter = (field, filters) => {
+    examFilter = (filterObjects) => {
       /*Adjust function to accept an array of filter objects
       like, [{field: level, filter: "1st Year"}, {...}]
       and process array with reduce using filter to reduce exams to only those
       in filter.
       */
-      console.log(`Apply Filter! ${filters}`)
-      let filteredExams = this.state.semesterExams.filter((exam) => exam[field] === filters);
-      console.log(this.state.semesterExams);
+
+
+
+      let filteredExams = this.state.semesterExams
+
+      filterObjects.forEach(filterObject => {
+        let filterStatement = filterObject.filter.reduce((statement, filterValue) => {
+          return(
+          `${statement} || exam.${filterObject.field} === '${filterValue}`
+          )
+        },
+        ""
+        )
+        console.log(filterStatement);
+        filterStatement = filterStatement.slice(3);
+        console.log(filterStatement);
+
+        filteredExams = filteredExams.filter((exam) => 
+          exam.assignedInstructor === "Up, Harry" || 
+          exam.assignedInstructor === "Cranium, John" 
+        );
+      });
+      
+      console.log(`Apply Filter! ${filterObjects}`)
+      
+      console.log(`filteredExams next...`);
       console.log(filteredExams);
       this.setState({
         "currentExams": filteredExams
@@ -153,10 +176,10 @@ export default class App extends React.Component {
   }
   
   
-    
-      
-      
-      
-      
-      
-      
+  
+  
+  
+  
+  
+  
+  

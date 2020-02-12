@@ -26,7 +26,7 @@ export default class ExamFilter extends React.Component{
     super(props);
     this.state = {
       "open": false,
-      "levelFilters":{
+      "level":{
         "1st Year": false,
         "2nd Year": false
       },
@@ -55,7 +55,7 @@ export default class ExamFilter extends React.Component{
   };
 
   handleLevelFilter = name => event => {
-    this.setState({ ...this.state, levelFilters:{ ...this.state.levelFilters, [name]: event.target.checked }});
+    this.setState({ ...this.state, level:{ ...this.state.level, [name]: event.target.checked }});
   };
 
   applyFilter = (field, filters) => {
@@ -64,7 +64,14 @@ export default class ExamFilter extends React.Component{
     like [{field: level, filter: "1st Year"},{...}]
     */
 
-    this.props.filter("assignedInstructor", "Cranium, John");
+    //let filterObjects = this.state.
+
+    this.props.filter([
+      {
+        "field": "assignedInstructor", 
+        "filter": ["Up, Harry", "Cranium, John"]
+      }
+    ]);
   };
 
   render(){
@@ -90,11 +97,11 @@ export default class ExamFilter extends React.Component{
           <FormLabel component="legend">Level</FormLabel>
           <FormGroup>
             <FormControlLabel
-              control={<Checkbox checked={this.state.levelFilters["1st Year"]} onChange={this.handleLevelFilter('1st Year')} value="1st Year" />}
+              control={<Checkbox checked={this.state.level["1st Year"]} onChange={this.handleLevelFilter('1st Year')} value="1st Year" />}
               label="1st Year"
             />
             <FormControlLabel
-              control={<Checkbox checked={this.state.levelFilters["2nd Year"]} onChange={this.handleLevelFilter('2nd Year')} value="2nd Year" />}
+              control={<Checkbox checked={this.state.level["2nd Year"]} onChange={this.handleLevelFilter('2nd Year')} value="2nd Year" />}
               label="2nd Year"
             />
           </FormGroup>
