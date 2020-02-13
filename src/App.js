@@ -86,7 +86,7 @@ export default class App extends React.Component {
       <ExamFilter 
       levelColors={this.state.levelColors} 
       instructors={this.state.instructors}
-      filter={(filterObjects) => this.examFilter(filterObjects)}
+      filter={(filterObject) => this.examFilter(filterObject)}
       />
       
       <main>
@@ -95,7 +95,7 @@ export default class App extends React.Component {
       {/* <h2>Calendar</h2> */}
       <div id="calendar">
       <Calendar 
-      exams={this.state.currentExams.length === 0 ? this.state.semesterExams : this.state.currentExams} 
+      exams={this.state.currentExams} 
       ref={this.calendarComponentRef} 
       levelColors={this.state.levelColors}
       />
@@ -107,7 +107,7 @@ export default class App extends React.Component {
       <div id="examList">
       
       <ExamList 
-      exams={this.state.currentExams.length === 0 ? this.state.semesterExams : this.state.currentExams} 
+      exams={this.state.currentExams} 
       levelColors={this.state.levelColors}
       />
       
@@ -126,46 +126,40 @@ export default class App extends React.Component {
       req.onload = () => {
         const json = JSON.parse(req.responseText);
         //console.log(JSON.stringify(json));
-        this.setState({semesterExams: json});
+        this.setState({
+          semesterExams: json,
+          currentExams: json
+        });
         console.log(this.state.semesterExams);
       };
       console.log(this.calendarComponentRef);
       
     }
-    
-    examFilter = (filterObjects) => {
-      /*Adjust function to accept an array of filter objects
-      like, [{field: level, filter: "1st Year"}, {...}]
-      and process array with reduce using filter to reduce exams to only those
-      in filter.
-      */
 
-
-
+    /*examFilter function accepts an oject of fields, and the values by which to filter
+      e.g. - 
+      {
+        level: ["1st Year"],
+        assignedInstructors: ["Up, Harry", "Smartypants, Jone"]
+      }
+    */
+    examFilter = (filterObject) => {
+      //create filteredExams to operate on and initialize with fresh copy of this semester data
       let filteredExams = this.state.semesterExams
-
-      filterObjects.forEach(filterObject => {
-        let filterStatement = filterObject.filter.reduce((statement, filterValue) => {
-          return(
-          `${statement} || exam.${filterObject.field} === '${filterValue}`
-          )
-        },
-        ""
-        )
-        console.log(filterStatement);
-        filterStatement = filterStatement.slice(3);
-        console.log(filterStatement);
-
-        filteredExams = filteredExams.filter((exam) => 
-          exam.assignedInstructor === "Up, Harry" || 
-          exam.assignedInstructor === "Cranium, John" 
-        );
-      });
+      //alias the filter keys to get list of field names
+      const filterKeys = Object.keys(filterObject);
       
-      console.log(`Apply Filter! ${filterObjects}`)
-      
-      console.log(`filteredExams next...`);
-      console.log(filteredExams);
+      /*
+      filter exams with Array.filter testing if each field (filterKey) in the exam includes  
+      at least one filter value.
+      */
+      filteredExams = filteredExams.filter(exam => {
+        return filterKeys.every(key => {
+          if (!filterObject[key].length) {return true};
+          return filterObject[key].includes(exam[key]);
+        })
+      })
+
       this.setState({
         "currentExams": filteredExams
       })

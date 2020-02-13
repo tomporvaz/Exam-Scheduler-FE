@@ -66,12 +66,13 @@ export default class ExamFilter extends React.Component{
 
     //let filterObjects = this.state.
 
-    this.props.filter([
+    this.props.filter(
       {
-        "field": "assignedInstructor", 
-        "filter": ["Up, Harry", "Cranium, John"]
+        "level": [], 
+        "assignedInstructor": [],
+        "course": []
       }
-    ]);
+    );
   };
 
   render(){
