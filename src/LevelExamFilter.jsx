@@ -20,7 +20,28 @@ export default class LevelExamFilter extends React.Component{
   
   handleChange = name => event => {
     this.setState({ ...this.state, [name]: event.target.checked });
+
+
   };
+
+  componentDidUpdate(prevProps, prevState){
+    if(prevState !== this.state){
+      let filterArr = [];
+      for (let key in this.state){
+        if(this.state[key]) { filterArr.push(key) };
+      }
+      this.props.update('level', filterArr);
+    }
+  }; 
+  
+  componentWillUnmount(){console.log("Level Exam Filter Unmount!")}
+
+  componentDidMount(){
+    let newState = {};
+    this.props.checkedboxes.forEach(field => newState[field] = true);
+    console.log(newState);
+    this.setState(newState)
+  }
   
   
   render(){

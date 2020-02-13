@@ -2,6 +2,7 @@ import React from 'react';
 
 //components
 import LevelExamFilter from './LevelExamFilter';
+import InstructorExamFilter from './InstructorExamFilter';
 
 //material-ui imports
 import FilterListIcon from '@material-ui/icons/FilterList';
@@ -29,15 +30,9 @@ export default class ExamFilter extends React.Component{
     super(props);
     this.state = {
       "open": false,
-      "level":{
-        "1st Year": false,
-        "2nd Year": false
-      },
-      "instructorFilters":{
-        "Smartypants, Jone": false,
-        "Up, Harry": false,
-        "Cranium, John": false
-      }
+      "level":[],
+      "assignedInstructor":[],
+      "course": []
     }
   }
 
@@ -53,33 +48,38 @@ export default class ExamFilter extends React.Component{
     })
   };
 
-  handleChange = name => event => {
-    this.setState({ ...this.state, [name]: event.target.checked });
-  };
+  //update filters that are checked in children components
+  updateFilter = (field, filter) => {
+    this.setState({...this.state, [field]: filter})
+  }
 
-  handleLevelFilter = name => event => {
-    if(event.target.checked){console.log('Checked')}
-    this.setState({ ...this.state, level:{ ...this.state.level, [name]: event.target.checked }});
-  };
+  componentDidUpdate(prevProps, prevState){
+    console.log(this.state);
+    if(prevState !== this.state){
+      this.props.filter(
+        {
+          "level": this.state.level, 
+          "assignedInstructor": this.state.assignedInstructor,
+          "course": this.state.course
+        }
+      );
+    }
+  }
 
-  //add function that ADDS checked filters and REMOVES unchecked filters from state 
-  //on change in children components
 
-  applyFilter = (field, filters) => {
-    /*
-    Use reduce function to create array of fliter objects 
-    like [{field: level, filter: "1st Year"},{...}]
-    */
 
-    //let filterObjects = this.state.
 
+  applyFilter = () => {
     this.props.filter(
       {
-        "level": [], 
-        "assignedInstructor": [],
-        "course": []
+        "level": this.state.level, 
+        "assignedInstructor": this.state.assignedInstructor,
+        "course": this.state.course
       }
     );
+    this.setState({
+      "open": false
+    })
   };
 
   render(){
@@ -101,25 +101,16 @@ export default class ExamFilter extends React.Component{
         <DialogTitle id="form-dialog-title">Filters</DialogTitle>
         <DialogContent>
 
-          <LevelExamFilter/>
+          <LevelExamFilter 
+            update={(field, filter) => this.updateFilter(field, filter)}
+            checkedboxes={this.state.level}
+            />
+          <InstructorExamFilter 
+            update={(field, filter) => this.updateFilter(field, filter)}
+            checkedboxes={this.state.assignedInstructor}
+          />
 
-          <FormControl component="fieldset" /* className={classes.formControl} */>
-          <FormLabel component="legend">Instructors</FormLabel>
-          <FormGroup>
-            <FormControlLabel
-              control={<Checkbox checked={this.state.instructorFilters["Smartypants, Jone"]} onChange={this.handleChange('Smartypants, Jone')} value="Smartypants, Jone" />}
-              label="Smartypants, Jone"
-            />
-            <FormControlLabel
-              control={<Checkbox checked={this.state.instructorFilters["Up, Harry"]} onChange={this.handleChange('Up, Harry')} value="Up, Harry" />}
-              label="Up, Harry"
-            />
-            <FormControlLabel
-              control={<Checkbox checked={this.state.instructorFilters["Cranium, John"]} onChange={this.handleChange('Cranium, John')} value="Cranium, John" />}
-              label="Cranium, John"
-            />
-          </FormGroup>
-          </FormControl>
+
 
         </DialogContent>
 
