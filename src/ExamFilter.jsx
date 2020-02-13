@@ -1,5 +1,8 @@
 import React from 'react';
 
+//components
+import LevelExamFilter from './LevelExamFilter';
+
 //material-ui imports
 import FilterListIcon from '@material-ui/icons/FilterList';
 import AddBoxIcon from '@material-ui/icons/AddBox';
@@ -55,8 +58,12 @@ export default class ExamFilter extends React.Component{
   };
 
   handleLevelFilter = name => event => {
+    if(event.target.checked){console.log('Checked')}
     this.setState({ ...this.state, level:{ ...this.state.level, [name]: event.target.checked }});
   };
+
+  //add function that ADDS checked filters and REMOVES unchecked filters from state 
+  //on change in children components
 
   applyFilter = (field, filters) => {
     /*
@@ -81,7 +88,7 @@ export default class ExamFilter extends React.Component{
     <FilterListIcon style={{fontSize: 70}}/>
 
     <div className="filterSelectionsContainer">
-      <div className="filterSelectedItem" style={{color: "white", backgroundColor: "black"}}>Fall 1999</div>
+    <div className="filterSelectedItem" style={{color: "white", backgroundColor: "black"}}>Fall 1999</div>
     <div className="filterSelectedItem" style={{backgroundColor: this.props.levelColors[0].color}} >1st year</div>
     <div className="filterSelectedItem" style={{backgroundColor: this.props.levelColors[1].color}}>2nd year</div>
 
@@ -94,19 +101,7 @@ export default class ExamFilter extends React.Component{
         <DialogTitle id="form-dialog-title">Filters</DialogTitle>
         <DialogContent>
 
-          <FormControl component="fieldset" /* className={classes.formControl} */>
-          <FormLabel component="legend">Level</FormLabel>
-          <FormGroup>
-            <FormControlLabel
-              control={<Checkbox checked={this.state.level["1st Year"]} onChange={this.handleLevelFilter('1st Year')} value="1st Year" />}
-              label="1st Year"
-            />
-            <FormControlLabel
-              control={<Checkbox checked={this.state.level["2nd Year"]} onChange={this.handleLevelFilter('2nd Year')} value="2nd Year" />}
-              label="2nd Year"
-            />
-          </FormGroup>
-          </FormControl>
+          <LevelExamFilter/>
 
           <FormControl component="fieldset" /* className={classes.formControl} */>
           <FormLabel component="legend">Instructors</FormLabel>
