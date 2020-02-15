@@ -66,17 +66,21 @@ export default class ExamFilter extends React.Component{
     }
   }
 
-
-
-
-  applyFilter = () => {
-    this.props.filter(
+  resetFilter = () => {
+    this.setState(
       {
-        "level": this.state.level, 
-        "assignedInstructor": this.state.assignedInstructor,
-        "course": this.state.course
+        "level": [], 
+        "assignedInstructor": [],
+        "course": []
       }
-    );
+    )
+
+  }
+
+
+
+
+  closeFilter = () => {
     this.setState({
       "open": false
     })
@@ -116,11 +120,11 @@ export default class ExamFilter extends React.Component{
 
 
         <DialogActions>
-          <Button onClick={this.handleClose} color="primary">
-            Cancel
+          <Button onClick={this.resetFilter} color="primary">
+            Reset
           </Button>
-          <Button onClick={() => this.applyFilter()} color="primary">
-            Apply
+          <Button onClick={() => this.closeFilter()} color="primary">
+            Close
           </Button>
         </DialogActions>
       </Dialog>

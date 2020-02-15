@@ -26,17 +26,22 @@ export default class LevelExamFilter extends React.Component{
 
   componentDidUpdate(prevProps, prevState){
     if(prevState !== this.state){
+      //send filtered fields to parent examFilter component
       let filterArr = [];
       for (let key in this.state){
         if(this.state[key]) { filterArr.push(key) };
       }
       this.props.update('level', filterArr);
+    
+
+
     }
   }; 
   
   componentWillUnmount(){console.log("Level Exam Filter Unmount!")}
 
   componentDidMount(){
+    //grab state from parent examFilter component and update component
     let newState = {};
     this.props.checkedboxes.forEach(field => newState[field] = true);
     console.log(newState);
