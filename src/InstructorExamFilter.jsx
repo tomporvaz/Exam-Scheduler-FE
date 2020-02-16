@@ -13,16 +13,16 @@ export default class InstructorExamFilter extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-        "Smartypants, Jone": false,
-        "Up, Harry": false,
-        "Cranium, John": false
-      }
+      "Smartypants, Jone": false,
+      "Up, Harry": false,
+      "Cranium, John": false
+    }
   }
   
   handleChange = name => event => {
-    this.setState({ ...this.state, [name]: event.target.checked });
+    this.props.update('assignedInstructor', name, event.target.checked);;
   };
-
+  
   componentDidUpdate(prevProps, prevState){
     if(prevState !== this.state){
       let filterArr = [];
@@ -32,37 +32,38 @@ export default class InstructorExamFilter extends React.Component{
       this.props.update('assignedInstructor', filterArr);
     }
   };  
-
+  
   componentDidMount(){
-    let newState = {};
-    this.props.checkedboxes.forEach(field => newState[field] = true);
+    /* let newState = {};
+    this.props.checkboxes.forEach(field => newState[field] = true);
     console.log(newState);
-    this.setState(newState)
+    this.setState(newState) */
   }
   
   
   render(){
     return(
-        <FormControl component="fieldset" /* className={classes.formControl} */>
-        <FormLabel component="legend">Instructors</FormLabel>
-        <FormGroup>
-          <FormControlLabel
-            control={<Checkbox checked={this.state["Smartypants, Jone"]} onChange={this.handleChange('Smartypants, Jone')} value="Smartypants, Jone" />}
-            label="Smartypants, Jone"
-          />
-          <FormControlLabel
-            control={<Checkbox checked={this.state["Up, Harry"]} onChange={this.handleChange('Up, Harry')} value="Up, Harry" />}
-            label="Up, Harry"
-          />
-          <FormControlLabel
-            control={<Checkbox checked={this.state["Cranium, John"]} onChange={this.handleChange('Cranium, John')} value="Cranium, John" />}
-            label="Cranium, John"
-          />
-        </FormGroup>
-        </FormControl>
+      <FormControl component="fieldset" /* className={classes.formControl} */>
+      <FormLabel component="legend">Instructors</FormLabel>
+      <FormGroup>
+      <FormControlLabel
+      control={<Checkbox checked={this.props.checkboxes["Smartypants, Jone"]} onChange={this.handleChange('Smartypants, Jone')} value="Smartypants, Jone" />}
+      label="Smartypants, Jone"
+      />
+      <FormControlLabel
+      control={<Checkbox checked={this.props.checkboxes["Up, Harry"]} onChange={this.handleChange('Up, Harry')} value="Up, Harry" />}
+      label="Up, Harry"
+      />
+      <FormControlLabel
+      control={<Checkbox checked={this.props.checkboxes["Cranium, John"]} onChange={this.handleChange('Cranium, John')} value="Cranium, John" />}
+      label="Cranium, John"
+      />
+      </FormGroup>
+      </FormControl>
       )
     }
     
   }
-
-
+  
+  
+  

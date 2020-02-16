@@ -30,31 +30,51 @@ export default class ExamFilter extends React.Component{
     super(props);
     this.state = {
       "open": false,
-      "level":[],
-      "assignedInstructor":[],
-      "course": []
+      "level":{
+        "1st Year": false,
+        "2nd Year": false
+      },
+      "assignedInstructor":{
+        "Smartypants, Jone": false,
+        "Up, Harry": false,
+        "Cranium, John": false
+      },
+      "course": [],
+      "previousFilterState": {
+        "level":{
+          "1st Year": false,
+          "2nd Year": false
+        },
+        "assignedInstructor":[],
+        "course": []
+      }
     }
   }
-
+  
   handleClickOpen = () => {
     this.setState({
       "open": true
     })
   };
-
-  handleClose = () => {
+  
+  handleCancel = () => {
     this.setState({
-      "open": false
+      "open": false,
+      "level": this.state.previousFilterState.level,
+      "assignedInstructor": this.state.previousFilterState.assignedInstructor,
+      "course": this.state.previousFilterState.course
     })
   };
-
+  
   //update filters that are checked in children components
-  updateFilter = (field, filter) => {
-    this.setState({...this.state, [field]: filter})
+  updateFilter = (filterGroup, field, value) => {
+    console.log(`From examFilter updateFilter function ${filterGroup}, ${field}, ${value}`);
+    this.setState({...this.state, [filterGroup]: {...this.state[filterGroup], [field]: value}});
+    
   }
-
+  
   componentDidUpdate(prevProps, prevState){
-    console.log(this.state);
+    /* console.log(this.state);
     if(prevState !== this.state){
       this.props.filter(
         {
@@ -62,80 +82,121 @@ export default class ExamFilter extends React.Component{
           "assignedInstructor": this.state.assignedInstructor,
           "course": this.state.course
         }
-      );
+        );
+      } */
     }
-  }
-
-  resetFilter = () => {
-    this.setState(
-      {
-        "level": [], 
-        "assignedInstructor": [],
-        "course": []
-      }
-    )
-
-  }
-
-
-
-
-  closeFilter = () => {
-    this.setState({
-      "open": false
-    })
-  };
-
-  render(){
-  return(
-    <div id="filterContainer">
-    <FilterListIcon style={{fontSize: 70}}/>
-
-    <div className="filterSelectionsContainer">
-    <div className="filterSelectedItem" style={{color: "white", backgroundColor: "black"}}>Fall 1999</div>
-    <div className="filterSelectedItem" style={{backgroundColor: this.props.levelColors[0].color}} >1st year</div>
-    <div className="filterSelectedItem" style={{backgroundColor: this.props.levelColors[1].color}}>2nd year</div>
-
-    </div>
-    <IconButton>
-    <AddBoxIcon style={{fontSize: 60}} onClick={this.handleClickOpen}/>
-    </IconButton>
-
-    <Dialog open={this.state.open} onClose={this.handleClose} fullWidth={true} maxWidth="sm" aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Filters</DialogTitle>
-        <DialogContent>
-
-          <LevelExamFilter 
-            update={(field, filter) => this.updateFilter(field, filter)}
-            checkedboxes={this.state.level}
-            />
-          <InstructorExamFilter 
-            update={(field, filter) => this.updateFilter(field, filter)}
-            checkedboxes={this.state.assignedInstructor}
-          />
-
-
-
-        </DialogContent>
-
-
-        <DialogActions>
-          <Button onClick={this.resetFilter} color="primary">
-            Reset
-          </Button>
-          <Button onClick={() => this.closeFilter()} color="primary">
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
     
-    </div>
-    )
-  }
-  }
-  
-
-
-  //Below this lin
-  
-  
+    resetFilter = () => {
+      this.setState(
+        {
+          "level":{
+            "1st Year": false,
+            "2nd Year": false
+          },
+          "assignedInstructor":[],
+          "course": []
+        }
+        )
+        
+      }
+      
+      applyFilter = () => {
+        let filterObject = {
+          level: [],
+          assignedInstructor: [],
+          course: []
+        }
+        
+        for (let filterGroups in filterObject){
+          //filter state based on filter that are set to true
+          let filterArr = [];
+          for (let key in this.state[filterGroups]){
+            if(this.state[filterGroups][key]) { filterArr.push(key) };
+          }
+          filterObject[filterGroups] = filterArr;
+        }
+        
+        
+        this.props.filter(
+          {
+            "level": filterObject.level, 
+            "assignedInstructor": filterObject.assignedInstructor,
+            "course": filterObject.course
+          }
+          );
+          
+          this.setState({
+            open: false,
+            previousFilterState:{
+              level: this.state.level,
+              assignedInstructor: this.state.assignedInstructor,
+              course: this.state.course
+            }
+          });
+        }
+        
+        
+        
+        
+        closeFilter = () => {
+          this.setState({
+            "open": false
+          })
+        };
+        
+        render(){
+          return(
+            <div id="filterContainer">
+            <FilterListIcon style={{fontSize: 70}}/>
+            
+            <div className="filterSelectionsContainer">
+            <div className="filterSelectedItem" style={{color: "white", backgroundColor: "black"}}>Fall 1999</div>
+            <div className="filterSelectedItem" style={{backgroundColor: this.props.levelColors[0].color}} >1st year</div>
+            <div className="filterSelectedItem" style={{backgroundColor: this.props.levelColors[1].color}}>2nd year</div>
+            
+            </div>
+            <IconButton>
+            <AddBoxIcon style={{fontSize: 60}} onClick={this.handleClickOpen}/>
+            </IconButton>
+            
+            <Dialog open={this.state.open} onClose={this.handleCancel} fullWidth={true} maxWidth="sm" aria-labelledby="form-dialog-title">
+            <DialogTitle id="form-dialog-title">Filters</DialogTitle>
+            <DialogContent>
+            
+            <LevelExamFilter 
+            update={(filterGroup, field, value) => this.updateFilter(filterGroup, field, value)}
+            checkboxes={this.state.level}
+            />
+            <InstructorExamFilter 
+              update={(filterGroup, field, filter) => this.updateFilter(filterGroup, field, filter)}
+              checkboxes={this.state.assignedInstructor}
+            />
+            
+            
+            
+            </DialogContent>
+            
+            
+            <DialogActions>
+            <Button onClick={this.handleCancel} color="primary">
+            Cancel
+            </Button>
+            <Button onClick={this.resetFilter} color="primary">
+            Reset
+            </Button>
+            <Button onClick={() => this.applyFilter()} color="primary">
+            Apply
+            </Button>
+            </DialogActions>
+            </Dialog>
+            
+            </div>
+            )
+          }
+        }
+        
+        
+        
+        //Below this lin
+        
+        

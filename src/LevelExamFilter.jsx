@@ -19,9 +19,9 @@ export default class LevelExamFilter extends React.Component{
   }
   
   handleChange = name => event => {
-    this.setState({ ...this.state, [name]: event.target.checked });
+    //this.setState({ ...this.state, [name]: event.target.checked });
 
-
+    this.props.update('level', name, event.target.checked);
   };
 
   componentDidUpdate(prevProps, prevState){
@@ -42,10 +42,10 @@ export default class LevelExamFilter extends React.Component{
 
   componentDidMount(){
     //grab state from parent examFilter component and update component
-    let newState = {};
+  /*   let newState = {};
     this.props.checkedboxes.forEach(field => newState[field] = true);
     console.log(newState);
-    this.setState(newState)
+    this.setState(newState) */
   }
   
   
@@ -55,11 +55,11 @@ export default class LevelExamFilter extends React.Component{
       <FormLabel component="legend">Level</FormLabel>
       <FormGroup>
       <FormControlLabel
-      control={<Checkbox checked={this.state["1st Year"]} onChange={this.handleChange('1st Year')} value="1st Year" />}
+      control={<Checkbox checked={this.props.checkboxes["1st Year"]} onChange={this.handleChange('1st Year')} value="1st Year" />}
       label="1st Year"
       />
       <FormControlLabel
-      control={<Checkbox checked={this.state["2nd Year"]} onChange={this.handleChange('2nd Year')} value="2nd Year" />}
+      control={<Checkbox checked={this.props.checkboxes["2nd Year"]} onChange={this.handleChange('2nd Year')} value="2nd Year" />}
       label="2nd Year"
       />
       </FormGroup>
