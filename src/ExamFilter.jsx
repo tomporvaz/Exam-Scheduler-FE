@@ -3,6 +3,7 @@ import React from 'react';
 //components
 import LevelExamFilter from './LevelExamFilter';
 import InstructorExamFilter from './InstructorExamFilter';
+import FilterSelectionItem from './FilterSelectionItem';
 
 //material-ui imports
 import FilterListIcon from '@material-ui/icons/FilterList';
@@ -47,6 +48,11 @@ export default class ExamFilter extends React.Component{
         },
         "assignedInstructor":[],
         "course": []
+      },
+      filterObject:{
+        level: [],
+        assignedInstructor: [],
+        course: []
       }
     }
   }
@@ -74,8 +80,8 @@ export default class ExamFilter extends React.Component{
   }
   
   componentDidUpdate(prevProps, prevState){
-    /* console.log(this.state);
-    if(prevState !== this.state){
+     console.log(this.state);
+    /*if(prevState !== this.state){
       this.props.filter(
         {
           "level": this.state.level, 
@@ -131,7 +137,8 @@ export default class ExamFilter extends React.Component{
               level: this.state.level,
               assignedInstructor: this.state.assignedInstructor,
               course: this.state.course
-            }
+            },
+            filterObject: filterObject
           });
         }
         
@@ -147,16 +154,12 @@ export default class ExamFilter extends React.Component{
         render(){
           return(
             <div id="filterContainer">
-            <FilterListIcon style={{fontSize: 70}}/>
+            <h3 id="filterTitle">Filters</h3>
             
-            <div className="filterSelectionsContainer">
-            <div className="filterSelectedItem" style={{color: "white", backgroundColor: "black"}}>Fall 1999</div>
-            <div className="filterSelectedItem" style={{backgroundColor: this.props.levelColors[0].color}} >1st year</div>
-            <div className="filterSelectedItem" style={{backgroundColor: this.props.levelColors[1].color}}>2nd year</div>
+            <FilterSelectionItem filterObject={this.state.filterObject} levelColors={this.props.levelColors}/>
             
-            </div>
-            <IconButton>
-            <AddBoxIcon style={{fontSize: 60}} onClick={this.handleClickOpen}/>
+            <IconButton id="filterButton">
+            <FilterListIcon style={{fontSize: 70}} onClick={this.handleClickOpen}/>
             </IconButton>
             
             <Dialog open={this.state.open} onClose={this.handleCancel} fullWidth={true} maxWidth="sm" aria-labelledby="form-dialog-title">
