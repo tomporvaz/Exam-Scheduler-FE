@@ -55,9 +55,9 @@ main{
 
 .filterSelectedItem{
   width: auto;
-  height: 1rem;
-  border-radius: 1rem;
-  padding: .5rem .5rem;
+  height: 1.5rem;
+  border-radius: 1.5rem;
+  padding: .1rem .1rem .1rem .8rem;
   margin: .5rem;
   display: grid;
   grid-template-columns: auto .5rem auto;

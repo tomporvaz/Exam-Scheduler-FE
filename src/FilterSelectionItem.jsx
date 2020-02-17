@@ -1,8 +1,10 @@
 import React from 'react';
 
 import CancelIcon from '@material-ui/icons/Cancel';
-import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import IconButton from '@material-ui/core/IconButton';
+
+
+import SemesterSelecter from './SemesterSelecter';
 
 export default class FilterSelectionItem extends React.Component{
   constructor(props) {
@@ -21,7 +23,9 @@ export default class FilterSelectionItem extends React.Component{
             <div className="filterSelectedItem" style={{backgroundColor: levelColor.color}}>
               {level} 
               <div/>
+              <IconButton size="small" color="inherit">
               <CancelIcon fontSize="small" />
+              </IconButton>
             </div>
           )
           })
@@ -34,7 +38,9 @@ export default class FilterSelectionItem extends React.Component{
             <div className="filterSelectedItem" style={{backgroundColor: "#b3c7e6"}}>
               {assignedInstructor}
               <div/>
-              <CancelIcon fontSize="small"/>
+              <IconButton size="small" color="inherit">
+              <CancelIcon fontSize="small" />
+              </IconButton>
             </div>
           )
           })
@@ -53,11 +59,7 @@ export default class FilterSelectionItem extends React.Component{
 
     return(
       <div className="filterSelectionsContainer">
-        <div className="filterSelectedItem" style={{color: "white", backgroundColor: "black"}}>
-          Fall 1999
-          <div/>
-          <ArrowDropDownIcon fontSize="small"/>
-          </div>
+        <SemesterSelecter/>
 
         {this.selectedFilters()}
       {/* <div className="filterSelectedItem" style={{backgroundColor: this.props.levelColors[0].color}}>1st year</div>
