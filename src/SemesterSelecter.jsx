@@ -3,15 +3,97 @@ import React from 'react';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import IconButton from '@material-ui/core/IconButton';
 
+
+import Grid from '@material-ui/core/Grid';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+
+const options = ['Fall 1999', 'Spring 2020', 'Summer 2020'];
+
 export default class SemesterSelecter extends React.Component{
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      open: false,
+      selectedIndex: 0
+    }
+    
+  };
+anchorRef = React.createRef(null);
+
+  handleClick = () => {
+    console.info(`You clicked ${options[this.state.selectedIndex]}`);
+  };
+
+  handleMenuItemClick = (event, index) => {
+    this.setState({
+      selectedIndex: index,
+      open: false
+    })
+  };
+
+  handleToggle = () => {
+   this.setState({
+     open: !this.state.open
+   })
+  };
+
+  handleClose = event => {
+    if (this.anchorRef.current && this.anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    this.setState({
+      open: false
+    })
   };
 
   
 
   render(){
+    return (
+          <div className="semesterSelecter" style={{color: "white", backgroundColor: "black"}} ref={this.anchorRef}>
+          {options[this.state.selectedIndex]}
+          <div/>
+          <IconButton size="small" color="inherit" onClick={this.handleToggle}>
+          <ArrowDropDownIcon fontSize="small"/>
+          </IconButton>
+          
+
+
+          <Popper open={this.state.open} anchorEl={this.anchorRef.current} role={undefined} transition >
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                style={{
+                  transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom',
+                }}
+              >
+                <Paper>
+                  <ClickAwayListener onClickAway={this.handleClose}>
+                    <MenuList id="split-button-menu">
+                      {options.map((option, index) => (
+                        <MenuItem
+                          key={option}
+                          selected={index === this.selectedIndex}
+                          onClick={event => this.handleMenuItemClick(event, index)}
+                        >
+                          {option}
+                        </MenuItem>
+                      ))}
+                    </MenuList>
+                  </ClickAwayListener>
+                </Paper>
+              </Grow>
+            )}
+          </Popper>
+          </div>
+    );
+
     return(
         <div className="filterSelectedItem" style={{color: "white", backgroundColor: "black"}}>
           Fall 1999

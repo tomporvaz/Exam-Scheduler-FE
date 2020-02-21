@@ -66,6 +66,19 @@ main{
   align-items: center;
 }
 
+.semesterSelecter{
+  width: 9rem;
+  height: 1.5rem;
+  border-radius: 1.5rem;
+  padding: .1rem .1rem .1rem .8rem;
+  margin: .5rem;
+  display: grid;
+  grid-template-columns: auto .5rem auto;
+  grid-template-areas: "name . x";
+  justify-items: center;
+  align-items: center;
+}
+
 
 
 
