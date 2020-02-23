@@ -58,7 +58,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      semester: "9909",
+      semester: "2001",
       semesterExams: [],
       currentExams:[],
       levelColors: levelColors,
@@ -87,6 +87,7 @@ export default class App extends React.Component {
       levelColors={this.state.levelColors} 
       instructors={this.state.instructors}
       filter={(filterObject) => this.examFilter(filterObject)}
+      updateAppsSemester={(semesterCode) => this.updateAppsSemester(semesterCode)}
       />
       
       <main>
@@ -119,9 +120,14 @@ export default class App extends React.Component {
       );
     };
     
-    componentDidMount(){
+/*     componentDidMount(){
+      this.getSemestersExams(this.state.semester);
+      
+    } */
+
+    getSemestersExams = (semesterCode) =>{
       const req = new XMLHttpRequest();
-      req.open("GET",`https://exam-scheduler.glitch.me/api/exams?semester=9909`,true);
+      req.open("GET",`https://exam-scheduler.glitch.me/api/exams?semester=${semesterCode}`,true);
       req.send();
       req.onload = () => {
         const json = JSON.parse(req.responseText);
@@ -132,9 +138,16 @@ export default class App extends React.Component {
         });
         console.log(this.state.semesterExams);
       };
-      console.log(this.calendarComponentRef);
-      
     }
+
+    updateAppsSemester = (semesterCode) => {
+      this.getSemestersExams(semesterCode);
+      this.setState({
+        semester: semesterCode
+      })
+    }
+
+    
 
     /*examFilter function accepts an oject of fields, and the values by which to filter
       e.g. - 

@@ -10,6 +10,7 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import IconButton from '@material-ui/core/IconButton';
 
+
 //material-ui imports for dialog box
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -156,7 +157,11 @@ export default class ExamFilter extends React.Component{
             <div id="filterContainer">
             <h3 id="filterTitle">Filters</h3>
             
-            <FilterSelectionItem filterObject={this.state.filterObject} levelColors={this.props.levelColors}/>
+            <FilterSelectionItem 
+              filterObject={this.state.filterObject} 
+              levelColors={this.props.levelColors}
+              updateAppsSemester={this.props.updateAppsSemester}
+            />
             
             <IconButton id="filterButton">
             <FilterListIcon style={{fontSize: 70}} onClick={this.handleClickOpen}/>

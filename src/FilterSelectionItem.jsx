@@ -59,7 +59,7 @@ export default class FilterSelectionItem extends React.Component{
 
     return(
       <div className="filterSelectionsContainer">
-        <SemesterSelecter/>
+        <SemesterSelecter updateAppsSemester={this.props.updateAppsSemester} />
 
         {this.selectedFilters()}
       {/* <div className="filterSelectedItem" style={{backgroundColor: this.props.levelColors[0].color}}>1st year</div>

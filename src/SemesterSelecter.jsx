@@ -12,14 +12,18 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 
-const options = ['Fall 1999', 'Spring 2020', 'Summer 2020'];
+const options = {
+  'Fall 1999': '9909',
+  'Spring 2020': '2001',
+  'Summer 2020': '2007'
+};
 
 export default class SemesterSelecter extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
       open: false,
-      selectedIndex: 0
+      selectedSemester: 'Fall 1999'
     }
     
   };
@@ -29,9 +33,11 @@ anchorRef = React.createRef(null);
     console.info(`You clicked ${options[this.state.selectedIndex]}`);
   };
 
-  handleMenuItemClick = (event, index) => {
+  handleMenuItemClick = (event, option) => {
+    this.props.updateAppsSemester(options[option]);
+    console.log(options[option]);
     this.setState({
-      selectedIndex: index,
+      selectedSemester: option,
       open: false
     })
   };
@@ -52,12 +58,16 @@ anchorRef = React.createRef(null);
     })
   };
 
+  componentDidMount(){
+    this.props.updateAppsSemester(options[this.state.selectedSemester]);
+  }
+
   
 
   render(){
     return (
           <div className="semesterSelecter" style={{color: "white", backgroundColor: "black"}} ref={this.anchorRef}>
-          {options[this.state.selectedIndex]}
+          {this.state.selectedSemester}
           <div/>
           <IconButton size="small" color="inherit" onClick={this.handleToggle}>
           <ArrowDropDownIcon fontSize="small"/>
@@ -76,11 +86,11 @@ anchorRef = React.createRef(null);
                 <Paper>
                   <ClickAwayListener onClickAway={this.handleClose}>
                     <MenuList id="split-button-menu">
-                      {options.map((option, index) => (
+                      {Object.keys(options).map((option, index) => (
                         <MenuItem
                           key={option}
                           selected={index === this.selectedIndex}
-                          onClick={event => this.handleMenuItemClick(event, index)}
+                          onClick={event => this.handleMenuItemClick(event, option)}
                         >
                           {option}
                         </MenuItem>
