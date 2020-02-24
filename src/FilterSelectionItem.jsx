@@ -23,7 +23,7 @@ export default class FilterSelectionItem extends React.Component{
             <div className="filterSelectedItem" style={{backgroundColor: levelColor.color}}>
               {level} 
               <div/>
-              <IconButton size="small" color="inherit">
+              <IconButton size="small" color="inherit" onClick={() => this.props.cancelFilter('level', level)}>
               <CancelIcon fontSize="small" />
               </IconButton>
             </div>
@@ -38,7 +38,11 @@ export default class FilterSelectionItem extends React.Component{
             <div className="filterSelectedItem" style={{backgroundColor: "#b3c7e6"}}>
               {assignedInstructor}
               <div/>
-              <IconButton size="small" color="inherit">
+              <IconButton 
+              size="small" 
+              color="inherit" 
+              onClick={() => this.props.cancelFilter('assignedInstructor', assignedInstructor)}
+              >
               <CancelIcon fontSize="small" />
               </IconButton>
             </div>

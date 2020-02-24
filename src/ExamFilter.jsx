@@ -108,6 +108,7 @@ export default class ExamFilter extends React.Component{
       }
       
       applyFilter = () => {
+        //filter object collects the names of the filter selections by which to filter the exams
         let filterObject = {
           level: [],
           assignedInstructor: [],
@@ -123,7 +124,7 @@ export default class ExamFilter extends React.Component{
           filterObject[filterGroups] = filterArr;
         }
         
-        
+        //call filter function in App.js to apply filter to this semesters exam set
         this.props.filter(
           {
             "level": filterObject.level, 
@@ -131,7 +132,7 @@ export default class ExamFilter extends React.Component{
             "course": filterObject.course
           }
           );
-          
+
           this.setState({
             open: false,
             previousFilterState:{
@@ -142,6 +143,56 @@ export default class ExamFilter extends React.Component{
             filterObject: filterObject
           });
         }
+
+        //this is baiscally a copy of the applyFilter function with the addition of some params
+        //that can be used to remove one filterName from the filter object and pass the new
+        //filter object up to the filter function in app.js.
+        cancelFilter = (filterGroup, filterName) => {
+          //filter object collects the names of the filter selections by which to filter the exams
+          let filterObject = {
+            level: [],
+            assignedInstructor: [],
+            course: []
+          }
+          
+          for (let filterGroups in filterObject){
+            //filter state based on filter that are set to true
+            let filterArr = [];
+            for (let key in this.state[filterGroups]){
+              if(this.state[filterGroups][key]) { filterArr.push(key) };
+            }
+            filterObject[filterGroups] = filterArr;
+          }
+
+          filterObject[filterGroup] = filterObject[filterGroup].filter((name) => {
+            console.log(`Name of filter to remove ${filterName} and filter to evaluate ${name} `);
+            console.log(name !== filterName);
+            return (name !== filterName)
+          });
+
+          
+          
+          //call filter function in App.js to apply filterObject to this semesters exam set
+          this.props.filter(
+            {
+              "level": filterObject.level, 
+              "assignedInstructor": filterObject.assignedInstructor,
+              "course": filterObject.course
+            }
+            );
+
+            this.updateFilter(filterGroup, filterName, false);
+            
+            this.setState({
+              open: false,
+              previousFilterState:{
+                level: this.state.level,
+                assignedInstructor: this.state.assignedInstructor,
+                course: this.state.course
+              },
+              filterObject: filterObject
+            });
+          }
         
         
         
@@ -161,6 +212,10 @@ export default class ExamFilter extends React.Component{
               filterObject={this.state.filterObject} 
               levelColors={this.props.levelColors}
               updateAppsSemester={this.props.updateAppsSemester}
+              cancelFilter={(filterGroup, field) => {
+                this.cancelFilter(filterGroup, field)
+                }
+              }
             />
             
             <IconButton id="filterButton">
