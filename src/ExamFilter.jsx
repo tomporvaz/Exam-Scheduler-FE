@@ -181,6 +181,10 @@ export default class ExamFilter extends React.Component{
             }
             );
 
+            //added updateFilter to cancleFilter in order to update filter state
+            //the applyFilter function that the cancleFilter function is based on only manipulates
+            //the filterObject, but the filter state also needs to be updated for other children 
+            //components to display the correct data (e.g. LevelFilterExamList)
             this.updateFilter(filterGroup, filterName, false);
             
             this.setState({
@@ -228,7 +232,8 @@ export default class ExamFilter extends React.Component{
             
             <LevelExamFilter 
             update={(filterGroup, field, value) => this.updateFilter(filterGroup, field, value)}
-            checkboxes={this.state.level}
+            checkboxes={this.state}
+            filterType="level"
             />
             <InstructorExamFilter 
               update={(filterGroup, field, filter) => this.updateFilter(filterGroup, field, filter)}
