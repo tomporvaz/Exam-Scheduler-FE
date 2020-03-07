@@ -21,7 +21,7 @@ export default class LevelExamFilter extends React.Component{
   handleChange = name => event => {
     //this.setState({ ...this.state, [name]: event.target.checked });
 
-    this.props.update('level', name, event.target.checked);
+    this.props.update(this.props.filterGroup, name, event.target.checked);
   };
 /* 
   componentDidUpdate(prevProps, prevState){
@@ -52,9 +52,9 @@ export default class LevelExamFilter extends React.Component{
   }
 
   filterItemCheckboxLabels(){
-    let filterItemCheckboxLabels = Object.keys(this.props.checkboxes[this.props.filterType]).map((filterItem) => {
+    let filterItemCheckboxLabels = Object.keys(this.props.checkboxes).map((filterItem) => {
       return (<FormControlLabel
-      control={<Checkbox checked={this.props.checkboxes[this.props.filterType][filterItem]} onChange={this.handleChange(filterItem)} value={filterItem} />}
+      control={<Checkbox checked={this.props.checkboxes[filterItem]} onChange={this.handleChange(filterItem)} value={filterItem} />}
       label={filterItem}
       />)
     })
@@ -65,7 +65,7 @@ export default class LevelExamFilter extends React.Component{
   render(){
     return(
       <FormControl component="fieldset" /* className={classes.formControl} */>
-      <FormLabel component="legend">{this.upperCaseFirstLetter(this.props.filterType)}</FormLabel>
+      <FormLabel component="legend">{this.props.filterLabel}</FormLabel>
       <FormGroup>
         {this.filterItemCheckboxLabels()}
      {/*  <FormControlLabel

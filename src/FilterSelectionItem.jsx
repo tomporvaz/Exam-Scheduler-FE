@@ -32,16 +32,16 @@ export default class FilterSelectionItem extends React.Component{
         
 
        
-      } else if(key === 'assignedInstructor'){
-        this.props.filterObject[key].forEach(assignedInstructor => {
+      } else /* if(key === 'assignedInstructor') */{
+        this.props.filterObject[key].forEach(filterItem => {
           selectedItems.push(
             <div className="filterSelectedItem" style={{backgroundColor: "#b3c7e6"}}>
-              {assignedInstructor}
+              {filterItem}
               <div/>
               <IconButton 
               size="small" 
               color="inherit" 
-              onClick={() => this.props.cancelFilter('assignedInstructor', assignedInstructor)}
+              onClick={() => this.props.cancelFilter(key, filterItem)}
               >
               <CancelIcon fontSize="small" />
               </IconButton>

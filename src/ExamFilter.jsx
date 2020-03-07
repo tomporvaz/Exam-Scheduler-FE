@@ -4,6 +4,7 @@ import React from 'react';
 import LevelExamFilter from './LevelExamFilter';
 import InstructorExamFilter from './InstructorExamFilter';
 import FilterSelectionItem from './FilterSelectionItem';
+import FilterList from './FilterList';
 
 //material-ui imports
 import FilterListIcon from '@material-ui/icons/FilterList';
@@ -41,7 +42,11 @@ export default class ExamFilter extends React.Component{
         "Up, Harry": false,
         "Cranium, John": false
       },
-      "course": [],
+      "courseTitle": {
+        "BRAIN SCI FNDTS I": false,
+        "NEUROLOGY 4 BABIES": false,
+        "MONKEY BRAINS": false
+      },
       "previousFilterState": {
         "level":{
           "1st Year": false,
@@ -93,16 +98,24 @@ export default class ExamFilter extends React.Component{
       } */
     }
     
+    //TODO: fix this function so it doesn't wipe out state, but just
+    //resets all state to false
     resetFilter = () => {
-      this.setState(
-        {
-          "level":{
-            "1st Year": false,
-            "2nd Year": false
-          },
-          "assignedInstructor":[],
-          "course": []
-        }
+      this.setState({
+        "level":{
+          "1st Year": false,
+          "2nd Year": false
+        },
+        "assignedInstructor":{
+          "Smartypants, Jone": false,
+          "Up, Harry": false,
+          "Cranium, John": false
+        },
+        "courseTitle": {
+          "BRAIN SCI FNDTS I": false,
+          "NEUROLOGY 4 BABIES": false,
+          "MONKEY BRAINS": false
+        }}
         )
         
       }
@@ -112,7 +125,7 @@ export default class ExamFilter extends React.Component{
         let filterObject = {
           level: [],
           assignedInstructor: [],
-          course: []
+          courseTitle: []
         }
         
         for (let filterGroups in filterObject){
@@ -129,7 +142,7 @@ export default class ExamFilter extends React.Component{
           {
             "level": filterObject.level, 
             "assignedInstructor": filterObject.assignedInstructor,
-            "course": filterObject.course
+            "courseTitle": filterObject.courseTitle
           }
           );
 
@@ -138,7 +151,7 @@ export default class ExamFilter extends React.Component{
             previousFilterState:{
               level: this.state.level,
               assignedInstructor: this.state.assignedInstructor,
-              course: this.state.course
+              courseTitle: this.state.courseTitle
             },
             filterObject: filterObject
           });
@@ -147,12 +160,13 @@ export default class ExamFilter extends React.Component{
         //this is baiscally a copy of the applyFilter function with the addition of some params
         //that can be used to remove one filterName from the filter object and pass the new
         //filter object up to the filter function in app.js.
+        //This function was added for the cancle buttons on filterSelectionItems
         cancelFilter = (filterGroup, filterName) => {
           //filter object collects the names of the filter selections by which to filter the exams
           let filterObject = {
             level: [],
             assignedInstructor: [],
-            course: []
+            courseTitle: []
           }
           
           for (let filterGroups in filterObject){
@@ -164,6 +178,7 @@ export default class ExamFilter extends React.Component{
             filterObject[filterGroups] = filterArr;
           }
 
+          //removes filterName from filterGroup's filterObject array
           filterObject[filterGroup] = filterObject[filterGroup].filter((name) => {
             console.log(`Name of filter to remove ${filterName} and filter to evaluate ${name} `);
             console.log(name !== filterName);
@@ -177,7 +192,7 @@ export default class ExamFilter extends React.Component{
             {
               "level": filterObject.level, 
               "assignedInstructor": filterObject.assignedInstructor,
-              "course": filterObject.course
+              "courseTitle": filterObject.courseTitle
             }
             );
 
@@ -192,7 +207,7 @@ export default class ExamFilter extends React.Component{
               previousFilterState:{
                 level: this.state.level,
                 assignedInstructor: this.state.assignedInstructor,
-                course: this.state.course
+                courseTitle: this.state.courseTitle
               },
               filterObject: filterObject
             });
@@ -230,15 +245,33 @@ export default class ExamFilter extends React.Component{
             <DialogTitle id="form-dialog-title">Filters</DialogTitle>
             <DialogContent>
             
-            <LevelExamFilter 
+            <FilterList 
             update={(filterGroup, field, value) => this.updateFilter(filterGroup, field, value)}
-            checkboxes={this.state}
-            filterType="level"
+            checkboxes={this.state.level}
+            filterGroup="level"
+            filterLabel="Level"
             />
-            <InstructorExamFilter 
+
+            <FilterList 
+            update={(filterGroup, field, value) => this.updateFilter(filterGroup, field, value)}
+            checkboxes={this.state.assignedInstructor}
+            filterGroup="assignedInstructor"
+            filterLabel="Instructor"
+            />
+
+            <FilterList 
+            update={(filterGroup, field, value) => this.updateFilter(filterGroup, field, value)}
+            checkboxes={this.state.courseTitle}
+            filterGroup="courseTitle"
+            filterLabel="Course"
+            />  
+
+
+
+            {/* <InstructorExamFilter 
               update={(filterGroup, field, filter) => this.updateFilter(filterGroup, field, filter)}
               checkboxes={this.state.assignedInstructor}
-            />
+            /> */}
             
             
             
@@ -262,9 +295,5 @@ export default class ExamFilter extends React.Component{
             )
           }
         }
-        
-        
-        
-        //Below this lin
         
         

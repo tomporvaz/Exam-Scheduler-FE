@@ -131,7 +131,7 @@ export default class App extends React.Component {
       req.send();
       req.onload = () => {
         const json = JSON.parse(req.responseText);
-        //console.log(JSON.stringify(json));
+        console.log(json);
         this.setState({
           semesterExams: json,
           currentExams: json
