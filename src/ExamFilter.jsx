@@ -33,38 +33,9 @@ export default class ExamFilter extends React.Component{
     super(props);
     this.state = {
       "open": false,
-      "level":{
-        "1st Year": false,
-        "2nd Year": false
-      },
-      "assignedInstructor":{
-        "Smartypants, Jone": false,
-        "Up, Harry": false,
-        "Cranium, John": false
-      },
-      "courseTitle": {
-        "BRAIN SCI FNDTS I": false,
-        "NEUROLOGY 4 BABIES": false,
-        "MONKEY BRAINS": false
-      },
-      "examSoftware": {
-        "Examsoft": false,
-        "Canvas": false,
-        "ATI": false
-      },
-      "previousFilterState": {
-        "level":{
-          "1st Year": false,
-          "2nd Year": false
-        },
-        "assignedInstructor":[],
-        "course": []
-      },
-      filterObject:{
-        level: [],
-        assignedInstructor: [],
-        course: []
-      }
+      "filters": {},
+      "previousFilterState": {},
+      filterObject:{}
     }
   }
   
@@ -74,20 +45,29 @@ export default class ExamFilter extends React.Component{
     })
   };
   
+
   handleCancel = () => {
     this.setState({
       "open": false,
-      "level": this.state.previousFilterState.level,
-      "assignedInstructor": this.state.previousFilterState.assignedInstructor,
-      "course": this.state.previousFilterState.course
+      "filters": this.state.previousFilterState.filters
     })
   };
   
   //update filters that are checked in children components
   updateFilter = (filterGroup, field, value) => {
     console.log(`From examFilter updateFilter function ${filterGroup}, ${field}, ${value}`);
-    this.setState({...this.state, [filterGroup]: {...this.state[filterGroup], [field]: value}});
-    
+    this.setState(
+      {
+        ...this.state,
+        filters: {
+          ...this.state.filters, 
+          [filterGroup]: {
+            ...this.state.filters[filterGroup], 
+            [field]: value
+          }
+        }
+      }
+    );
   }
   
   componentDidUpdate(prevProps, prevState){
@@ -107,114 +87,87 @@ export default class ExamFilter extends React.Component{
     //resets all state to false
     resetFilter = () => {
       this.setState({
-        "level":{
-          "1st Year": false,
-          "2nd Year": false
-        },
-        "assignedInstructor":{
-          "Smartypants, Jone": false,
-          "Up, Harry": false,
-          "Cranium, John": false
-        },
-        "courseTitle": {
-          "BRAIN SCI FNDTS I": false,
-          "NEUROLOGY 4 BABIES": false,
-          "MONKEY BRAINS": false
-        },
-        //examSoftware added here
-        "examSoftware": {
-          "Examsoft": false,
-          "Canvas": false,
-          "ATI": false
-        }
+        filters: this.createFiltersState()
       }
         )
         
       }
+
+      createFiltersState = () => {
+        let filterState = {};
+        for(let filterGroup in this.props.filters){
+          let tempFilterGroupObj = {};
+          for(let filterField of this.props.filters[filterGroup]){
+            tempFilterGroupObj[filterField] = false;
+          }
+          filterState[filterGroup] = tempFilterGroupObj;
+        }
+        console.log(filterState);
+        return(filterState);
+      }
+
+      componentDidMount(){
+        console.log(`ExamFilter did mount:`);
+        this.createFiltersState();
+        this.setState({
+          filters: this.createFiltersState()
+        })
+      }
       
       applyFilter = () => {
+        //filtersKeys dynamically builds an array of filterGroups from this.state.filters
+        let filtersKeys = Object.keys(this.state.filters);
+
         //filter object collects the names of the filter selections by which to filter the exams
-        let filterObject = {
-          level: [],
-          assignedInstructor: [],
-          courseTitle: [],
-          //examSoftware added here
-          examSoftware: []
-        }
+        let filterObject = {}
         
-        for (let filterGroups in filterObject){
+        for (let filterGroups of filtersKeys){
           //filter state based on filter that are set to true
           let filterArr = [];
-          for (let key in this.state[filterGroups]){
-            if(this.state[filterGroups][key]) { filterArr.push(key) };
+          for (let key in this.state.filters[filterGroups]){
+            if(this.state.filters[filterGroups][key]) { filterArr.push(key) };
           }
           filterObject[filterGroups] = filterArr;
         }
         
         //call filter function in App.js to apply filter to this semesters exam set
-        this.props.filter(
-          {
-            "level": filterObject.level, 
-            "assignedInstructor": filterObject.assignedInstructor,
-            "courseTitle": filterObject.courseTitle,
-            //examSoftware added here
-            "examSoftware": filterObject.examSoftware
-          }
-          );
+        this.props.filter(filterObject);
 
           this.setState({
             open: false,
             previousFilterState:{
-              level: this.state.level,
-              assignedInstructor: this.state.assignedInstructor,
-              courseTitle: this.state.courseTitle
+              filters: this.state.filters
             },
             filterObject: filterObject
           });
         }
+
 
         //this is baiscally a copy of the applyFilter function with the addition of some params
         //that can be used to remove one filterName from the filter object and pass the new
         //filter object up to the filter function in app.js.
         //This function was added for the cancle buttons on filterSelectionItems
         cancelFilter = (filterGroup, filterName) => {
-          //filter object collects the names of the filter selections by which to filter the exams
-          let filterObject = {
-            level: [],
-            assignedInstructor: [],
-            courseTitle: [],
-            //examSoftware added here
-            examSoftware: []
-          }
+          //filtersKeys dynamically builds an array of filterGroups from this.state.filters
+          let filtersKeys = Object.keys(this.state.filters);
           
-          for (let filterGroups in filterObject){
+          //filter object collects the names of the filter selections by which to filter the exams
+          let filterObject = {}
+          
+          for (let filterGroups of filtersKeys){
             //filter state based on filter that are set to true
             let filterArr = [];
-            for (let key in this.state[filterGroups]){
-              if(this.state[filterGroups][key]) { filterArr.push(key) };
+            for (let key in this.state.filters[filterGroups]){
+              if(this.state.filters[filterGroups][key]) { filterArr.push(key) };
             }
             filterObject[filterGroups] = filterArr;
           }
 
           //removes filterName from filterGroup's filterObject array
-          filterObject[filterGroup] = filterObject[filterGroup].filter((name) => {
-            console.log(`Name of filter to remove ${filterName} and filter to evaluate ${name} `);
-            console.log(name !== filterName);
-            return (name !== filterName)
-          });
-
-          
+          filterObject[filterGroup] = filterObject[filterGroup].filter(name => name !== filterName);
           
           //call filter function in App.js to apply filterObject to this semesters exam set
-          this.props.filter(
-            {
-              "level": filterObject.level, 
-              "assignedInstructor": filterObject.assignedInstructor,
-              "courseTitle": filterObject.courseTitle,
-              //examSoftware added here
-              "examSoftware": filterObject.examSoftware
-            }
-            );
+          this.props.filter(filterObject);
 
             //added updateFilter to cancleFilter in order to update filter state
             //the applyFilter function that the cancleFilter function is based on only manipulates
@@ -225,11 +178,7 @@ export default class ExamFilter extends React.Component{
             this.setState({
               open: false,
               previousFilterState:{
-                level: this.state.level,
-                assignedInstructor: this.state.assignedInstructor,
-                courseTitle: this.state.courseTitle,
-                //examSoftware added here
-                examSoftware: this.state.examSoftware
+                filters: this.state.filters
               },
               filterObject: filterObject
             });
@@ -269,28 +218,28 @@ export default class ExamFilter extends React.Component{
             
             <FilterList 
             update={(filterGroup, field, value) => this.updateFilter(filterGroup, field, value)}
-            checkboxes={this.state.level}
+            checkboxes={this.state.filters.level}
             filterGroup="level"
             filterLabel="Level"
             />
 
             <FilterList 
             update={(filterGroup, field, value) => this.updateFilter(filterGroup, field, value)}
-            checkboxes={this.state.assignedInstructor}
+            checkboxes={this.state.filters.assignedInstructor}
             filterGroup="assignedInstructor"
             filterLabel="Instructor"
             />
 
             <FilterList 
             update={(filterGroup, field, value) => this.updateFilter(filterGroup, field, value)}
-            checkboxes={this.state.courseTitle}
+            checkboxes={this.state.filters.courseTitle}
             filterGroup="courseTitle"
             filterLabel="Course"
             />  
 
             <FilterList 
             update={(filterGroup, field, value) => this.updateFilter(filterGroup, field, value)}
-            checkboxes={this.state.examSoftware}
+            checkboxes={this.state.filters.examSoftware}
             filterGroup="examSoftware"
             filterLabel="Software"
             />  

@@ -54,6 +54,13 @@ let instructors = [
   }
 ]
 
+let filters = { 
+    "level":["1st Year", "2nd Year"],
+    "assignedInstructor":["Smartypants, Jone", "Up, Harry","Cranium, John"],
+    "courseTitle":["BRAIN SCI FNDTS I","NEUROLOGY 4 BABIES","MONKEY BRAINS"],
+    "examSoftware": ["Examsoft","Canvas","ATI"]
+};
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -85,7 +92,7 @@ export default class App extends React.Component {
       </header>
       <ExamFilter 
       levelColors={this.state.levelColors} 
-      instructors={this.state.instructors}
+      filters={filters}
       filter={(filterObject) => this.examFilter(filterObject)}
       updateAppsSemester={(semesterCode) => this.updateAppsSemester(semesterCode)}
       />
