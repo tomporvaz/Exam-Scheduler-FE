@@ -1,32 +1,22 @@
 import React from 'react';
 
 //components
-import LevelExamFilter from './LevelExamFilter';
-import InstructorExamFilter from './InstructorExamFilter';
+
 import FilterSelectionItem from './FilterSelectionItem';
 import FilterList from './FilterList';
 
 //material-ui imports
 import FilterListIcon from '@material-ui/icons/FilterList';
-import AddBoxIcon from '@material-ui/icons/AddBox';
 import IconButton from '@material-ui/core/IconButton';
 
 
 //material-ui imports for dialog box
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Checkbox from '@material-ui/core/Checkbox';
 
 export default class ExamFilter extends React.Component{
   constructor(props) {
@@ -35,7 +25,7 @@ export default class ExamFilter extends React.Component{
       "open": false,
       "filters": {},
       "previousFilterState": {},
-      filterObject:{}
+      "filterObject":{}
     }
   }
   
@@ -45,7 +35,6 @@ export default class ExamFilter extends React.Component{
     })
   };
   
-
   handleCancel = () => {
     this.setState({
       "open": false,
@@ -70,29 +59,24 @@ export default class ExamFilter extends React.Component{
     );
   }
   
-  componentDidUpdate(prevProps, prevState){
-     console.log(this.state);
-    /*if(prevState !== this.state){
-      this.props.filter(
-        {
-          "level": this.state.level, 
-          "assignedInstructor": this.state.assignedInstructor,
-          "course": this.state.course
-        }
-        );
-      } */
-    }
-    
-    //TODO: fix this function so it doesn't wipe out state, but just
-    //resets all state to false
     resetFilter = () => {
       this.setState({
         filters: this.createFiltersState()
       }
         )
-        
-      }
+    }
 
+      //component did mount grabs fitlers from props, and builds state.filters
+      componentDidMount(){
+        this.createFiltersState();
+        this.setState({
+          filters: this.createFiltersState(),
+          previousFilterState: {
+            filters: this.createFiltersState()
+          }
+        })
+      }
+      
       createFiltersState = () => {
         let filterState = {};
         for(let filterGroup in this.props.filters){
@@ -104,14 +88,6 @@ export default class ExamFilter extends React.Component{
         }
         console.log(filterState);
         return(filterState);
-      }
-
-      componentDidMount(){
-        console.log(`ExamFilter did mount:`);
-        this.createFiltersState();
-        this.setState({
-          filters: this.createFiltersState()
-        })
       }
       
       applyFilter = () => {
@@ -183,17 +159,14 @@ export default class ExamFilter extends React.Component{
               filterObject: filterObject
             });
           }
-        
-        
-        
-        
-        closeFilter = () => {
-          this.setState({
-            "open": false
-          })
-        };
+
+        //dynamically build filterLists based on state.filters
+
+
         
         render(){
+          console.log(`ExamFilter state:`);
+          console.log(this.state);
           return(
             <div id="filterContainer">
             <h3 id="filterTitle">Filters</h3>
@@ -243,17 +216,8 @@ export default class ExamFilter extends React.Component{
             filterGroup="examSoftware"
             filterLabel="Software"
             />  
-
-
-            {/* <InstructorExamFilter 
-              update={(filterGroup, field, filter) => this.updateFilter(filterGroup, field, filter)}
-              checkboxes={this.state.assignedInstructor}
-            /> */}
-            
-            
             
             </DialogContent>
-            
             
             <DialogActions>
             <Button onClick={this.handleCancel} color="primary">
