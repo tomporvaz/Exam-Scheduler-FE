@@ -12,10 +12,18 @@ export default class FilterSelectionItem extends React.Component{
     this.state = {}
   };
 
+  colors = ["#a4dbb1", "#b3c7e6", "#a6dcde", "#bbafe3", "#e0abe0", "#fcffbd", "#ffe2b0", "#ffd8cc", "#b8b8b8", "#fc86fc"];
+
   selectedFilters = () => {
     console.log('selectedFilters functions!');
-    let selectedItems = [];    
-    for(let key in this.props.filterObject){
+    let selectedItems = [];
+    let filterObjectKeys = Object.keys(this.props.filterObject);
+
+    /* for(let key in this.props.filterObject){ */
+    for(let i = 0; i < filterObjectKeys.length; i++){
+      let currentColor = this.colors[i];
+      let key = filterObjectKeys[i];
+
       if(key === 'level'){
         this.props.filterObject[key].forEach(level => {
           let levelColor = this.props.levelColors.find((levelColor) => levelColor.level === level);
@@ -35,7 +43,7 @@ export default class FilterSelectionItem extends React.Component{
       } else /* if(key === 'assignedInstructor') */{
         this.props.filterObject[key].forEach(filterItem => {
           selectedItems.push(
-            <div className="filterSelectedItem" style={{backgroundColor: "#b3c7e6"}}>
+            <div className="filterSelectedItem" style={{backgroundColor: currentColor}}>
               {filterItem}
               <div/>
               <IconButton 

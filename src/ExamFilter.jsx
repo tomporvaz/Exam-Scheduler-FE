@@ -47,6 +47,11 @@ export default class ExamFilter extends React.Component{
         "NEUROLOGY 4 BABIES": false,
         "MONKEY BRAINS": false
       },
+      "examSoftware": {
+        "Examsoft": false,
+        "Canvas": false,
+        "ATI": false
+      },
       "previousFilterState": {
         "level":{
           "1st Year": false,
@@ -115,7 +120,14 @@ export default class ExamFilter extends React.Component{
           "BRAIN SCI FNDTS I": false,
           "NEUROLOGY 4 BABIES": false,
           "MONKEY BRAINS": false
-        }}
+        },
+        //examSoftware added here
+        "examSoftware": {
+          "Examsoft": false,
+          "Canvas": false,
+          "ATI": false
+        }
+      }
         )
         
       }
@@ -125,7 +137,9 @@ export default class ExamFilter extends React.Component{
         let filterObject = {
           level: [],
           assignedInstructor: [],
-          courseTitle: []
+          courseTitle: [],
+          //examSoftware added here
+          examSoftware: []
         }
         
         for (let filterGroups in filterObject){
@@ -142,7 +156,9 @@ export default class ExamFilter extends React.Component{
           {
             "level": filterObject.level, 
             "assignedInstructor": filterObject.assignedInstructor,
-            "courseTitle": filterObject.courseTitle
+            "courseTitle": filterObject.courseTitle,
+            //examSoftware added here
+            "examSoftware": filterObject.examSoftware
           }
           );
 
@@ -166,7 +182,9 @@ export default class ExamFilter extends React.Component{
           let filterObject = {
             level: [],
             assignedInstructor: [],
-            courseTitle: []
+            courseTitle: [],
+            //examSoftware added here
+            examSoftware: []
           }
           
           for (let filterGroups in filterObject){
@@ -192,7 +210,9 @@ export default class ExamFilter extends React.Component{
             {
               "level": filterObject.level, 
               "assignedInstructor": filterObject.assignedInstructor,
-              "courseTitle": filterObject.courseTitle
+              "courseTitle": filterObject.courseTitle,
+              //examSoftware added here
+              "examSoftware": filterObject.examSoftware
             }
             );
 
@@ -207,7 +227,9 @@ export default class ExamFilter extends React.Component{
               previousFilterState:{
                 level: this.state.level,
                 assignedInstructor: this.state.assignedInstructor,
-                courseTitle: this.state.courseTitle
+                courseTitle: this.state.courseTitle,
+                //examSoftware added here
+                examSoftware: this.state.examSoftware
               },
               filterObject: filterObject
             });
@@ -241,7 +263,7 @@ export default class ExamFilter extends React.Component{
             <FilterListIcon style={{fontSize: 70}} onClick={this.handleClickOpen}/>
             </IconButton>
             
-            <Dialog open={this.state.open} onClose={this.handleCancel} fullWidth={true} maxWidth="sm" aria-labelledby="form-dialog-title">
+            <Dialog open={this.state.open} onClose={this.handleCancel} fullWidth={false} maxWidth="xl" aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">Filters</DialogTitle>
             <DialogContent>
             
@@ -266,6 +288,12 @@ export default class ExamFilter extends React.Component{
             filterLabel="Course"
             />  
 
+            <FilterList 
+            update={(filterGroup, field, value) => this.updateFilter(filterGroup, field, value)}
+            checkboxes={this.state.examSoftware}
+            filterGroup="examSoftware"
+            filterLabel="Software"
+            />  
 
 
             {/* <InstructorExamFilter 
