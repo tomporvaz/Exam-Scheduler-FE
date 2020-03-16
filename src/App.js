@@ -65,11 +65,12 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      semester: "2001",
+      semester: "9909",
       semesterExams: [],
       currentExams:[],
       levelColors: levelColors,
-      instructors: instructors
+      instructors: instructors,
+      filters: {}
     }
   }
   
@@ -84,6 +85,8 @@ export default class App extends React.Component {
   }) */
   
   render(){
+    console.log(`This is what filters looks like in state`);
+    console.log(this.state.filters);
     return (
       <div className="App">
       <header>
@@ -92,7 +95,8 @@ export default class App extends React.Component {
       </header>
       <ExamFilter 
       levelColors={this.state.levelColors} 
-      filters={filters}
+      filters={this.state.filters}
+      semester={this.state.semester}
       filter={(filterObject) => this.examFilter(filterObject)}
       updateAppsSemester={(semesterCode) => this.updateAppsSemester(semesterCode)}
       />
@@ -127,10 +131,10 @@ export default class App extends React.Component {
       );
     };
     
-/*     componentDidMount(){
-      this.getSemestersExams(this.state.semester);
+    componentDidMount(){
+      this.updateAppsSemester(this.state.semester);
       
-    } */
+    }
 
     getSemestersExams = (semesterCode) =>{
       const req = new XMLHttpRequest();
@@ -147,8 +151,22 @@ export default class App extends React.Component {
       };
     }
 
+    getSemestersFilters = (semesterCode) =>{
+      const req = new XMLHttpRequest();
+      req.open("GET",`https://exam-scheduler.glitch.me/api/filters?semester=${semesterCode}`,true);
+      req.send();
+      req.onload = () => {
+        const json = JSON.parse(req.responseText);
+        console.log(json);
+        this.setState({
+          filters: json
+        });
+      };
+    }
+
     updateAppsSemester = (semesterCode) => {
       this.getSemestersExams(semesterCode);
+      this.getSemestersFilters(semesterCode);
       this.setState({
         semester: semesterCode
       })

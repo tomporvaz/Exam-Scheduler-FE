@@ -68,20 +68,37 @@ export default class ExamFilter extends React.Component{
 
       //component did mount grabs fitlers from props, and builds state.filters
       componentDidMount(){
-        this.createFiltersState();
-        this.setState({
-          filters: this.createFiltersState(),
-          previousFilterState: {
-            filters: this.createFiltersState()
-          }
-        })
+        this.getSemestersFilters(this.props.semester)
       }
+
+      componentDidUpdate(prevProps){
+        if(prevProps.semester !== this.props.semester){
+          this.getSemestersFilters(this.props.semester)
+        }
+      };
       
-      createFiltersState = () => {
+      getSemestersFilters = (semesterCode) =>{
+        const req = new XMLHttpRequest();
+        req.open("GET",`https://exam-scheduler.glitch.me/api/filters?semester=${semesterCode}`,true);
+        req.send();
+        req.onload = () => {
+          const json = JSON.parse(req.responseText);
+          console.log(json);
+          this.setState({
+            filters: this.createFiltersState(json),
+            previousFilterState: {
+              filters: this.createFiltersState(json)
+            }
+          })
+        };
+      }
+  
+
+      createFiltersState = (filterJson) => {
         let filterState = {};
-        for(let filterGroup in this.props.filters){
+        for(let filterGroup in filterJson){
           let tempFilterGroupObj = {};
-          for(let filterField of this.props.filters[filterGroup]){
+          for(let filterField of filterJson[filterGroup]){
             tempFilterGroupObj[filterField] = false;
           }
           filterState[filterGroup] = tempFilterGroupObj;

@@ -58,9 +58,9 @@ anchorRef = React.createRef(null);
     })
   };
 
-  componentDidMount(){
+   componentDidMount(){
     this.props.updateAppsSemester(options[this.state.selectedSemester]);
-  }
+  } 
 
   
 
