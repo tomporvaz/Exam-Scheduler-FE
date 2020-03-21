@@ -65,7 +65,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      semester: "9909",
+      semester: "",
       semesterExams: [],
       currentExams:[],
       levelColors: levelColors,
@@ -131,10 +131,10 @@ export default class App extends React.Component {
       );
     };
     
-    componentDidMount(){
+    /* componentDidMount(){
       this.updateAppsSemester(this.state.semester);
       
-    }
+    } */
 
     getSemestersExams = (semesterCode) =>{
       const req = new XMLHttpRequest();
@@ -151,7 +151,7 @@ export default class App extends React.Component {
       };
     }
 
-    getSemestersFilters = (semesterCode) =>{
+    /* getSemestersFilters = (semesterCode) =>{
       const req = new XMLHttpRequest();
       req.open("GET",`https://exam-scheduler.glitch.me/api/filters?semester=${semesterCode}`,true);
       req.send();
@@ -162,11 +162,11 @@ export default class App extends React.Component {
           filters: json
         });
       };
-    }
+    } */
 
     updateAppsSemester = (semesterCode) => {
       this.getSemestersExams(semesterCode);
-      this.getSemestersFilters(semesterCode);
+     /*  this.getSemestersFilters(semesterCode); */
       this.setState({
         semester: semesterCode
       })
