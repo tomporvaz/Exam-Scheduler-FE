@@ -10,7 +10,7 @@ function ExamList(props){
     return(
       <div className="examListItem" key={exam.examId}>
       <div className="examListDate">{moment(exam.examStart).format("MMM D")}</div>
-      <div className="levelColorDot" style={{backgroundColor: levelColor.color}}></div>&nbsp;
+      <div className="levelColorDot" style={{backgroundColor: (levelColor ? levelColor.color : "grey")}}></div>&nbsp;
       <div className="examListTime">{moment(exam.examStart).format("h:mm A")} - {moment(exam.examEnd).format("h:mm A")}</div>
       <p className="examListDescription">
       <span> {exam.sectionNickname} {exam.examName}</span>&nbsp; 

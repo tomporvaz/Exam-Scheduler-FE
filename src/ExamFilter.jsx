@@ -25,7 +25,8 @@ export default class ExamFilter extends React.Component{
       "open": false,
       "filters": {},
       "previousFilterState": {},
-      "filterObject":{}
+      "filterObject":{},
+      "filterJson": {}
     }
   }
   
@@ -61,7 +62,7 @@ export default class ExamFilter extends React.Component{
   
     resetFilter = () => {
       this.setState({
-        filters: this.createFiltersState()
+        filters: this.createFiltersState(this.state.filterJson)
       }
         )
     }
@@ -89,7 +90,8 @@ export default class ExamFilter extends React.Component{
             filterObject: {},
             previousFilterState: {
               filters: this.createFiltersState(json)
-            }
+            },
+            filterJson: json
           })
         };
       }

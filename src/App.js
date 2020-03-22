@@ -35,6 +35,10 @@ let levelColors = [
   {
     level: "2nd Year",
     color: "#345995"
+  },
+  {
+    level: "Soph",
+    color: "#06B900"  
   }
 ]
 

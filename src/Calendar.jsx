@@ -26,8 +26,8 @@ import FullCalendar from '@fullcalendar/react';
               title: `${exam.sectionNickname} ${exam.examName} - ${exam.assignedInstructor}`,
               start: exam.examStart,
               end: exam.examEnd,
-              backgroundColor: levelColor.color,
-              borderColor: levelColor.color
+              backgroundColor: (levelColor ? levelColor.color : "grey"),
+              borderColor: (levelColor ? levelColor.color : "grey")
             }
           })
           
