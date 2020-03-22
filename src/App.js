@@ -13,6 +13,12 @@ import ExamList from './ExamList.jsx'
 import Calendar from './Calendar.jsx'
 import ExamFilter from './ExamFilter.jsx'
 
+//Import Material UI
+import AddBoxIcon from '@material-ui/icons/AddBox';
+import IconButton from '@material-ui/core/IconButton';
+import WarningIcon from '@material-ui/icons/Warning';
+
+
 let currentViewEvents = [
   {
     title: "FNP:Women's Exam 1",
@@ -97,6 +103,8 @@ export default class App extends React.Component {
       
       <h1>Exam Scheduler</h1>
       </header>
+
+      <section id="tools">
       <ExamFilter 
       levelColors={this.state.levelColors} 
       filters={this.state.filters}
@@ -104,6 +112,15 @@ export default class App extends React.Component {
       filter={(filterObject) => this.examFilter(filterObject)}
       updateAppsSemester={(semesterCode) => this.updateAppsSemester(semesterCode)}
       />
+
+      <IconButton id="filterButton">
+        <WarningIcon style={{fontSize: 30}} onClick={this.handleClickOpen}/>
+      </IconButton>
+
+      <IconButton id="filterButton">
+        <AddBoxIcon style={{fontSize: 30}} onClick={this.handleClickOpen}/>
+      </IconButton>
+      </section>
       
       <main>
       

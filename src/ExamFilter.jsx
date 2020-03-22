@@ -189,7 +189,6 @@ export default class ExamFilter extends React.Component{
           console.log(this.state);
           return(
             <div id="filterContainer">
-            <h3 id="filterTitle">Filters</h3>
             
             <FilterSelectionItem 
               filterObject={this.state.filterObject} 
@@ -202,7 +201,7 @@ export default class ExamFilter extends React.Component{
             />
             
             <IconButton id="filterButton">
-            <FilterListIcon style={{fontSize: 70}} onClick={this.handleClickOpen}/>
+            <FilterListIcon style={{fontSize: 30}} onClick={this.handleClickOpen}/>
             </IconButton>
             
             <Dialog open={this.state.open} onClose={this.handleCancel} fullWidth={false} maxWidth="xl" aria-labelledby="form-dialog-title">
