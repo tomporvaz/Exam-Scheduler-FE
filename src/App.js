@@ -12,6 +12,7 @@ import FullCalendar from '@fullcalendar/react';
 import ExamList from './ExamList.jsx'
 import Calendar from './Calendar.jsx'
 import ExamFilter from './ExamFilter.jsx'
+import ExamDetailsForm from './ExamDetailsForm.jsx'
 
 //Import Material UI
 import AddBoxIcon from '@material-ui/icons/AddBox';
@@ -80,7 +81,8 @@ export default class App extends React.Component {
       currentExams:[],
       levelColors: levelColors,
       instructors: instructors,
-      filters: {}
+      filters: {},
+      examDetailsFormOpen: false
     }
   }
   
@@ -113,13 +115,14 @@ export default class App extends React.Component {
       updateAppsSemester={(semesterCode) => this.updateAppsSemester(semesterCode)}
       />
 
-      <IconButton id="filterButton">
+      <IconButton id="conflictsButton">
         <WarningIcon style={{fontSize: 30}} onClick={this.handleClickOpen}/>
       </IconButton>
 
-      <IconButton id="filterButton">
-        <AddBoxIcon style={{fontSize: 30}} onClick={this.handleClickOpen}/>
+      <IconButton id="addExamButton">
+        <AddBoxIcon style={{fontSize: 30}} onClick={this.handleExamDetailsFormOpen}/>
       </IconButton>
+      <ExamDetailsForm open={this.state.examDetailsFormOpen} handleClose={this.handleExamDetailsFormClose} />
       </section>
       
       <main>
@@ -223,8 +226,18 @@ export default class App extends React.Component {
         "currentExams": filteredExams
       })
     };
+
+    handleExamDetailsFormOpen = () => {
+      this.setState({
+        "examDetailsFormOpen": true
+      })
+    };
     
-    
+    handleExamDetailsFormClose = () => {
+      this.setState({
+        "examDetailsFormOpen": false
+      })
+    };
     
   }
   
