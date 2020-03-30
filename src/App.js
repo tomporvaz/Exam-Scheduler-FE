@@ -122,7 +122,11 @@ export default class App extends React.Component {
       <IconButton id="addExamButton">
         <AddBoxIcon style={{fontSize: 30}} onClick={this.handleExamDetailsFormOpen}/>
       </IconButton>
-      <ExamDetailsForm open={this.state.examDetailsFormOpen} handleClose={this.handleExamDetailsFormClose} />
+      <ExamDetailsForm 
+        open={this.state.examDetailsFormOpen} 
+        handleClose={this.handleExamDetailsFormClose} 
+        semester={this.state.semester}
+        />
       </section>
       
       <main>
