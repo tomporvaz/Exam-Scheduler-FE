@@ -43,7 +43,7 @@ export default class CourseSelecter extends React.Component{
       value={this.state.selected}
       onChange={event => this.handleChange(event.target.value)}
       input={<Input id="courseId" />}
-
+      fullWidth
       >
         {this.mapCoursesMenuItems(this.props.courses)}
 

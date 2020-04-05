@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 //material-ui imports
 import IconButton from '@material-ui/core/IconButton';
@@ -14,15 +15,35 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
+import Grid from  '@material-ui/core/Grid';
+import {
+  Checkbox,
+  FormControlLabel,
+  Input
+} from '@material-ui/core/';
 
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDateTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+
+import DateFnsUtils from '@date-io/moment';
+
+//custom components
 import CourseSelecter from './CourseSelecter.jsx'
+
+
 
 
 export default class ExamDetailsForm extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      courses: []
+      courses: [],
+      approved: false,
+      examStart: new Date(),
+      examEnd: new Date()
     }
   }
   
@@ -30,6 +51,19 @@ export default class ExamDetailsForm extends React.Component{
   handleClose = () => {
     this.props.handleClose();
   };
+
+  handleCheckApproved = () => {
+    this.setState({approved: !this.state.approved})
+  }
+  
+  handleExamStartChange = (date) => {
+    this.setState({examStart: date})
+  }
+
+  handleExamEndChange = (date) => {
+    this.setState({examEnd: date})
+  }
+
 
 
 
@@ -47,44 +81,173 @@ export default class ExamDetailsForm extends React.Component{
     };
   }
 
+    //Fetch courses based on current semester
+    postNewExam = () =>{
+      const req = new XMLHttpRequest();
+      req.open("POST",`https://exam-scheduler.glitch.me/api/exams`,true);
+      req.send(`examStart: ${this.state.examStart}`);
+    }
+
+
+
   componentDidUpdate(prevProps, prevState){
     if(prevProps.semester !== this.props.semester){
       this.getSemestersCourses(this.props.semester);
     }
      
   };
+
+  submitForm = () => postData("https://exam-scheduler.glitch.me/api/exams", {examStart: this.state.examStart.toISOString()});
  
   
   render(){
     
 
     return(
-    <Dialog open={this.props.open} onClose={this.handleClose} fullWidth={false} maxWidth="xl" aria-labelledby="exam-details-form">
+    <Dialog open={this.props.open} onClose={this.handleClose} fullScreen fullWidth={false} maxWidth="lg" aria-labelledby="exam-details-form">
     <DialogTitle id="exam-details-form-title">Add Exam</DialogTitle>
     <DialogContent>
-      <form action="https://exam-scheduler.glitch.me/api/exams" method="post">
-      <FormControl style={{minWidth: 120}}>  
-        <InputLabel htmlFor="course">Course</InputLabel>
-        <CourseSelecter courses={this.state.courses}/>
+      <form onSubmit={this.submitForm}>
+      <FormControl  style={{minWidth: 120}} >  
 
-        <TextField 
-          name="examSemester"
-          id="examSemester"
-          label="Semester"
-          value={this.props.semester}
-          InputProps={{
-            readOnly: true
-          }}
-          variant="filled"
-        />
+        
+        <Grid container alignItems="flex-start" spacing={2}>
+          <Grid item xs={9}>
+            <InputLabel htmlFor="course">Course</InputLabel>
+            <CourseSelecter courses={this.state.courses}/>
+          </Grid>
 
-        <TextField 
-          name="examTitle"
-          id="examTitle" 
-          label="Exam Title" 
-          variant="filled" 
-        />
+          <Grid item xs={3}>
+            <TextField 
+              name="examSemester"
+              id="examSemester"
+              label="Semester"
+              value={this.props.semester}
+              InputProps={{
+                readOnly: true
+              }}
+            />
+          </Grid>
 
+          <Grid item xs={9}>
+            <TextField 
+              name="examName"
+              id="examTitle" 
+              label="Exam Title" 
+              variant="filled" 
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={3}>
+            <FormControlLabel
+              value={this.state.approved}
+              control={<Checkbox
+                name="approved"
+                id="approved"
+                checked={this.state.approved}
+                onChange={this.handleCheckApproved}
+              />}
+              label="Approved"
+            />
+          </Grid>
+
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            
+    {/*         Create a 3 piece date time picker: 1 date picker for date, 1 time picker for start time, and 1 time picker for end time picker
+            Requires higher level functions to massage data before returning to server. */}
+            {/*<Grid item xs={12} lg={6}>
+               <KeyboardDateTimePicker
+              margin="normal"
+              id="examDate"
+              label="Exam Date"
+              format="MM/DD/YYYY"
+              value={this.state.selectedDate}
+              onChange={this.handleDateChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+            />  
+            </Grid>*/}
+            
+
+            <Grid item xs={12} md={6}>
+            <KeyboardDateTimePicker
+              margin="normal"
+              name="examStart"
+              id="examStart"
+              label="Start Time"
+              value={this.state.examStart} 
+              //inputValue={this.state.examStart}
+              onChange={this.handleExamStartChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change time',
+              }}
+              />
+              
+            </Grid> 
+
+            <Grid item xs={12} md={6}>
+              <KeyboardDateTimePicker
+                margin="normal"
+                name="examEnd"
+                id="examEnd"
+                label="End Time"
+                value={this.state.examEnd}
+                //inputValue={this.state.examEnd}
+                onChange={this.handleExamEndChange}
+                KeyboardButtonProps={{
+                  'aria-label': 'change time',
+                }}
+              />
+            </Grid>
+
+            
+          </MuiPickersUtilsProvider>
+
+   {/*        <Grid item xs={12} md={6}>
+
+            <TextField
+              margin="normal"
+              type="datetime-local"
+              name="examStart"
+              id="examStart"
+              label="Start Time"
+              defaultValue="2020-04-01T08:00"
+              inputValue={this.state.examStart}
+              onChange={this.handleExamStartChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change time',
+              }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              inputProps={{
+                step: 300, // 5 min
+              }}
+              />
+              
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <TextField
+                margin="normal"
+                type="datetime-local"
+                name="examEnd"
+                id="examEnd"
+                label="End Time"
+                defaultValue="2020-04-01T09:30"
+                inputValue={this.state.examEnd}
+                onChange={this.handleExamEndChange}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputProps={{
+                  step: 300, // 5 min
+                }}
+              />
+            </Grid> */}
+        </Grid>
 
 
 
@@ -110,3 +273,20 @@ export default class ExamDetailsForm extends React.Component{
   }
 }
 
+async function postData(url = '', data) {
+  // Default options are marked with *
+  const response = await fetch(url, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: 'follow', // manual, *follow, error
+    referrerPolicy: 'no-referrer', // no-referrer, *client
+    body: JSON.stringify(data) // body data type must match "Content-Type" header
+  });
+  return await response.json(); // parses JSON response into native JavaScript objects
+}

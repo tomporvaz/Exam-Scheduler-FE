@@ -136,7 +136,7 @@ export default class App extends React.Component {
       <div id="calendar">
       <Calendar 
       exams={this.state.currentExams} 
-      ref={this.calendarComponentRef} 
+      ref={this.calendarComponentRef}       
       levelColors={this.state.levelColors}
       />
       </div>
