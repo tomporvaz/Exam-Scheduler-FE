@@ -41,6 +41,8 @@ export default class ExamDetailsForm extends React.Component{
     super(props);
     this.state = {
       courses: [],
+      courseId: "",
+      examName: "",
       approved: false,
       examStart: new Date(),
       examEnd: new Date()
@@ -51,6 +53,11 @@ export default class ExamDetailsForm extends React.Component{
   handleClose = () => {
     this.props.handleClose();
   };
+
+  handleInputChange = (event) => {
+    console.log("handleInputChange FIRED!!!!!!!!!")
+    this.setState({[event.target.name]: event.target.value})
+  }
 
   handleCheckApproved = () => {
     this.setState({approved: !this.state.approved})
@@ -81,15 +88,7 @@ export default class ExamDetailsForm extends React.Component{
     };
   }
 
-    //Fetch courses based on current semester
-    postNewExam = () =>{
-      const req = new XMLHttpRequest();
-      req.open("POST",`https://exam-scheduler.glitch.me/api/exams`,true);
-      req.send(`examStart: ${this.state.examStart}`);
-    }
-
-
-
+    
   componentDidUpdate(prevProps, prevState){
     if(prevProps.semester !== this.props.semester){
       this.getSemestersCourses(this.props.semester);
@@ -97,7 +96,21 @@ export default class ExamDetailsForm extends React.Component{
      
   };
 
-  submitForm = () => postData("https://exam-scheduler.glitch.me/api/exams", {examStart: this.state.examStart.toISOString()});
+  submitForm = (event) => {
+    event.preventDefault();  
+    postData("https://exam-scheduler.glitch.me/api/exams", {
+      courseId: this.state.courseId,
+      examSemester: this.props.semester,
+      examName: this.state.examName,
+      examStart: this.state.examStart.toISOString(),
+      examEnd: this.state.examEnd.toISOString()
+    })
+    .then((response) => {
+      console.log(response)
+    })
+    .catch(err => console.error(err))
+    this.handleClose();
+  }
  
   
   render(){
@@ -114,7 +127,7 @@ export default class ExamDetailsForm extends React.Component{
         <Grid container alignItems="flex-start" spacing={2}>
           <Grid item xs={9}>
             <InputLabel htmlFor="course">Course</InputLabel>
-            <CourseSelecter courses={this.state.courses}/>
+            <CourseSelecter courses={this.state.courses} onChange={this.handleInputChange} courseId={this.state.courseId} />
           </Grid>
 
           <Grid item xs={3}>
@@ -123,6 +136,7 @@ export default class ExamDetailsForm extends React.Component{
               id="examSemester"
               label="Semester"
               value={this.props.semester}
+              onChange={this.handleInputChange}
               InputProps={{
                 readOnly: true
               }}
@@ -132,8 +146,10 @@ export default class ExamDetailsForm extends React.Component{
           <Grid item xs={9}>
             <TextField 
               name="examName"
-              id="examTitle" 
-              label="Exam Title" 
+              id="examName" 
+              label="Exam Name" 
+              value={this.state.examName}
+              onChange={this.handleInputChange}
               variant="filled" 
               fullWidth
             />
@@ -284,9 +300,9 @@ async function postData(url = '', data) {
       'Content-Type': 'application/json'
       // 'Content-Type': 'application/x-www-form-urlencoded',
     },
-    redirect: 'follow', // manual, *follow, error
+    redirect: 'manual', // manual, *follow, error
     referrerPolicy: 'no-referrer', // no-referrer, *client
     body: JSON.stringify(data) // body data type must match "Content-Type" header
   });
-  return await response.json(); // parses JSON response into native JavaScript objects
+  return await response.text(); // parses JSON response into native JavaScript objects
 }
