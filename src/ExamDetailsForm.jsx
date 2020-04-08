@@ -19,7 +19,8 @@ import Grid from  '@material-ui/core/Grid';
 import {
   Checkbox,
   FormControlLabel,
-  Input
+  Input,
+  MenuItem
 } from '@material-ui/core/';
 
 import {
@@ -33,6 +34,25 @@ import DateFnsUtils from '@date-io/moment';
 //custom components
 import CourseSelecter from './CourseSelecter.jsx'
 
+const software = [
+  {
+    value: "ES",
+    label: "Examsoft"
+  },
+  {
+    value: "CNV",
+    label: "Canvas"
+  },
+  {
+    value: "PT",
+    label: "Canvas with ProctorTrack"
+  },
+  {
+    value: "ATI",
+    label: "ATI"
+  }
+]
+
 
 
 
@@ -42,10 +62,17 @@ export default class ExamDetailsForm extends React.Component{
     this.state = {
       courses: [],
       courseId: "",
+      approved: false,
       examName: "",
       approved: false,
       examStart: new Date(),
-      examEnd: new Date()
+      examEnd: new Date(),
+      building: "",
+      room: "",
+      examSoftware: "",
+      supportPerson:"",
+      emailFaculty: false,
+      facultyConfirmed: false
     }
   }
   
@@ -55,7 +82,6 @@ export default class ExamDetailsForm extends React.Component{
   };
 
   handleInputChange = (event) => {
-    console.log("handleInputChange FIRED!!!!!!!!!")
     this.setState({[event.target.name]: event.target.value})
   }
 
@@ -121,12 +147,12 @@ export default class ExamDetailsForm extends React.Component{
     <DialogTitle id="exam-details-form-title">Add Exam</DialogTitle>
     <DialogContent>
       <form onSubmit={this.submitForm}>
-      <FormControl  style={{minWidth: 120}} >  
+
 
         
         <Grid container alignItems="flex-start" spacing={2}>
           <Grid item xs={9}>
-            <InputLabel htmlFor="course">Course</InputLabel>
+            <InputLabel htmlFor="courseId">Course</InputLabel>
             <CourseSelecter courses={this.state.courses} onChange={this.handleInputChange} courseId={this.state.courseId} />
           </Grid>
 
@@ -142,13 +168,16 @@ export default class ExamDetailsForm extends React.Component{
               }}
             />
           </Grid>
+          
+          
 
           <Grid item xs={9}>
             <TextField 
               name="examName"
               id="examName" 
               label="Exam Name" 
-              value={this.state.examName}
+              value={this.state.examName}    
+
               onChange={this.handleInputChange}
               variant="filled" 
               fullWidth
@@ -168,13 +197,15 @@ export default class ExamDetailsForm extends React.Component{
             />
           </Grid>
 
+
+
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             
     {/*         Create a 3 piece date time picker: 1 date picker for date, 1 time picker for start time, and 1 time picker for end time picker
             Requires higher level functions to massage data before returning to server. */}
             {/*<Grid item xs={12} lg={6}>
                <KeyboardDateTimePicker
-              margin="normal"
+              margin="normal"</Grid>
               id="examDate"
               label="Exam Date"
               format="MM/DD/YYYY"
@@ -187,7 +218,7 @@ export default class ExamDetailsForm extends React.Component{
             </Grid>*/}
             
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={5}>
             <KeyboardDateTimePicker
               margin="normal"
               name="examStart"
@@ -202,8 +233,9 @@ export default class ExamDetailsForm extends React.Component{
               />
               
             </Grid> 
+            
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={5}>
               <KeyboardDateTimePicker
                 margin="normal"
                 name="examEnd"
@@ -218,56 +250,84 @@ export default class ExamDetailsForm extends React.Component{
               />
             </Grid>
 
-            
           </MuiPickersUtilsProvider>
 
-   {/*        <Grid item xs={12} md={6}>
 
-            <TextField
-              margin="normal"
-              type="datetime-local"
-              name="examStart"
-              id="examStart"
-              label="Start Time"
-              defaultValue="2020-04-01T08:00"
-              inputValue={this.state.examStart}
-              onChange={this.handleExamStartChange}
-              KeyboardButtonProps={{
-                'aria-label': 'change time',
-              }}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              inputProps={{
-                step: 300, // 5 min
-              }}
-              />
+
+          <Grid item xs={12} md={5}>
+            <TextField 
+              name="building"
+              id="buidling" 
+              label="Building" 
+              value={this.state.building}
+              onChange={this.handleInputChange}
+              variant="filled" 
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={12} md={5}>
+            <TextField 
+              name="room"
+              id="room" 
+              label="Room" 
+              value={this.state.room}
+              onChange={this.handleInputChange}
+              variant="filled" 
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <FormControl style={{minWidth: 200}}>
+            <InputLabel id="examSoftwareLabel">Software</InputLabel>
+            <Select
+              name="examSoftware"
+              id="examSoftware" 
+              labelId="examSoftwareLabel"
+              value={this.state.examSoftware}
+              onChange={this.handleInputChange}
               
-            </Grid>
+              >
+                {software.map((software) => {
+                return(
+                  <MenuItem key={software.value} value={software.value}>
+                    {software.label}
+                  </MenuItem>
+                )
+              })}
+            
+            </Select>
+            </FormControl>
 
-            <Grid item xs={12} md={6}>
-              <TextField
-                margin="normal"
-                type="datetime-local"
-                name="examEnd"
-                id="examEnd"
-                label="End Time"
-                defaultValue="2020-04-01T09:30"
-                inputValue={this.state.examEnd}
-                onChange={this.handleExamEndChange}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                inputProps={{
-                  step: 300, // 5 min
-                }}
-              />
-            </Grid> */}
+           {/*  <TextField 
+              name="examSoftware"
+              id="examSoftware" 
+              label="Software" 
+              value={this.state.examSoftware}
+              onChange={this.handleInputChange}
+              variant="filled" 
+              select
+            >
+              {software.map((software) => {
+                return(
+                  <option key={software.value} value={software.value}>
+                    {software.label}
+                  </option>
+                )
+              })}
+            </TextField>   */}
+
+          </Grid>
+
+
+
+
         </Grid>
 
 
 
-      </FormControl>
+
           <DialogActions>
         <Button onClick={this.handleClose} color="primary">
         Cancel

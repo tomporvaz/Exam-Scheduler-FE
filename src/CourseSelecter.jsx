@@ -40,6 +40,7 @@ export default class CourseSelecter extends React.Component{
 
       <Select
       name="courseId" 
+      id="courseId"
       value={this.props.courseId}
       onChange={this.props.onChange}
 /*       input={<Input id="courseId" />}
