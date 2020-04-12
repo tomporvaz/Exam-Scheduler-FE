@@ -30,7 +30,10 @@ export default class CourseSelecter extends React.Component{
   mapCoursesMenuItems(coursesJson){
     return coursesJson.map(course => {
       return(
-        <MenuItem key={course._id} value={course._id}>{course.unit}:{course.subject}:{course.course}:{course.section} {course.courseTitle} ({course.index}) - {course.assignedInstructor} </MenuItem>
+        <MenuItem key={course._id} value={course._id}>
+          {course.unit}:{course.subject}:{course.course}:{course.section} {course.courseTitle} <br />
+          &nbsp; &nbsp; Instr: {course.assignedInstructor} 
+        </MenuItem>
       )
     })
   }
@@ -39,6 +42,7 @@ export default class CourseSelecter extends React.Component{
     return(
 
       <Select
+      native={false}
       name="courseId" 
       id="courseId"
       value={this.props.courseId}

@@ -53,6 +53,21 @@ const software = [
   }
 ]
 
+const supportPeople = [
+  {
+    value: "Grittwald Grittington",
+    label: "Gritty"
+  },
+  {
+    value: "Tom Porvaznik",
+    label: "Amish Tom"
+  },
+  {
+    value: "Jason Love",
+    label: "J. Lo"
+  }
+]
+
 
 
 
@@ -83,6 +98,10 @@ export default class ExamDetailsForm extends React.Component{
 
   handleInputChange = (event) => {
     this.setState({[event.target.name]: event.target.value})
+  }
+
+  handleCheckboxChange = (event) => {
+    this.setState({[event.target.name]: !this.state[event.target.name]})
   }
 
   handleCheckApproved = () => {
@@ -128,8 +147,15 @@ export default class ExamDetailsForm extends React.Component{
       courseId: this.state.courseId,
       examSemester: this.props.semester,
       examName: this.state.examName,
+      approved: this.state.approved,
       examStart: this.state.examStart.toISOString(),
-      examEnd: this.state.examEnd.toISOString()
+      examEnd: this.state.examEnd.toISOString(),
+      building: this.state.building,
+      room: this.state.room,
+      examSoftware: this.state.examSoftware,
+      supportPerson: this.state.supportPerson,
+      emailFaculty: this.state.emailFaculty,
+      facultyConfirmed: this.state.facultyConfirmed
     })
     .then((response) => {
       console.log(response)
@@ -143,7 +169,7 @@ export default class ExamDetailsForm extends React.Component{
     
 
     return(
-    <Dialog open={this.props.open} onClose={this.handleClose} fullScreen fullWidth={false} maxWidth="lg" aria-labelledby="exam-details-form">
+    <Dialog open={this.props.open} onClose={this.handleClose} /* fullScreen */ fullWidth={false} maxWidth="lg" aria-labelledby="exam-details-form">
     <DialogTitle id="exam-details-form-title">Add Exam</DialogTitle>
     <DialogContent>
       <form onSubmit={this.submitForm}>
@@ -151,12 +177,12 @@ export default class ExamDetailsForm extends React.Component{
 
         
         <Grid container alignItems="flex-start" spacing={2}>
-          <Grid item xs={9}>
+          <Grid item xs={12} md={9}>
             <InputLabel htmlFor="courseId">Course</InputLabel>
             <CourseSelecter courses={this.state.courses} onChange={this.handleInputChange} courseId={this.state.courseId} />
           </Grid>
 
-          <Grid item xs={3}>
+          <Grid item xs={12} md={3}>
             <TextField 
               name="examSemester"
               id="examSemester"
@@ -171,7 +197,7 @@ export default class ExamDetailsForm extends React.Component{
           
           
 
-          <Grid item xs={9}>
+          <Grid item xs={12} md={9}>
             <TextField 
               name="examName"
               id="examName" 
@@ -184,14 +210,14 @@ export default class ExamDetailsForm extends React.Component{
             />
           </Grid>
 
-          <Grid item xs={3}>
+          <Grid item xs={12} md={3}>
             <FormControlLabel
               value={this.state.approved}
               control={<Checkbox
                 name="approved"
                 id="approved"
                 checked={this.state.approved}
-                onChange={this.handleCheckApproved}
+                onChange={this.handleCheckboxChange}
               />}
               label="Approved"
             />
@@ -299,31 +325,64 @@ export default class ExamDetailsForm extends React.Component{
             
             </Select>
             </FormControl>
+          </Grid>
 
-           {/*  <TextField 
-              name="examSoftware"
-              id="examSoftware" 
-              label="Software" 
-              value={this.state.examSoftware}
-              onChange={this.handleInputChange}
-              variant="filled" 
-              select
-            >
-              {software.map((software) => {
-                return(
-                  <option key={software.value} value={software.value}>
-                    {software.label}
-                  </option>
-                )
-              })}
-            </TextField>   */}
+            <Grid item xs={12} md={4}>
+              <FormControl style={{minWidth: 200}}>
+              <InputLabel id="supportPersonLabel">Support Person</InputLabel>
+              <Select
+                name="supportPerson"
+                id="supportPerson" 
+                labelId="supportPersonLabel"
+                value={this.state.supportPerson}
+                onChange={this.handleInputChange}
+                native={false}
+                >
+                  {supportPeople.map((supportPerson) => {
+                  return(
+                    <MenuItem key={supportPerson.value} value={supportPerson.value}>
+                      {supportPerson.label}
+                    </MenuItem>
+                  )
+                })}
+              
+              </Select>
+              </FormControl>
+            </Grid>
 
+            <Grid item xs={6} md={4}>
+              <FormControlLabel
+                value={this.state.emailFaculty}
+                control={<Checkbox
+                  name="emailFaculty"
+                  id="emailFaculty"
+                  checked={this.state.emailFaculty}
+                  onChange={this.handleCheckboxChange}
+                />}
+                label="Email Faculty"
+              />
+            </Grid>
+
+          <Grid item xs={6} md={4}>
+            <FormControlLabel
+              value={this.state.facultyConfirmed}
+              control={<Checkbox
+                name="facultyConfirmed"
+                id="facultyConfirmed"
+                checked={this.state.facultyConfirmed}
+                onChange={this.handleCheckboxChange}
+              />}
+              label="Faculty Confirmed"
+            />
           </Grid>
 
 
-
-
         </Grid>
+
+
+
+
+        
 
 
 

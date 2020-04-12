@@ -44,8 +44,36 @@ let levelColors = [
     color: "#345995"
   },
   {
+    level: "Frsh",
+    color: "#795548"
+  },
+  {
     level: "Soph",
-    color: "#06B900"  
+    color: "#4285F4"  
+  },
+  {
+    level: "Jrs",
+    color: "#0B8043"
+  },
+  {
+    level: "Srs",
+    color: "#8F7000"
+  },
+  {
+    level: "L1",
+    color: "#8E24AA"
+  },
+  {
+    level: "L2",
+    color: "#D81B60"
+  },
+  {
+    level: "L3",
+    color: "#EF6C00"
+  },
+  {
+    level: "L4",
+    color: "#D50000"
   }
 ]
 
