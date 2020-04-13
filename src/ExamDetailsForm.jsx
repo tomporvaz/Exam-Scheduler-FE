@@ -82,8 +82,8 @@ export default class ExamDetailsForm extends React.Component{
       approved: false,
       examStart: new Date(),
       examEnd: new Date(),
-      building: "",
-      room: "",
+      examBuilding: "",
+      examRoom: "",
       examSoftware: "",
       supportPerson:"",
       emailFaculty: false,
@@ -150,8 +150,8 @@ export default class ExamDetailsForm extends React.Component{
       approved: this.state.approved,
       examStart: this.state.examStart.toISOString(),
       examEnd: this.state.examEnd.toISOString(),
-      building: this.state.building,
-      room: this.state.room,
+      examBuilding: this.state.examBuilding,
+      examRoom: this.state.examRoom,
       examSoftware: this.state.examSoftware,
       supportPerson: this.state.supportPerson,
       emailFaculty: this.state.emailFaculty,
@@ -282,10 +282,10 @@ export default class ExamDetailsForm extends React.Component{
 
           <Grid item xs={12} md={5}>
             <TextField 
-              name="building"
-              id="buidling" 
+              name="examBuilding"
+              id="examBuilding" 
               label="Building" 
-              value={this.state.building}
+              value={this.state.examBuilding}
               onChange={this.handleInputChange}
               variant="filled" 
               fullWidth
@@ -294,10 +294,10 @@ export default class ExamDetailsForm extends React.Component{
 
           <Grid item xs={12} md={5}>
             <TextField 
-              name="room"
-              id="room" 
+              name="examRoom"
+              id="examRoom" 
               label="Room" 
-              value={this.state.room}
+              value={this.state.examRoom}
               onChange={this.handleInputChange}
               variant="filled" 
               fullWidth

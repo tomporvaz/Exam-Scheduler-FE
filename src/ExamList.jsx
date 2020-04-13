@@ -17,7 +17,7 @@ function ExamList(props){
 
       <span> ({exam.level}) </span>&nbsp; 
       <span> {exam.assignedInstructor} </span>&nbsp; 
-      <span> [{exam.building}-{exam.room}] </span>&nbsp; 
+      <span> [{exam.examBuilding}-{exam.examRoom}] </span>&nbsp; 
       <span> {exam.unit}:{exam.subject}:{exam.course}:{exam.section} </span>&nbsp;
       <span> {exam.examSoftware} </span>&nbsp;
       </p>
