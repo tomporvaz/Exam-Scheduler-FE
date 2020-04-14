@@ -120,7 +120,7 @@ export default class ExamDetailsForm extends React.Component{
 
 
   //Fetch courses based on current semester
-  getSemestersCourses = (semesterCode) =>{
+  /* getSemestersCourses = (semesterCode) =>{
     const req = new XMLHttpRequest();
     req.open("GET",`https://exam-scheduler.glitch.me/api/courses?semester=${semesterCode}`,true);
     req.send();
@@ -137,9 +137,9 @@ export default class ExamDetailsForm extends React.Component{
   componentDidUpdate(prevProps, prevState){
     if(prevProps.semester !== this.props.semester){
       this.getSemestersCourses(this.props.semester);
-    }
+    } 
      
-  };
+  };*/
 
   submitForm = (event) => {
     event.preventDefault();  
@@ -158,7 +158,8 @@ export default class ExamDetailsForm extends React.Component{
       facultyConfirmed: this.state.facultyConfirmed
     })
     .then((response) => {
-      console.log(response)
+      this.props.addExamToGlobalState(JSON.parse(response));
+      console.log(response);
     })
     .catch(err => console.error(err))
     this.handleClose();
@@ -169,9 +170,7 @@ export default class ExamDetailsForm extends React.Component{
     
 
     return(
-    <Dialog open={this.props.open} onClose={this.handleClose} /* fullScreen */ fullWidth={false} maxWidth="lg" aria-labelledby="exam-details-form">
-    <DialogTitle id="exam-details-form-title">Add Exam</DialogTitle>
-    <DialogContent>
+
       <form onSubmit={this.submitForm}>
 
 
@@ -179,7 +178,7 @@ export default class ExamDetailsForm extends React.Component{
         <Grid container alignItems="flex-start" spacing={2}>
           <Grid item xs={12} md={9}>
             <InputLabel htmlFor="courseId">Course</InputLabel>
-            <CourseSelecter courses={this.state.courses} onChange={this.handleInputChange} courseId={this.state.courseId} />
+            <CourseSelecter courses={this.props.courses} onChange={this.handleInputChange} courseId={this.state.courseId} />
           </Grid>
 
           <Grid item xs={12} md={3}>
@@ -379,15 +378,7 @@ export default class ExamDetailsForm extends React.Component{
 
         </Grid>
 
-
-
-
-        
-
-
-
-
-          <DialogActions>
+                
         <Button onClick={this.handleClose} color="primary">
         Cancel
         </Button>
@@ -396,13 +387,10 @@ export default class ExamDetailsForm extends React.Component{
         Add/Update
         </Button>
 
-        </DialogActions>
-      </form>
-    </DialogContent>
-  
-    
+        </form>
+       
+      
 
-    </Dialog>
     
     )
   }

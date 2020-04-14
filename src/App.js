@@ -13,11 +13,13 @@ import ExamList from './ExamList.jsx'
 import Calendar from './Calendar.jsx'
 import ExamFilter from './ExamFilter.jsx'
 import ExamDetailsForm from './ExamDetailsForm.jsx'
+import ExamAddDialog from './ExamAddDialog.jsx';
 
 //Import Material UI
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import IconButton from '@material-ui/core/IconButton';
 import WarningIcon from '@material-ui/icons/Warning';
+
 
 
 let currentViewEvents = [
@@ -109,8 +111,9 @@ export default class App extends React.Component {
       currentExams:[],
       levelColors: levelColors,
       instructors: instructors,
-      filters: {},
-      examDetailsFormOpen: false
+      filterObjectCopy: {},
+      examDetailsFormOpen: false, 
+      courses: []
     }
   }
   
@@ -150,10 +153,12 @@ export default class App extends React.Component {
       <IconButton id="addExamButton">
         <AddBoxIcon style={{fontSize: 30}} onClick={this.handleExamDetailsFormOpen}/>
       </IconButton>
-      <ExamDetailsForm 
+      <ExamAddDialog 
         open={this.state.examDetailsFormOpen} 
         handleClose={this.handleExamDetailsFormClose} 
         semester={this.state.semester}
+        courses={this.state.courses}
+        addExamToGlobalState={this.addExam}
         />
       </section>
       
@@ -207,6 +212,20 @@ export default class App extends React.Component {
       };
     }
 
+    //Fetch courses based on current semester
+  getSemestersCourses = (semesterCode) =>{
+    const req = new XMLHttpRequest();
+    req.open("GET",`https://exam-scheduler.glitch.me/api/courses?semester=${semesterCode}`,true);
+    req.send();
+    req.onload = () => {
+      const json = JSON.parse(req.responseText);
+      console.log(json);
+      this.setState({
+        courses: json
+      });
+    };
+  }
+
     /* getSemestersFilters = (semesterCode) =>{
       const req = new XMLHttpRequest();
       req.open("GET",`https://exam-scheduler.glitch.me/api/filters?semester=${semesterCode}`,true);
@@ -222,6 +241,7 @@ export default class App extends React.Component {
 
     updateAppsSemester = (semesterCode) => {
       this.getSemestersExams(semesterCode);
+      this.getSemestersCourses(semesterCode);
      /*  this.getSemestersFilters(semesterCode); */
       this.setState({
         semester: semesterCode
@@ -255,9 +275,21 @@ export default class App extends React.Component {
       })
 
       this.setState({
-        "currentExams": filteredExams
+        "currentExams": filteredExams,
+        "filterObjectCopy": filterObject
       })
     };
+
+    //add exam to semesterExams and update UI while retaining filter
+    addExam = (examObj) => {
+      this.setState({
+        semesterExams: [...this.state.semesterExams, examObj]
+      })
+      //examFilter needs to be fired to update currentExams, as well as reapply filter
+      //filterObjectCopy is sloppy, and it probably should be the canonical source for all components
+      //TODO: delete filterObject from examFilter, and update all sources to use filterObjectCopy in App.js
+      this.examFilter(this.state.filterObjectCopy);
+    }
 
     handleExamDetailsFormOpen = () => {
       this.setState({
