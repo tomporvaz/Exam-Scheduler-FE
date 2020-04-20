@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import ExamScheduler from './ExamScheduler';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 
 

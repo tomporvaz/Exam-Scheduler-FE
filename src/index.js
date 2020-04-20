@@ -20,7 +20,8 @@ import '@fullcalendar/list/main.css';
 ReactDOM.render(
   <Router>
     <App />
-  </Router>, document.getElementById('root'));
+  </Router>, document.getElementById('root')
+);
 
 
 /* 
