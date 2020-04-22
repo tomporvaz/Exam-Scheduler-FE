@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
 import moment from 'moment'
+import { Route, Link } from "react-router-dom";
+
 
 //For FullCalendar
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -22,155 +24,67 @@ import WarningIcon from '@material-ui/icons/Warning';
 
 
 
-let currentViewEvents = [
-  {
-    title: "FNP:Women's Exam 1",
-    start: '2020-01-01 08:00',
-    end: '2020-01-01 09:30'
-  },
-  {
-    title: "ABS Peds ATI",
-    start: '2020-01-01 14:00',
-    end:'2020-01-01 15:30'
-  }
-];
-
-//levelColors should come from server
-let levelColors = [
-  {
-    level: "1st Year",
-    color: "#E40066"
-  },
-  {
-    level: "2nd Year",
-    color: "#345995"
-  },
-  {
-    level: "Frsh",
-    color: "#795548"
-  },
-  {
-    level: "Soph",
-    color: "#4285F4"  
-  },
-  {
-    level: "Jrs",
-    color: "#0B8043"
-  },
-  {
-    level: "Srs",
-    color: "#8F7000"
-  },
-  {
-    level: "L1",
-    color: "#8E24AA"
-  },
-  {
-    level: "L2",
-    color: "#D81B60"
-  },
-  {
-    level: "L3",
-    color: "#EF6C00"
-  },
-  {
-    level: "L4",
-    color: "#D50000"
-  }
-]
-
-//instructors should come from server
-let instructors = [
-  {
-    "id": "js456",
-    "name": "Smartypants, Jone"
-  },
-  {
-    "id": "hu123",
-    "name": "Up, Harry"
-  },
-  {
-    "id": "jc890",
-    "name": "Cranium, John"
-  }
-]
-
-let filters = { 
-    "level":["1st Year", "2nd Year"],
-    "assignedInstructor":["Smartypants, Jone", "Up, Harry","Cranium, John"],
-    "courseTitle":["BRAIN SCI FNDTS I","NEUROLOGY 4 BABIES","MONKEY BRAINS"],
-    "examSoftware": ["Examsoft","Canvas","ATI"]
-};
-
 export default class ExamScheduler extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      semester: "",
-      semesterExams: [],
-      currentExams:[],
-      levelColors: levelColors,
-      instructors: instructors,
-      filterObjectCopy: {},
+    this.props = {
       examDetailsFormOpen: false, 
-      courses: []
     }
   }
   
   calendarComponentRef = React.createRef();
   
-  /*   events = this.state.semesterExams.map((exam) => {
-    return {
-      title: exam.examName,
-      start: exam.examDate + exam.examStart,
-      end: exam.examDate + exam.examEnd
-    }
-  }) */
-  
+ 
   render(){
-    console.log(`This is what filters looks like in state`);
-    console.log(this.state.filters);
+    console.log(`This is what filters looks like in props`);
+    console.log(this.props.filters);
     return (
       <div className="App">
       <header>
       
       <h1>Exam Scheduler</h1>
       </header>
-
+      
       <section id="tools">
       <ExamFilter 
-      levelColors={this.state.levelColors} 
-      filters={this.state.filters}
-      semester={this.state.semester}
-      filter={(filterObject) => this.examFilter(filterObject)}
-      updateAppsSemester={(semesterCode) => this.updateAppsSemester(semesterCode)}
+      levelColors={this.props.levelColors} 
+      filters={this.props.filters} //I don't see this in app props so it might be used anymore
+      semester={this.props.semester}
+      filter={(filterObject) => this.props.examFilter(filterObject)}
+      updateAppsSemester={(semesterCode) => this.props.updateAppsSemester(semesterCode)}
       />
 
       <IconButton id="conflictsButton">
         <WarningIcon style={{fontSize: 30}} onClick={this.handleClickOpen}/>
       </IconButton>
 
-      <IconButton id="addExamButton">
-        <AddBoxIcon style={{fontSize: 30}} onClick={this.handleExamDetailsFormOpen}/>
+      <IconButton id="addExamButton"component={Link} to="/examEdit">
+        <AddBoxIcon style={{fontSize: 30}}  />
       </IconButton>
       <ExamAddDialog 
-        open={this.state.examDetailsFormOpen} 
+        open={this.props.examDetailsFormOpen} 
         handleClose={this.handleExamDetailsFormClose} 
-        semester={this.state.semester}
-        courses={this.state.courses}
-        addExamToGlobalState={this.addExam}
+        semester={this.props.semester}
+        courses={this.props.courses}
+        addExamToGlobalprops={this.addExam}
         />
+
+        {/*test link*/}
+        
+        
       </section>
       
       <main>
-      
+        {/* Test route */}
+        
+
       <section id="calendarSection">
       {/* <h2>Calendar</h2> */}
       <div id="calendar">
       <Calendar 
-      exams={this.state.currentExams} 
+      exams={this.props.currentExams} 
       ref={this.calendarComponentRef}       
-      levelColors={this.state.levelColors}
+      levelColors={this.props.levelColors}
       />
       </div>
       </section>
@@ -180,128 +94,26 @@ export default class ExamScheduler extends React.Component {
       <div id="examList">
       
       <ExamList 
-      exams={this.state.currentExams} 
-      levelColors={this.state.levelColors}
+      exams={this.props.currentExams} 
+      levelColors={this.props.levelColors}
       />
       
       </div>
       </section>
       
+      
+
       </main>
       </div>
       );
     };
     
     /* componentDidMount(){
-      this.updateAppsSemester(this.state.semester);
+      this.updateAppsSemester(this.props.semester);
       
     } */
 
-    getSemestersExams = (semesterCode) =>{
-      const req = new XMLHttpRequest();
-      req.open("GET",`https://exam-scheduler.glitch.me/api/exams?semester=${semesterCode}`,true);
-      req.send();
-      req.onload = () => {
-        const json = JSON.parse(req.responseText);
-        console.log(json);
-        this.setState({
-          semesterExams: json,
-          currentExams: json
-        });
-        console.log(this.state.semesterExams);
-      };
-    }
-
-    //Fetch courses based on current semester
-  getSemestersCourses = (semesterCode) =>{
-    const req = new XMLHttpRequest();
-    req.open("GET",`https://exam-scheduler.glitch.me/api/courses?semester=${semesterCode}`,true);
-    req.send();
-    req.onload = () => {
-      const json = JSON.parse(req.responseText);
-      console.log(json);
-      this.setState({
-        courses: json
-      });
-    };
-  }
-
-    /* getSemestersFilters = (semesterCode) =>{
-      const req = new XMLHttpRequest();
-      req.open("GET",`https://exam-scheduler.glitch.me/api/filters?semester=${semesterCode}`,true);
-      req.send();
-      req.onload = () => {
-        const json = JSON.parse(req.responseText);
-        console.log(json);
-        this.setState({
-          filters: json
-        });
-      };
-    } */
-
-    updateAppsSemester = (semesterCode) => {
-      this.getSemestersExams(semesterCode);
-      this.getSemestersCourses(semesterCode);
-     /*  this.getSemestersFilters(semesterCode); */
-      this.setState({
-        semester: semesterCode
-      })
-    }
-
     
-
-    /*examFilter function accepts an oject of fields, and the values by which to filter
-      e.g. - 
-      {
-        level: ["1st Year"],
-        assignedInstructors: ["Up, Harry", "Smartypants, Jone"]
-      }
-    */
-    examFilter = (filterObject) => {
-      //create filteredExams to operate on and initialize with fresh copy of this semester data
-      let filteredExams = this.state.semesterExams
-      //alias the filter keys to get list of field names
-      const filterKeys = Object.keys(filterObject);
-      
-      /*
-      filter exams with Array.filter testing if each field (filterKey) in the exam includes  
-      at least one filter value.
-      */
-      filteredExams = filteredExams.filter(exam => {
-        return filterKeys.every(key => {
-          if (!filterObject[key].length) {return true};
-          return filterObject[key].includes(exam[key]);
-        })
-      })
-
-      this.setState({
-        "currentExams": filteredExams,
-        "filterObjectCopy": filterObject
-      })
-    };
-
-    //add exam to semesterExams and update UI while retaining filter
-    addExam = (examObj) => {
-      this.setState({
-        semesterExams: [...this.state.semesterExams, examObj]
-      })
-      //examFilter needs to be fired to update currentExams, as well as reapply filter
-      //filterObjectCopy is sloppy, and it probably should be the canonical source for all components
-      //TODO: delete filterObject from examFilter, and update all sources to use filterObjectCopy in App.js
-      this.examFilter(this.state.filterObjectCopy);
-    }
-
-    handleExamDetailsFormOpen = () => {
-      this.setState({
-        "examDetailsFormOpen": true
-      })
-    };
-    
-    handleExamDetailsFormClose = () => {
-      this.setState({
-        "examDetailsFormOpen": false
-      })
-    };
     
   }
   
