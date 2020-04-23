@@ -189,7 +189,7 @@ export default class App extends React.Component {
     };
 
     //add exam to semesterExams and update UI while retaining filter
-    addExam = (examObj) => {
+    addExamToGlobalState = (examObj) => {
       this.setState({
         semesterExams: [...this.state.semesterExams, examObj]
       })
