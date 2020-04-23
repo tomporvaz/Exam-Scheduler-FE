@@ -55,7 +55,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      semester: "",
+      semester: "9909",
       semesterExams: [],
       currentExams:[],
       levelColors: levelColors,
@@ -70,6 +70,11 @@ export default class App extends React.Component {
 
     return (
       <div>
+
+      <header>
+        <h1><Link to="/">Exam Scheduler</Link></h1>
+      </header>
+
       <Route path="/" exact render={(props) => <ExamScheduler
         {...props}
         semester={this.state.semester}
@@ -146,6 +151,10 @@ export default class App extends React.Component {
         semester: semesterCode
       })
     }
+
+    componentDidMount(){
+      this.updateAppsSemester(this.state.semester);
+    } 
 
     
 

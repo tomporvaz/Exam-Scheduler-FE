@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import { Link, Redirect } from 'react-router-dom';
 
 //material-ui imports
 import IconButton from '@material-ui/core/IconButton';
@@ -20,7 +21,9 @@ import {
   Checkbox,
   FormControlLabel,
   Input,
-  MenuItem
+  MenuItem,
+  Container,
+  Paper
 } from '@material-ui/core/';
 
 import {
@@ -92,9 +95,8 @@ export default class ExamDetailsForm extends React.Component{
   }
   
   //TODO...
-  handleClose = () => {
-    this.props.handleClose();
-  };
+  handleClose = () => this.props.history.push('/');
+  ;
 
   handleInputChange = (event) => {
     this.setState({[event.target.name]: event.target.value})
@@ -170,7 +172,9 @@ export default class ExamDetailsForm extends React.Component{
     
 
     return(
-
+      <Paper id="examDetailsFormPaper">
+      {/* <Container maxWidth="sm"> */}
+     
       <form onSubmit={this.submitForm}>
 
 
@@ -379,7 +383,7 @@ export default class ExamDetailsForm extends React.Component{
         </Grid>
 
                 
-        <Button onClick={this.handleClose} color="primary">
+        <Button component={Link} to="/" color="primary">
         Cancel
         </Button>
 
@@ -388,7 +392,7 @@ export default class ExamDetailsForm extends React.Component{
         </Button>
 
         </form>
-       
+        </Paper>
       
 
     

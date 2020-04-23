@@ -40,10 +40,7 @@ export default class ExamScheduler extends React.Component {
     console.log(this.props.filters);
     return (
       <div className="App">
-      <header>
       
-      <h1>Exam Scheduler</h1>
-      </header>
       
       <section id="tools">
       <ExamFilter 
@@ -66,11 +63,8 @@ export default class ExamScheduler extends React.Component {
         handleClose={this.handleExamDetailsFormClose} 
         semester={this.props.semester}
         courses={this.props.courses}
-        addExamToGlobalprops={this.addExam}
+        addExamToGlobalState={this.props.addExamToGlobalState}
         />
-
-        {/*test link*/}
-        
         
       </section>
       
