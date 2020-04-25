@@ -3,6 +3,10 @@ import './App.css';
 import ExamScheduler from './ExamScheduler';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import ExamDetailsForm from './ExamDetailsForm';
+import NavBar from './NavBar';
+import { useAuth0 } from "./react-auth0-spa";
+import Auth0Loader from './Auth0Loader';
+import Profile from './Profile';
 
 
 
@@ -64,29 +68,46 @@ export default class App extends React.Component {
       /* examDetailsFormOpen: false,  */
       courses: []
     }
+
   }
+
+
+
+
  
   render(){
+/*     //from Auth0 for loading
+    const { loading } = useAuth0();
+    //from Auth0 for loading
+    if (loading) {
+      return <div>Loading...</div>;
+    } */
+
 
     return (
       <div>
 
       <header>
         <h1><Link to="/">Exam Scheduler</Link></h1>
+        <NavBar></NavBar>
+        <Link to="/profile">Profile</Link>
       </header>
 
-      <Route path="/" exact render={(props) => <ExamScheduler
-        {...props}
-        semester={this.state.semester}
-        semesterExams={this.state.semesterExams}
-        currentExams={this.state.currentExams}
-        levelColors={this.state.levelColors}
-        courses={this.state.courses}
-        //function props
-        examFilter={(filterObject) => this.examFilter(filterObject)}
-        updateAppsSemester={(semesterCode) => this.updateAppsSemester(semesterCode)}
+      <Route path="/" exact render={(props) => <Auth0Loader>
+          <ExamScheduler
+            {...props}
+            semester={this.state.semester}
+            semesterExams={this.state.semesterExams}
+            currentExams={this.state.currentExams}
+            levelColors={this.state.levelColors}
+            courses={this.state.courses}
+            //function props
+            examFilter={(filterObject) => this.examFilter(filterObject)}
+            updateAppsSemester={(semesterCode) => this.updateAppsSemester(semesterCode)}
 
-        />}
+            />
+          </Auth0Loader>
+        }
       />
 
       <Route path="/examEdit" render={(props) =>  <ExamDetailsForm 
@@ -97,6 +118,8 @@ export default class App extends React.Component {
             addExamToGlobalState={this.addExamToGlobalState}
           />}
         />
+
+      <Route path="/profile" component={Profile}/>
       </div>
     )
     };
