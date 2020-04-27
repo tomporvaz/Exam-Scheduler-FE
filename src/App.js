@@ -7,6 +7,7 @@ import NavBar from './NavBar';
 import { useAuth0 } from "./react-auth0-spa";
 import Auth0Loader from './Auth0Loader';
 import Profile from './Profile';
+import PrivateRoute from './PrivateRoute';
 
 
 
@@ -119,7 +120,9 @@ export default class App extends React.Component {
           />}
         />
 
-      <Route path="/profile" component={Profile}/>
+      {/* <Route path="/profile" component={Profile}/> */}
+      <PrivateRoute path="/profile" component={Profile} />
+
       </div>
     )
     };
