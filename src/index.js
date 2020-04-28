@@ -36,7 +36,7 @@ ReactDOM.render(
   <Auth0Provider
     domain={config.domain}
     client_id={config.clientId}
-    redirect_uri={window.location.origin}
+    redirect_uri={window.location.href}
     onRedirectCallback={onRedirectCallback}
   >
   <Router history={history}>
