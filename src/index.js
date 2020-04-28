@@ -39,7 +39,7 @@ ReactDOM.render(
     redirect_uri={window.location.href}
     onRedirectCallback={onRedirectCallback}
   >
-  <Router history={history}>
+  <Router history={history} basename="Exam-Scheduler-FE">
     <App />
   </Router>
   </Auth0Provider>, document.getElementById('root')
