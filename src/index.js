@@ -37,6 +37,7 @@ ReactDOM.render(
     domain={config.domain}
     client_id={config.clientId}
     redirect_uri={window.location.href}
+    returnTo={"https://tomporvaz.github.io/Exam-Scheduler-FE/"}
     onRedirectCallback={onRedirectCallback}
   >
   <Router history={history} basename="Exam-Scheduler-FE">
