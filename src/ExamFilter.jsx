@@ -68,9 +68,9 @@ export default class ExamFilter extends React.Component{
     }
 
       //component did mount grabs fitlers from props, and builds state.filters
-/*       componentDidMount(){
+      componentDidMount(){
         this.getSemestersFilters(this.props.semester)
-      } */
+      }
 
       componentDidUpdate(prevProps){
         if(prevProps.semester !== this.props.semester){
