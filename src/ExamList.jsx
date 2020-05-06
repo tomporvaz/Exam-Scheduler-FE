@@ -10,7 +10,7 @@ function ExamList(props){
 
     return(
       <div className="higlightRow">
-      <div className="examListItem" key={exam.examId} onClick={props.handleExamPopover} style={{"cursor": "pointer"}}>
+      <div className="examListItem" key={exam.examId} onClick={(event) => props.handleExamPopover(event, exam, levelColor)} style={{"cursor": "pointer"}}>
       <div className="examListDate">{moment(exam.examStart).format("MMM D")}</div>
       <div className="levelColorDot" style={{backgroundColor: (levelColor ? levelColor.color : "grey")}}></div>&nbsp;
       <div className="examListTime">{moment(exam.examStart).format("h:mm A")} - {moment(exam.examEnd).format("h:mm A")}</div>

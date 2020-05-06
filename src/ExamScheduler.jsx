@@ -108,9 +108,9 @@ export default class ExamScheduler extends React.Component {
       
     } */
 
-    handleExamPopover(event) {
-      console.log(event);
-      alert(`Hi! The event current target is: ${event.currentTarget}`);
+    handleExamPopover(event, exam, levelColor) {
+      console.log(levelColor);
+      alert(`Hi! The level color for this exam is: ${levelColor.color}`);
       
     }
     
