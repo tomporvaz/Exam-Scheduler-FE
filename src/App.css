@@ -143,6 +143,10 @@ main{
     ". . . . description .";
 }
 
+#examList div :hover{
+  background-color: lightgray;
+}
+
 .examListDate{
   margin: .5rem .3rem;
   line-height: 1.6rem;

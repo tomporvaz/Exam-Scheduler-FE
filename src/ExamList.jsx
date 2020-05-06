@@ -7,8 +7,10 @@ function ExamList(props){
     let levelColor = props.levelColors.find(levelColor => levelColor.level == exam.level);
 
 
+
     return(
-      <div className="examListItem" key={exam.examId}>
+      <div className="higlightRow">
+      <div className="examListItem" key={exam.examId} onClick={props.handleExamPopover} style={{"cursor": "pointer"}}>
       <div className="examListDate">{moment(exam.examStart).format("MMM D")}</div>
       <div className="levelColorDot" style={{backgroundColor: (levelColor ? levelColor.color : "grey")}}></div>&nbsp;
       <div className="examListTime">{moment(exam.examStart).format("h:mm A")} - {moment(exam.examEnd).format("h:mm A")}</div>
@@ -21,6 +23,7 @@ function ExamList(props){
       <span> {exam.unit}:{exam.subject}:{exam.course}:{exam.section} </span>&nbsp;
       <span> {exam.examSoftware} </span>&nbsp;
       </p>
+      </div>
       </div>
       )
     }

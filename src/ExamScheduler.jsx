@@ -90,6 +90,7 @@ export default class ExamScheduler extends React.Component {
       <ExamList 
       exams={this.props.currentExams} 
       levelColors={this.props.levelColors}
+      handleExamPopover={this.handleExamPopover}
       />
       
       </div>
@@ -107,6 +108,11 @@ export default class ExamScheduler extends React.Component {
       
     } */
 
+    handleExamPopover(event) {
+      console.log(event);
+      alert(`Hi! The event current target is: ${event.currentTarget}`);
+      
+    }
     
     
   }
