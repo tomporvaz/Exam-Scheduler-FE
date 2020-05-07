@@ -21,16 +21,24 @@ import ExamAddDialog from './ExamAddDialog.jsx';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import IconButton from '@material-ui/core/IconButton';
 import WarningIcon from '@material-ui/icons/Warning';
+import { Popover, Card, CardHeader, CardActions, Typography, CardContent, Grid } from '@material-ui/core';
 
 
 
 export default class ExamScheduler extends React.Component {
   constructor(props) {
     super(props);
+    this.state={
+      examPopoverOpen: false,
+      anchorEl: null,
+      popoverExamObj: null,
+      popoverExamLevelColor: null
+    }
     this.props = {
-      examDetailsFormOpen: false, 
+      examDetailsFormOpen: false
     }
   }
+
   
   calendarComponentRef = React.createRef();
   
@@ -95,6 +103,50 @@ export default class ExamScheduler extends React.Component {
       
       </div>
       </section>
+
+      <Popover
+        id="examPopover"
+        open={this.state.examPopoverOpen}
+        anchorEl={this.state.anchorEl}
+        onClose={() => this.setState({examPopoverOpen: false, anchorEl: null})}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        <Card>
+          <CardContent>
+          <Grid container spacing={2} alignContent="flex-start">
+
+            <Grid item container xs={12} justify="flex-end">
+                <IconButton>Edit</IconButton>  
+                <IconButton>Info</IconButton>
+                <IconButton>Trash</IconButton>
+
+            </Grid>
+           
+            <Grid item xs={12} >
+              <Typography variant="h6">{this.state.popoverExamObj ? this.state.popoverExamObj.course : "course"}</Typography>
+            </Grid>
+
+            <Grid item xs={12} >
+              <Typography variant="subtitle2">Arp 14 8:30 AM - 9:30 AM</Typography>
+            </Grid>
+
+          
+            
+              
+            </Grid>
+          </CardContent>
+          
+
+        </Card>
+        
+      </Popover>
       
       
 
@@ -108,10 +160,16 @@ export default class ExamScheduler extends React.Component {
       
     } */
 
-    handleExamPopover(event, exam, levelColor) {
-      console.log(levelColor);
-      alert(`Hi! The level color for this exam is: ${levelColor.color}`);
-      
+    handleExamPopover = (event, exam, levelColor) => {
+      console.log(exam);
+      this.setState({
+        "examPopoverOpen": true,
+        "anchorEl": event.currentTarget,
+        "popoverExamObj": exam,
+        "popoverExamLevelColor": levelColor.color
+      });
+      /* console.log(levelColor);
+      alert(`Hi! The level color for this exam is: ${levelColor.color}`); */
     }
     
     
