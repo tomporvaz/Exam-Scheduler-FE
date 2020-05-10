@@ -5,8 +5,9 @@ import moment from 'moment';
 //Import Material UI
 import IconButton from '@material-ui/core/IconButton';
 import { Popover, Card, CardHeader, CardActions, Typography, CardContent, Grid } from '@material-ui/core';
-
-
+import EditIcon from '@material-ui/icons/Edit';
+import InfoIcon from '@material-ui/icons/Info';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 function ExamList(props){
 
@@ -36,15 +37,17 @@ function ExamList(props){
           vertical: 'top',
           horizontal: 'center',
         }}
+
+
       >
-        <Card>
+        <Card         style={{maxWidth: 500}}>
           <CardContent>
           <Grid container spacing={2} alignContent="flex-start">
 
             <Grid item container xs={12} justify="flex-end">
-                <IconButton>Edit</IconButton>  
-                <IconButton>Info</IconButton>
-                <IconButton>Trash</IconButton>
+                <IconButton><EditIcon/></IconButton>  
+                <IconButton><InfoIcon/></IconButton>
+                <IconButton><DeleteIcon/></IconButton>
 
             </Grid>
            
@@ -56,49 +59,38 @@ function ExamList(props){
               <Typography variant="subtitle1">{examDate} {examStartTime} - {examEndTime}</Typography>
             </Grid>
 
-            <Grid item xs={2} >
+            <Grid item xs={6} md={4}>
               <Typography variant="overline">Building</Typography>
-            </Grid>
-            <Grid item xs={2} >
-              <Typography variant="overline">Room</Typography>
-            </Grid>
-            <Grid item xs={8} >
-              <Typography variant="caption"></Typography>
-            </Grid>
-
-            <Grid item xs={2} >
               <Typography variant="body1">{building}</Typography>
             </Grid>
-            <Grid item xs={2} >
+            <Grid item xs={6} md={4}>
+              <Typography variant="overline">Room</Typography>
               <Typography variant="body1">{room}</Typography>
             </Grid>
-            <Grid item xs={8} >
+            <Grid item xs={0} md={4} >
               <Typography variant="body1"></Typography>
             </Grid>
 
-            <Grid item xs={2} >
-              <Typography variant="overline">Instructor</Typography>
-            </Grid>
-            <Grid item xs={2} >
-              <Typography variant="overline">Level</Typography>
-            </Grid>
-            <Grid item xs={8} >
-              <Typography variant="caption"></Typography>
+            <Grid item xs={12} md={4} container>
+              <Grid item xs={12}><Typography variant="overline">Instructor</Typography></Grid>
+              <Grid item xs={12}><Typography variant="body1">{assignedInstructor}</Typography></Grid>
             </Grid>
 
-            <Grid item xs={2} >
-              <Typography variant="body1">{assignedInstructor}</Typography>
-            </Grid>
-            <Grid item xs={2} container>
-                <div className="levelColorDot" 
-                style={{
-                  backgroundColor: (levelColor ? levelColor : "grey"),
-                   margin: 0               
-                }}></div>&nbsp;
+            <Grid item xs={12} md={4} container>
+                <Grid item xs={12}><Typography variant="overline">Level</Typography></Grid>
+                <Grid item xs={12} container>
+                <Grid item xs={2}>
+                    <div className="levelColorDot" 
+                    style={{
+                      backgroundColor: (levelColor ? levelColor : "grey"),
+                      margin: ".25rem 0"               
+                    }}></div>
+                  </Grid>
 
-              <Typography variant="body1">{level}</Typography>
+                  <Grid item xs={10}><Typography variant="body1">{level}</Typography></Grid>
+              </Grid>
             </Grid>
-            <Grid item xs={8} >
+            <Grid item xs={4} >
               <Typography variant="body1"></Typography>
             </Grid>
 
