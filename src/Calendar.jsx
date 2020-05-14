@@ -9,6 +9,7 @@ import FullCalendar from '@fullcalendar/react';
 
 
 
+
     //component for rendering caldendar view
     class Calendar extends React.Component{
         constructor (props) {
@@ -33,8 +34,7 @@ import FullCalendar from '@fullcalendar/react';
           })
           
           return events;
-        }
-        ;
+        };
 
         handleViewObjectOnDatesRender = (info) => {
           //console.log(this.calendarRef.current.calendar.view);
@@ -44,7 +44,6 @@ import FullCalendar from '@fullcalendar/react';
         }
         
         render(){
-          console.log(this.formatFullCalendarEvents(this.props.exams));
 
           return (
             <FullCalendar 
@@ -62,7 +61,7 @@ import FullCalendar from '@fullcalendar/react';
             datesRender={this.handleViewObjectOnDatesRender}
             eventClick={(eventClickInfo) =>  {
               console.log(eventClickInfo.jsEvent)  
-              this.props.handleExamPopover(eventClickInfo.el, eventClickInfo.event.extendedProps.examObj, eventClickInfo.event.backgroundColor)
+              this.props.handleExamPopover(null, eventClickInfo.event.extendedProps.examObj, eventClickInfo.event.backgroundColor)
             }}
             />
             )
