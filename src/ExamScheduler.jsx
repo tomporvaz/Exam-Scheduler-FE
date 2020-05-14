@@ -88,6 +88,7 @@ export default class ExamScheduler extends React.Component {
       exams={this.props.currentExams} 
       ref={this.calendarComponentRef}       
       levelColors={this.props.levelColors}
+      handleExamPopover={this.handleExamPopoverOpen}
       />
       </div>
       </section>
@@ -124,13 +125,15 @@ export default class ExamScheduler extends React.Component {
       
     } */
 
-    handleExamPopoverOpen = (event, exam, levelColor) => {
+    handleExamPopoverOpen = (anchorEl, exam, levelColor) => {
+
+      console.log(anchorEl);
       
       this.setState({
         "examPopoverOpen": true,
-        "anchorEl": event.currentTarget,
+        "anchorEl": anchorEl,
         "popoverExamObj": exam,
-        "popoverExamLevelColor": levelColor.color
+        "popoverExamLevelColor": levelColor
       });
       /* console.log(levelColor);
       alert(`Hi! The level color for this exam is: ${levelColor.color}`); */
