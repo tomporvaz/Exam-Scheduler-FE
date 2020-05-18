@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "cc338ea3f0fdf716013ef7e2fe8daee8",
+    "revision": "ca5fdc05be61927ed9696cb6c2b6e4bf",
     "url": "/Exam-Scheduler-FE/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Exam-Scheduler-FE/static/css/2.21e275b0.chunk.css"
   },
   {
-    "revision": "70ba1463bc8bfdbe2763",
+    "revision": "02a5482f3e859c1131e0",
     "url": "/Exam-Scheduler-FE/static/css/main.7ca82d49.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Exam-Scheduler-FE/static/js/2.957838e1.chunk.js.LICENSE"
   },
   {
-    "revision": "70ba1463bc8bfdbe2763",
-    "url": "/Exam-Scheduler-FE/static/js/main.83794d30.chunk.js"
+    "revision": "02a5482f3e859c1131e0",
+    "url": "/Exam-Scheduler-FE/static/js/main.b53a2721.chunk.js"
   },
   {
     "revision": "082ee416004598df217e",
