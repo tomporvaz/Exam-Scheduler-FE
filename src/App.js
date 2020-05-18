@@ -216,8 +216,13 @@ export default class App extends React.Component {
 
     //add exam to semesterExams and update UI while retaining filter
     addExamToGlobalState = (examObj) => {
+      let newSemesterExams = [...this.state.semesterExams, examObj];
+      newSemesterExams.sort((a, b) => {
+        return new Date(a.examStart).getTime() - new Date(b.examStart).getTime();
+      })
+
       this.setState({
-        semesterExams: [...this.state.semesterExams, examObj]
+        semesterExams: newSemesterExams
       })
       //examFilter needs to be fired to update currentExams, as well as reapply filter
       //filterObjectCopy is sloppy, and it probably should be the canonical source for all components
