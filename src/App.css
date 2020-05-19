@@ -109,7 +109,8 @@ main{
 }
 
 #calendar{
-  /*width: 50vw;*/
+  width: 50vw;
+  margin: auto;
 }
 
 
@@ -121,9 +122,9 @@ main{
 }
 
 #examList{
-  width:40vw;
+  max-width: 60rem;
   height: 600px;
-  
+  margin: auto;
   overflow-y: scroll;
 
 }
@@ -136,11 +137,11 @@ main{
 
 .examListItem{
   display: grid;
-  grid-template-columns: 1fr 4rem  auto 9rem 60% 1fr;
+  grid-template-columns: 4rem 1.5rem 10rem auto;
   grid-template-rows: auto auto;
   grid-template-areas: 
-    ". date dot time description ."
-    ". . . . description .";
+    "date dot time description"
+    ". . . description";
 }
 
 #examList div :hover{
@@ -170,13 +171,14 @@ main{
 }
 
 .levelColorDot{
-  margin: .5rem .3rem;
+  margin: .6rem .3rem;
   line-height: 1.6rem;
   grid-area: dot;
   width: 1rem;
   height: 1rem;
   border-radius: 50%;
-  align-self: center;
+  align-self: flex-start;
+
 }
 
 /*Exam Details Form Stylying */
@@ -198,16 +200,16 @@ main{
   #examList{
     width:99%;
     height: 600px;
-    margin: 0;
     overflow-y: scroll;
     /* border: solid 1px #000; */
   }
 
   #calendarSection{
-    margin-top: 2rem;  
-    margin: 2rem .2rem;
-  
+    margin: 2rem auto;
   }
 
+  #calendar{
+    width: 95vw;
+  }
 
 }
