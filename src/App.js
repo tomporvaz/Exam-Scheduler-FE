@@ -10,7 +10,8 @@ import Profile from './Profile';
 import PrivateRoute from './PrivateRoute';
 
 
-
+//apiURL
+let apiUrl ="https://exam-scheduler-production.glitch.me"
 
 //levelColors should come from server
 let levelColors = [
@@ -129,7 +130,7 @@ export default class App extends React.Component {
 
     getSemestersExams = (semesterCode) =>{
       const req = new XMLHttpRequest();
-      req.open("GET",`https://exam-scheduler.glitch.me/api/exams?semester=${semesterCode}`,true);
+      req.open("GET",`${apiUrl}/exams?semester=${semesterCode}`,true);
       req.send();
       req.onload = () => {
         const json = JSON.parse(req.responseText);
@@ -145,7 +146,7 @@ export default class App extends React.Component {
     //Fetch courses based on current semester
   getSemestersCourses = (semesterCode) =>{
     const req = new XMLHttpRequest();
-    req.open("GET",`https://exam-scheduler.glitch.me/api/courses?semester=${semesterCode}`,true);
+    req.open("GET",`${apiUrl}/api/courses?semester=${semesterCode}`,true);
     req.send();
     req.onload = () => {
       const json = JSON.parse(req.responseText);
