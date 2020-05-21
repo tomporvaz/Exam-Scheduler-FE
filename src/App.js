@@ -90,8 +90,8 @@ export default class App extends React.Component {
 
       <header>
         <h1><Link to="/">Exam Scheduler</Link></h1>
-        <NavBar></NavBar>
-        <Link to="/profile">Profile</Link>
+        {/* <NavBar></NavBar> 
+        <Link to="/profile">Profile</Link>*/}
       </header>
 
       <Route path="/" exact render={(props) => <Auth0Loader>
@@ -156,7 +156,7 @@ export default class App extends React.Component {
     };
   }
 
-    /* getSemestersFilters = (semesterCode) =>{
+    /* getSemestersFilters = (semesterCode) =>{React App
       const req = new XMLHttpRequest();
       req.open("GET",`https://exam-scheduler.glitch.me/api/filters?semester=${semesterCode}`,true);
       req.send();
