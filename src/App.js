@@ -90,7 +90,6 @@ export default class App extends React.Component {
 
       <header>
         <h1><Link to="/">Exam Scheduler</Link></h1>
-        <p>~</p>
         {/* <NavBar></NavBar> 
         <Link to="/profile">Profile</Link>*/}
       </header>
