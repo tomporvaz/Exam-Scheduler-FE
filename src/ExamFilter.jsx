@@ -17,6 +17,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+let apiUrl ="https://exam-scheduler-production.glitch.me/api"
+
+
 
 export default class ExamFilter extends React.Component{
   constructor(props) {
@@ -80,7 +83,7 @@ export default class ExamFilter extends React.Component{
       
       getSemestersFilters = (semesterCode) =>{
         const req = new XMLHttpRequest();
-        req.open("GET",`https://exam-scheduler.glitch.me/api/filters?semester=${semesterCode}`,true);
+        req.open("GET",`${apiUrl}/filters?semester=${semesterCode}`,true);
         req.send();
         req.onload = () => {
           const json = JSON.parse(req.responseText);

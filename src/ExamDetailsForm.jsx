@@ -38,7 +38,7 @@ import DateFnsUtils from '@date-io/moment';
 import CourseSelecter from './CourseSelecter.jsx'
 
 //apiURL
-let apiUrl ="https://exam-scheduler-production.glitch.me"
+let apiUrl ="https://exam-scheduler-production.glitch.me/api"
 
 const software = [
   {
@@ -62,15 +62,15 @@ const software = [
 const supportPeople = [
   {
     value: "Grittwald Grittington",
-    label: "Gritty"
+    label: "Grittwald Grittington"
   },
   {
     value: "Tom Porvaznik",
-    label: "Amish Tom"
+    label: "Tom Porvaznik"
   },
   {
     value: "Jason Love",
-    label: "J. Lo"
+    label: "Jason Love"
   }
 ]
 
@@ -148,7 +148,7 @@ export default class ExamDetailsForm extends React.Component{
 
   submitForm = (event) => {
     event.preventDefault();  
-    postData(`${apiUrl}/api/exams`, {
+    postData(`${apiUrl}/exams`, {
       courseId: this.state.courseId,
       examSemester: this.props.semester,
       examName: this.state.examName,
