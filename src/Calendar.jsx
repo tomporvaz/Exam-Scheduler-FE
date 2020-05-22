@@ -55,7 +55,7 @@ import FullCalendar from '@fullcalendar/react';
               right: 'prev, next, today' 
           }}
             plugins={[ dayGridPlugin, timeGridPlugin, listViewPlugin ]}
-            weekends={false} 
+            weekends={true} 
             ref={this.calendarRef}
             events = {this.formatFullCalendarEvents(this.props.exams)}
             datesRender={this.handleViewObjectOnDatesRender}
