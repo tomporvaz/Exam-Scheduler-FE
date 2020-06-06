@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/static/css/main.570451c9.chunk.css",
-    "main.js": "/static/js/main.cdd5ad4a.chunk.js",
-    "main.js.map": "/static/js/main.cdd5ad4a.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.93dc707a.js",
-    "runtime-main.js.map": "/static/js/runtime-main.93dc707a.js.map",
-    "static/css/2.21e275b0.chunk.css": "/static/css/2.21e275b0.chunk.css",
-    "static/js/2.f9f78c02.chunk.js": "/static/js/2.f9f78c02.chunk.js",
-    "static/js/2.f9f78c02.chunk.js.map": "/static/js/2.f9f78c02.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.001a437d41f039c7320ff70fc9cd754a.js": "/precache-manifest.001a437d41f039c7320ff70fc9cd754a.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/2.21e275b0.chunk.css.map": "/static/css/2.21e275b0.chunk.css.map",
-    "static/css/main.570451c9.chunk.css.map": "/static/css/main.570451c9.chunk.css.map",
-    "static/js/2.f9f78c02.chunk.js.LICENSE": "/static/js/2.f9f78c02.chunk.js.LICENSE"
+    "main.css": "/Exam-Scheduler-FE/static/css/main.570451c9.chunk.css",
+    "main.js": "/Exam-Scheduler-FE/static/js/main.c24b2262.chunk.js",
+    "main.js.map": "/Exam-Scheduler-FE/static/js/main.c24b2262.chunk.js.map",
+    "runtime-main.js": "/Exam-Scheduler-FE/static/js/runtime-main.5c4ef88b.js",
+    "runtime-main.js.map": "/Exam-Scheduler-FE/static/js/runtime-main.5c4ef88b.js.map",
+    "static/css/2.21e275b0.chunk.css": "/Exam-Scheduler-FE/static/css/2.21e275b0.chunk.css",
+    "static/js/2.f9f78c02.chunk.js": "/Exam-Scheduler-FE/static/js/2.f9f78c02.chunk.js",
+    "static/js/2.f9f78c02.chunk.js.map": "/Exam-Scheduler-FE/static/js/2.f9f78c02.chunk.js.map",
+    "index.html": "/Exam-Scheduler-FE/index.html",
+    "precache-manifest.375a3d3a0bb9c44edf9348c7014ddcad.js": "/Exam-Scheduler-FE/precache-manifest.375a3d3a0bb9c44edf9348c7014ddcad.js",
+    "service-worker.js": "/Exam-Scheduler-FE/service-worker.js",
+    "static/css/2.21e275b0.chunk.css.map": "/Exam-Scheduler-FE/static/css/2.21e275b0.chunk.css.map",
+    "static/css/main.570451c9.chunk.css.map": "/Exam-Scheduler-FE/static/css/main.570451c9.chunk.css.map",
+    "static/js/2.f9f78c02.chunk.js.LICENSE": "/Exam-Scheduler-FE/static/js/2.f9f78c02.chunk.js.LICENSE"
   },
   "entrypoints": [
-    "static/js/runtime-main.93dc707a.js",
+    "static/js/runtime-main.5c4ef88b.js",
     "static/css/2.21e275b0.chunk.css",
     "static/js/2.f9f78c02.chunk.js",
     "static/css/main.570451c9.chunk.css",
-    "static/js/main.cdd5ad4a.chunk.js"
+    "static/js/main.c24b2262.chunk.js"
   ]
 }
