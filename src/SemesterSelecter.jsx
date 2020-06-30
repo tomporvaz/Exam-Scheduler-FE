@@ -13,9 +13,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 
 const options = {
-  'Fall 1999': '9909',
+  //'Fall 1999': '9909',
   'Spring 2020': '2001',
-  'Summer 2020': '2007'
+  'Summer 2020': '2007',
+  'Fall 2020': '2009'
 };
 
 export default class SemesterSelecter extends React.Component{
