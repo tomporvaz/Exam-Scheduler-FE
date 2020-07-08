@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import ExamScheduler from './ExamScheduler';
+import EditExamForm from './EditExamForm';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import ExamDetailsForm from './ExamDetailsForm';
 import NavBar from './NavBar';
@@ -112,7 +113,7 @@ export default class App extends React.Component {
         }
       />
 
-      <Route path="/examEdit" render={(props) =>  <ExamDetailsForm 
+      <Route path="/addExam" render={(props) =>  <ExamDetailsForm  //Change examEdit to addExam
             {...props} 
             semester={this.state.semester} 
             handleClose={this.handleClose} 
@@ -120,6 +121,18 @@ export default class App extends React.Component {
             addExamToGlobalState={this.addExamToGlobalState}
           />}
         />
+
+              
+<Route path="/editExam" render={(props) =>  <EditExamForm 
+            {...props} 
+            semester={this.state.semester} 
+            handleClose={this.handleClose} 
+            courses={this.state.courses} 
+            addExamToGlobalState={this.addExamToGlobalState}
+          />}
+        />
+
+
 
       {/* <Route path="/profile" component={Profile}/> */}
       <PrivateRoute path="/profile" component={Profile} />
