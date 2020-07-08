@@ -11,7 +11,7 @@ import PrivateRoute from './PrivateRoute';
 
 
 //apiURL
-let apiUrl ="https://exam-scheduler.glitch.me/api"
+let apiUrl ="https://exam-scheduler-production.glitch.me/api"
 
 //levelColors should come from server
 let levelColors = [
