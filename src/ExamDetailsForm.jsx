@@ -38,7 +38,7 @@ import DateFnsUtils from '@date-io/moment';
 import CourseSelecter from './CourseSelecter.jsx'
 
 //apiURL
-let apiUrl ="https://exam-scheduler.glitch.me/api"
+let apiUrl ="https://exam-scheduler-production.glitch.me/api"
 
 const software = [
   {
