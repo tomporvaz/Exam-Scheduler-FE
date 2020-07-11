@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useParams } from 'react-router-dom';
 
 //material-ui imports
 import IconButton from '@material-ui/core/IconButton';
@@ -84,7 +84,7 @@ export default class ExamDetailsForm extends React.Component{
       courses: [],
       courseId: "",
       approved: false,
-      examId: "",
+      examId: this.props.match.params.examId,
       examName: "",
       approved: false,
       examStart: new Date(),
@@ -97,6 +97,10 @@ export default class ExamDetailsForm extends React.Component{
       facultyConfirmed: false
     }
   }
+  
+  //get examId for URL param
+   //examId = useParams();
+
   
   //TODO...
   handleClose = () => this.props.history.push('/');
@@ -174,6 +178,8 @@ export default class ExamDetailsForm extends React.Component{
   
   render(){
     
+   console.log(`render in editExamForm.  What is props? ${this.props}`);
+   console.log(this.props);
 
     return(
       <Paper id="examDetailsFormPaper">
@@ -184,6 +190,7 @@ export default class ExamDetailsForm extends React.Component{
 
         
         <Grid container alignItems="flex-start" spacing={2}>
+          {this.state.examId}
           <Grid item xs={12} md={9}>
             <InputLabel htmlFor="courseId">Course</InputLabel>
             <CourseSelecter courses={this.props.courses} onChange={this.handleInputChange} courseId={this.state.courseId} />

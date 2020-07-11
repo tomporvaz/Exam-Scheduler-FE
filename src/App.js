@@ -123,7 +123,7 @@ export default class App extends React.Component {
         />
 
               
-<Route path="/editExam" render={(props) =>  <EditExamForm 
+<Route path="/editExam/:examId" render={(props) =>  <EditExamForm 
             {...props} 
             semester={this.state.semester} 
             handleClose={this.handleClose} 
@@ -212,7 +212,7 @@ export default class App extends React.Component {
       const filterKeys = Object.keys(filterObject);
       
       /*
-      filter exams with Array.filter testing if each field (filterKey) in the exam includes  
+      filter exams with Array.filterthis.props testing if each field (filterKey) in the exam includes  
       at least one filter value.
       */
       filteredExams = filteredExams.filter(exam => {

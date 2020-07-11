@@ -25,7 +25,9 @@ function ExamList(props){
     let examDate = props.popoverExamObj ? moment(props.popoverExamObj.examStart).format('MMM D') : moment().format('MMM D');
     let examStartTime = props.popoverExamObj ? moment(props.popoverExamObj.examStart).format('h:mm a') : moment().format('h:mm a');
     let examEndTime = props.popoverExamObj ? moment(props.popoverExamObj.examEnd).format('h:mm a') : moment().format('h:mm a');
+    let examId = props.popoverExamObj ? props.popoverExamObj.examId : "examId";
 
+    console.log(props.popoverExamObj);
 
     return(<Popover
         id="examPopover"
@@ -51,7 +53,7 @@ function ExamList(props){
                 <IconButton 
                   id="editExamButton"
                   component={Link} 
-                  to="/editExam"
+                  to={`/editExam/${examId}`}
                 >
                   <EditIcon/>
                 </IconButton>  
@@ -117,14 +119,16 @@ function ExamList(props){
           
 
         </Card>
-              <Route path="/editExam" render={(props) =>  <EditExamForm 
-        {...props} 
-        semester={this.state.semester} 
-        handleClose={this.handleClose} 
-        courses={this.state.courses} 
-        addExamToGlobalState={this.addExamToGlobalState}
-      />}
-    />
+  {/*       
+        <Route path="/editExam" render={(props) =>  <EditExamForm 
+            {...props} 
+            semester={this.state.semester} 
+            handleClose={this.handleClose} 
+            courses={this.state.courses} 
+            addExamToGlobalState={this.addExamToGlobalState}
+          />}
+        /> */}
+
       </Popover>
       
 
