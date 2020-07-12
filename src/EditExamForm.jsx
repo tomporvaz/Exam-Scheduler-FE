@@ -82,24 +82,22 @@ export default class ExamDetailsForm extends React.Component{
     super(props);
     this.state = {
       courses: [],
-      courseId: "",
-      approved: false,
+      courseId: this.props.examObj.courseId,
+      approved: this.props.examObj.approved,
       examId: this.props.match.params.examId,
-      examName: "",
-      approved: false,
-      examStart: new Date(),
-      examEnd: new Date(),
-      examBuilding: "",
-      examRoom: "",
-      examSoftware: "",
-      supportPerson:"",
-      emailFaculty: false,
-      facultyConfirmed: false
+      examName: this.props.examObj.examName,
+      examStart: new Date(this.props.examObj.examStart),
+      examEnd: new Date(this.props.examObj.examEnd),
+      examBuilding: this.props.examObj.examBuilding,
+      examRoom: this.props.examObj.examRoom,
+      examSoftware: this.props.examObj.examSoftware,
+      supportPerson:this.props.examObj.supportPerson,
+      emailFaculty: this.props.examObj.emailFaculty,
+      facultyConfirmed: this.props.examObj.facultyConfirmed
     }
   }
   
-  //get examId for URL param
-   //examId = useParams();
+
 
   
   //TODO...
@@ -151,9 +149,11 @@ export default class ExamDetailsForm extends React.Component{
      
   };*/
 
+
+
   submitForm = (event) => {
-    event.preventDefault();  
-    putData(`${apiUrl}/exams`, {
+    let newExamObj = {
+      //examId: this.state.examId,
       courseId: this.state.courseId,
       examSemester: this.props.semester,
       examName: this.state.examName,
@@ -166,7 +166,10 @@ export default class ExamDetailsForm extends React.Component{
       supportPerson: this.state.supportPerson,
       emailFaculty: this.state.emailFaculty,
       facultyConfirmed: this.state.facultyConfirmed
-    })
+    }
+
+    event.preventDefault();  
+    putData(`${apiUrl}/exams?examId=${this.state.examId}`, newExamObj)
     .then((response) => {
       this.props.addExamToGlobalState(JSON.parse(response));
       console.log(response);
@@ -190,7 +193,7 @@ export default class ExamDetailsForm extends React.Component{
 
         
         <Grid container alignItems="flex-start" spacing={2}>
-          {this.state.examId}
+          {this.props.match.params.examId}
           <Grid item xs={12} md={9}>
             <InputLabel htmlFor="courseId">Course</InputLabel>
             <CourseSelecter courses={this.props.courses} onChange={this.handleInputChange} courseId={this.state.courseId} />

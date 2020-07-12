@@ -125,6 +125,8 @@ export default class App extends React.Component {
               
 <Route path="/editExam/:examId" render={(props) =>  <EditExamForm 
             {...props} 
+            examsArr = "test examArr"
+            examObj = {this.state.semesterExams.find(examObj => examObj.examId === props.match.params.examId)}
             semester={this.state.semester} 
             handleClose={this.handleClose} 
             courses={this.state.courses} 
@@ -230,6 +232,15 @@ export default class App extends React.Component {
 
     //add exam to semesterExams and update UI while retaining filter
     addExamToGlobalState = (examObj) => {
+      console.log(`adding examObj to global state ${examObj.examId}`)
+      if(examObj.examSemester === this.state.semester) {
+        if(this.state.semesterExams.some(exam => exam.examId === examObj.examId)) {  //checks for examId in current semesterExams 
+          console.log("matched semester exams")
+          //updates semesterExams instead of adding a new exam to ui state
+          let examIndex = this.state.semesterExams.findIndex(exam => exam.examId === examObj.examId);
+          this.state.semesterExams.splice(examIndex, 1);
+        }
+        console.log("did not match semester exams")
       let newSemesterExams = [...this.state.semesterExams, examObj];
       newSemesterExams.sort((a, b) => {
         return new Date(a.examStart).getTime() - new Date(b.examStart).getTime();
@@ -242,7 +253,7 @@ export default class App extends React.Component {
       //filterObjectCopy is sloppy, and it probably should be the canonical source for all components
       //TODO: delete filterObject from examFilter, and update all sources to use filterObjectCopy in App.js
       this.examFilter(this.state.filterObjectCopy);
-    }
+    }}
 
     handleExamDetailsFormOpen = () => {
       this.setState({
