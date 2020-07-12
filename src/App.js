@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import ExamScheduler from './ExamScheduler';
+import EditExamForm from './EditExamForm';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import ExamDetailsForm from './ExamDetailsForm';
 import NavBar from './NavBar';
@@ -112,7 +113,7 @@ export default class App extends React.Component {
         }
       />
 
-      <Route path="/examEdit" render={(props) =>  <ExamDetailsForm 
+      <Route path="/addExam" render={(props) =>  <ExamDetailsForm  //Change examEdit to addExam
             {...props} 
             semester={this.state.semester} 
             handleClose={this.handleClose} 
@@ -120,6 +121,20 @@ export default class App extends React.Component {
             addExamToGlobalState={this.addExamToGlobalState}
           />}
         />
+
+              
+<Route path="/editExam/:examId" render={(props) =>  <EditExamForm 
+            {...props} 
+            examsArr = "test examArr"
+            examObj = {this.state.semesterExams.find(examObj => examObj.examId === props.match.params.examId)}
+            semester={this.state.semester} 
+            handleClose={this.handleClose} 
+            courses={this.state.courses} 
+            addExamToGlobalState={this.addExamToGlobalState}
+          />}
+        />
+
+
 
       {/* <Route path="/profile" component={Profile}/> */}
       <PrivateRoute path="/profile" component={Profile} />
@@ -199,7 +214,7 @@ export default class App extends React.Component {
       const filterKeys = Object.keys(filterObject);
       
       /*
-      filter exams with Array.filter testing if each field (filterKey) in the exam includes  
+      filter exams with Array.filterthis.props testing if each field (filterKey) in the exam includes  
       at least one filter value.
       */
       filteredExams = filteredExams.filter(exam => {
@@ -217,6 +232,15 @@ export default class App extends React.Component {
 
     //add exam to semesterExams and update UI while retaining filter
     addExamToGlobalState = (examObj) => {
+      console.log(`adding examObj to global state ${examObj.examId}`)
+      if(examObj.examSemester === this.state.semester) {
+        if(this.state.semesterExams.some(exam => exam.examId === examObj.examId)) {  //checks for examId in current semesterExams 
+          console.log("matched semester exams")
+          //updates semesterExams instead of adding a new exam to ui state
+          let examIndex = this.state.semesterExams.findIndex(exam => exam.examId === examObj.examId);
+          this.state.semesterExams.splice(examIndex, 1);
+        }
+        console.log("did not match semester exams")
       let newSemesterExams = [...this.state.semesterExams, examObj];
       newSemesterExams.sort((a, b) => {
         return new Date(a.examStart).getTime() - new Date(b.examStart).getTime();
@@ -229,7 +253,7 @@ export default class App extends React.Component {
       //filterObjectCopy is sloppy, and it probably should be the canonical source for all components
       //TODO: delete filterObject from examFilter, and update all sources to use filterObjectCopy in App.js
       this.examFilter(this.state.filterObjectCopy);
-    }
+    }}
 
     handleExamDetailsFormOpen = () => {
       this.setState({

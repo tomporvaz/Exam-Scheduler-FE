@@ -64,7 +64,7 @@ export default class ExamScheduler extends React.Component {
         <WarningIcon style={{fontSize: 30}} onClick={this.handleClickOpen}/>
       </IconButton>
 
-      <IconButton id="addExamButton"component={Link} to="/examEdit">
+      <IconButton id="addExamButton"component={Link} to="/addExam">
         <AddBoxIcon style={{fontSize: 30}}  />
       </IconButton>
       <ExamAddDialog 

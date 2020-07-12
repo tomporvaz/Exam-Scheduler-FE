@@ -37,7 +37,7 @@ ReactDOM.render(
     domain={config.domain}
     client_id={config.clientId}
     redirect_uri={window.location.href}
-    returnTo={"https://tomporvaz.github.io/Exam-Scheduler-FE/"}
+    returnTo={"https://tomporvaz.github.io/Exam-Scheduler-FE/"}  //TODO: Update to Netlify site, or use variable for easy updating
     onRedirectCallback={onRedirectCallback}
   >
   <Router history={history} basename="Exam-Scheduler-FE">

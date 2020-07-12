@@ -2,12 +2,15 @@ import React from 'react';
 import './App.css';
 import moment from 'moment';
 
+import EditExamForm from './EditExamForm.jsx';
+
 //Import Material UI
 import IconButton from '@material-ui/core/IconButton';
 import { Popover, Card, CardHeader, CardActions, Typography, CardContent, Grid } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import InfoIcon from '@material-ui/icons/Info';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { Link, Route } from 'react-router-dom';
 
 function ExamList(props){
 
@@ -22,7 +25,9 @@ function ExamList(props){
     let examDate = props.popoverExamObj ? moment(props.popoverExamObj.examStart).format('MMM D') : moment().format('MMM D');
     let examStartTime = props.popoverExamObj ? moment(props.popoverExamObj.examStart).format('h:mm a') : moment().format('h:mm a');
     let examEndTime = props.popoverExamObj ? moment(props.popoverExamObj.examEnd).format('h:mm a') : moment().format('h:mm a');
+    let examId = props.popoverExamObj ? props.popoverExamObj.examId : "examId";
 
+    console.log(props.popoverExamObj);
 
     return(<Popover
         id="examPopover"
@@ -45,9 +50,21 @@ function ExamList(props){
           <Grid container spacing={2} alignContent="flex-start">
 
             <Grid item container xs={12} justify="flex-end">
-                <IconButton><EditIcon/></IconButton>  
-                <IconButton><InfoIcon/></IconButton>
-                <IconButton><DeleteIcon/></IconButton>
+                <IconButton 
+                  id="editExamButton"
+                  component={Link} 
+                  to={`/editExam/${examId}`}
+                >
+                  <EditIcon/>
+                </IconButton>  
+                
+                <IconButton>
+                  <InfoIcon/>
+                </IconButton>
+                
+                <IconButton>
+                  <DeleteIcon/>
+                </IconButton>
 
             </Grid>
            
@@ -102,9 +119,24 @@ function ExamList(props){
           
 
         </Card>
-        
-      </Popover>)
+  {/*       
+        <Route path="/editExam" render={(props) =>  <EditExamForm 
+            {...props} 
+            semester={this.state.semester} 
+            handleClose={this.handleClose} 
+            courses={this.state.courses} 
+            addExamToGlobalState={this.addExamToGlobalState}
+          />}
+        /> */}
+
+      </Popover>
+      
+
+      
+      )
    
       }
+
+
       
       export default ExamList;
