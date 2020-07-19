@@ -91,9 +91,9 @@ export default class App extends React.Component {
       <div>
 
       <header>
-        <h1><Link to="/">Exam Scheduler</Link></h1>
-        {/* <NavBar></NavBar> 
-        <Link to="/profile">Profile</Link>*/}
+        <h1 id="title"><Link to="/">Exam Scheduler</Link></h1>
+         <NavBar></NavBar> 
+       {/* <Link to="/profile">Profile</Link>*/}
       </header>
 
       <Route path="/" exact render={(props) => <Auth0Loader>

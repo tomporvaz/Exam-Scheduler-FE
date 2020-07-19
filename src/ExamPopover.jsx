@@ -11,6 +11,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import InfoIcon from '@material-ui/icons/Info';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Link, Route } from 'react-router-dom';
+import { useAuth0 } from './react-auth0-spa';
 
 function ExamList(props){
 
@@ -26,6 +27,10 @@ function ExamList(props){
     let examStartTime = props.popoverExamObj ? moment(props.popoverExamObj.examStart).format('h:mm a') : moment().format('h:mm a');
     let examEndTime = props.popoverExamObj ? moment(props.popoverExamObj.examEnd).format('h:mm a') : moment().format('h:mm a');
     let examId = props.popoverExamObj ? props.popoverExamObj.examId : "examId";
+
+    let { user } = useAuth0();
+    let userRoles = user ? user['https://examscheduler.netlify.app/roles'] : [];
+
 
     console.log(props.popoverExamObj);
 
@@ -50,14 +55,14 @@ function ExamList(props){
           <Grid container spacing={2} alignContent="flex-start">
 
             <Grid item container xs={12} justify="flex-end">
-                <IconButton 
+                {userRoles.includes('admin') && <IconButton 
                   id="editExamButton"
                   component={Link} 
                   to={`/editExam/${examId}`}
                 >
                   <EditIcon/>
                 </IconButton>  
-                
+                }
                 <IconButton>
                   <InfoIcon/>
                 </IconButton>
