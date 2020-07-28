@@ -17,7 +17,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-let apiUrl ="https://exam-scheduler.glitch.me/api"
+let apiUrl ="https://exam-scheduler-production.glitch.me/api"
 
 
 
