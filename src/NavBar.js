@@ -1,19 +1,9 @@
 import React from "react";
-import { useAuth0 } from "./react-auth0-spa";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const NavBar = () => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
-  console.log(`isAuthenticated = ${isAuthenticated}`);
-
-    //playing with auth0 claims
-    console.log(useAuth0());
-    const { getIdTokenClaims } = useAuth0();
-    async function idClaims () {
-      let idTokenClaims = await getIdTokenClaims();
-      console.log(idTokenClaims);
-    }
   
-    
   
   return (
     
@@ -24,7 +14,6 @@ const NavBar = () => {
 
       {isAuthenticated && <button onClick={() => logout()}>Log out</button>}
 
-      <button  onClick={() => idClaims()}>IdTokenClaims</button>
     </div>
   );
 };

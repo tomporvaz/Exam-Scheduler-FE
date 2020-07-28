@@ -4,6 +4,7 @@ import moment from 'moment'
 import { Route, Link } from "react-router-dom";
 
 
+
 //For FullCalendar
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -17,9 +18,9 @@ import ExamFilter from './ExamFilter.jsx'
 import ExamDetailsForm from './ExamDetailsForm.jsx'
 import ExamAddDialog from './ExamAddDialog.jsx';
 import ExamPopover from './ExamPopover.jsx';
+import AddExamButton from './AddExamButton.jsx';
 
 //Import Material UI
-import AddBoxIcon from '@material-ui/icons/AddBox';
 import IconButton from '@material-ui/core/IconButton';
 import WarningIcon from '@material-ui/icons/Warning';
 import { Popover, Card, CardHeader, CardActions, Typography, CardContent, Grid } from '@material-ui/core';
@@ -40,13 +41,13 @@ export default class ExamScheduler extends React.Component {
     }
   }
 
+
+
   
   calendarComponentRef = React.createRef();
   
  
   render(){
-    console.log(`This is what filters looks like in props`);
-    console.log(this.props.filters);
     return (
       <div className="App">
       
@@ -60,13 +61,14 @@ export default class ExamScheduler extends React.Component {
       updateAppsSemester={(semesterCode) => this.props.updateAppsSemester(semesterCode)}
       />
 
-      <IconButton id="conflictsButton">
-        <WarningIcon style={{fontSize: 30}} onClick={this.handleClickOpen}/>
-      </IconButton>
+      <div>
+        <IconButton id="conflictsButton">
+          <WarningIcon style={{fontSize: 30}} onClick={this.handleClickOpen}/>
+        </IconButton>
+      </div>
 
-      <IconButton id="addExamButton"component={Link} to="/addExam">
-        <AddBoxIcon style={{fontSize: 30}}  />
-      </IconButton>
+
+      <AddExamButton/>
       <ExamAddDialog 
         open={this.props.examDetailsFormOpen} 
         handleClose={this.handleExamDetailsFormClose} 

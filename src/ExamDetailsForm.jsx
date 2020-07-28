@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { Link, Redirect } from 'react-router-dom';
+import { withAuth0 } from '@auth0/auth0-react';
 
 //material-ui imports
 import IconButton from '@material-ui/core/IconButton';
@@ -77,7 +78,7 @@ const supportPeople = [
 
 
 
-export default class ExamDetailsForm extends React.Component{
+class ExamDetailsForm extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
@@ -146,9 +147,13 @@ export default class ExamDetailsForm extends React.Component{
      
   };*/
 
-  submitForm = (event) => {
+  submitForm = async (event) => {
     event.preventDefault();  
-    postData(`${apiUrl}/exams`, {
+    const token = await this.props.auth0.getAccessTokenSilently({
+      audience: 'https://exam-scheduler.glitch.me/'
+    });
+
+    postData(`${apiUrl}/exams`, token, {
       courseId: this.state.courseId,
       examSemester: this.props.semester,
       examName: this.state.examName,
@@ -163,25 +168,22 @@ export default class ExamDetailsForm extends React.Component{
       facultyConfirmed: this.state.facultyConfirmed
     })
     .then((response) => {
-      this.props.addExamToGlobalState(JSON.parse(response));
       console.log(response);
+      this.props.addExamToGlobalState(JSON.parse(response));
     })
-    .catch(err => console.error(err))
+    .catch(err => alert(`Form submission failed ${err}`))
     this.handleClose();
   }
- 
-  
-  render(){
+
     
+  render(){
+    console.log(this.props.auth0);
 
     return(
       <Paper id="examDetailsFormPaper">
       {/* <Container maxWidth="sm"> */}
      
-      <form onSubmit={this.submitForm}>
-
-
-        
+      <form onSubmit={this.submitForm}>      
         <Grid container alignItems="flex-start" spacing={2}>
           <Grid item xs={12} md={9}>
             <InputLabel htmlFor="courseId">Course</InputLabel>
@@ -403,7 +405,9 @@ export default class ExamDetailsForm extends React.Component{
   }
 }
 
-async function postData(url = '', data) {
+export default withAuth0(ExamDetailsForm);
+
+async function postData(url = '', token , data) {
   // Default options are marked with *
   const response = await fetch(url, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -411,12 +415,18 @@ async function postData(url = '', data) {
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     credentials: 'same-origin', // include, *same-origin, omit
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
       // 'Content-Type': 'application/x-www-form-urlencoded',
     },
     redirect: 'manual', // manual, *follow, error
     referrerPolicy: 'no-referrer', // no-referrer, *client
     body: JSON.stringify(data) // body data type must match "Content-Type" header
   });
-  return await response.text(); // parses JSON response into native JavaScript objects
+  
+  if( response.status === 200 ){
+    return await response.text(); // parses JSON response into native JavaScript objects
+  } 
+  throw new Error(`Request to ${response.url} failed with status code ${response.status}`);
+  
 }

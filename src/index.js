@@ -6,7 +6,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 //for Auth0
-import { Auth0Provider } from "./react-auth0-spa";
+import { Auth0Provider } from "@auth0/auth0-react";
 import config from "./auth_config.json";
 import history from "./utils/history";
 
@@ -35,10 +35,12 @@ const onRedirectCallback = appState => {
 ReactDOM.render(
   <Auth0Provider
     domain={config.domain}
-    client_id={config.clientId}
+    clientId={config.clientId}
     redirect_uri={window.location.href}
     returnTo={"https://tomporvaz.github.io/Exam-Scheduler-FE/"}  //TODO: Update to Netlify site, or use variable for easy updating
     onRedirectCallback={onRedirectCallback}
+    audience={'https://exam-scheduler.glitch.me/'}
+    scope={'write:exams'}
   >
   <Router history={history} basename="Exam-Scheduler-FE">
     <App />

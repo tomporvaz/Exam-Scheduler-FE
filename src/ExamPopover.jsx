@@ -11,7 +11,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import InfoIcon from '@material-ui/icons/Info';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Link, Route } from 'react-router-dom';
-import { useAuth0 } from './react-auth0-spa';
+import { useAuth0 } from '@auth0/auth0-react';
 
 function ExamList(props){
 
@@ -29,7 +29,9 @@ function ExamList(props){
     let examId = props.popoverExamObj ? props.popoverExamObj.examId : "examId";
 
     let { user } = useAuth0();
-    let userRoles = user ? user['https://examscheduler.netlify.app/roles'] : [];
+
+    let userRoles = user ? user['https://examscheduler.netlify.app/roles'] ? user['https://examscheduler.netlify.app/roles'] : ['user'] : ['user'];
+    console.log(user);
 
 
     console.log(props.popoverExamObj);
