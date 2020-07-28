@@ -36,7 +36,7 @@ ReactDOM.render(
   <Auth0Provider
     domain={config.domain}
     clientId={config.clientId}
-    redirect_uri={window.location.href}
+    redirectUri={window.location.href}
     returnTo={"https://tomporvaz.github.io/Exam-Scheduler-FE/"}  //TODO: Update to Netlify site, or use variable for easy updating
     onRedirectCallback={onRedirectCallback}
     audience={'https://exam-scheduler.glitch.me/'}
