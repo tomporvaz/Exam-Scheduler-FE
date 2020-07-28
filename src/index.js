@@ -37,7 +37,7 @@ ReactDOM.render(
     domain={config.domain}
     clientId={config.clientId}
     redirectUri={window.location.href}
-    returnTo={"https://tomporvaz.github.io/Exam-Scheduler-FE/"}  //TODO: Update to Netlify site, or use variable for easy updating
+    returnTo={"https://5f1f7a03178dcd00093cf5e2--examscheduler.netlify.app"}  //TODO: Update to Netlify site, or use variable for easy updating
     onRedirectCallback={onRedirectCallback}
     audience={'https://exam-scheduler.glitch.me/'}
     scope={'write:exams'}
