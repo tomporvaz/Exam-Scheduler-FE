@@ -24,7 +24,7 @@ export default class SemesterSelecter extends React.Component{
     super(props);
     this.state = {
       open: false,
-      selectedSemester: 'Summer 2020'
+      selectedSemester: 'Fall 2020'
     }
     
   };
