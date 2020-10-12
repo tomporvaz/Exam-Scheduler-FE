@@ -107,6 +107,7 @@ export default class App extends React.Component {
             //function props
             examFilter={(filterObject) => this.examFilter(filterObject)}
             updateAppsSemester={(semesterCode) => this.updateAppsSemester(semesterCode)}
+            deleteExamFromGlobalState={(examId) => this.deleteExamFromGlobalState(examId)}
 
             />
           </Auth0Loader>
@@ -237,16 +238,15 @@ export default class App extends React.Component {
         if(this.state.semesterExams.some(exam => exam.examId === examObj.examId)) {  //checks for examId in current semesterExams 
           console.log("matched semester exams")
           //updates semesterExams instead of adding a new exam to ui state
-          let examIndex = this.state.semesterExams.findIndex(exam => exam.examId === examObj.examId);
-          this.state.semesterExams.splice(examIndex, 1);
+          let examIndex = this.state.semesterExams.findIndex(exam => exam.examId === examObj.examId);  //finds posistion of exam
+          this.state.semesterExams.splice(examIndex, 1);  //removes exam before adding new exam
         }
-        console.log("did not match semester exams")
-      let newSemesterExams = [...this.state.semesterExams, examObj];
-      newSemesterExams.sort((a, b) => {
+      let newSemesterExams = [...this.state.semesterExams, examObj];  //spread exam list and adds new examObj
+      newSemesterExams.sort((a, b) => {  //sorts new exam list
         return new Date(a.examStart).getTime() - new Date(b.examStart).getTime();
       })
 
-      this.setState({
+      this.setState({ //set new exam list to state
         semesterExams: newSemesterExams
       })
       //examFilter needs to be fired to update currentExams, as well as reapply filter
@@ -254,6 +254,22 @@ export default class App extends React.Component {
       //TODO: delete filterObject from examFilter, and update all sources to use filterObjectCopy in App.js
       this.examFilter(this.state.filterObjectCopy);
     }}
+
+    //delete exam from state (semesterExams) and update UI while retaining filter
+    deleteExamFromGlobalState = (examId) => {
+      let examIndex = this.state.semesterExams.findIndex(exam => exam.examId === examId);  //finds posistion of exam in semesterExams array
+      this.state.semesterExams.splice(examIndex, 1);  //removes exam from semesterExams array
+
+      console.log(`Updating UI from DELETE`);
+      this.setState({ //set new exam list to state
+        semesterExams: this.state.semesterExams
+      })
+      //examFilter needs to be fired to update currentExams, as well as reapply filter
+      //filterObjectCopy is sloppy, and it probably should be the canonical source for all components
+      //TODO: delete filterObject from examFilter, and update all sources to use filterObjectCopy in App.js
+      this.examFilter(this.state.filterObjectCopy);
+
+    }
 
     handleExamDetailsFormOpen = () => {
       this.setState({
