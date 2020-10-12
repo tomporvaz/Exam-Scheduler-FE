@@ -12,6 +12,10 @@ import InfoIcon from '@material-ui/icons/Info';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Link, Route } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
+//import { withAuth0 } from '@auth0/auth0-react';
+
+
+let apiUrl ="https://exam-scheduler.glitch.me/api"
 
 function ExamList(props){
 
@@ -28,7 +32,7 @@ function ExamList(props){
     let examEndTime = props.popoverExamObj ? moment(props.popoverExamObj.examEnd).format('h:mm a') : moment().format('h:mm a');
     let examId = props.popoverExamObj ? props.popoverExamObj.examId : "examId";
 
-    let { user } = useAuth0();
+    let { user, getAccessTokenSilently } = useAuth0();
 
     let userRoles = user ? user['https://examscheduler.netlify.app/roles'] ? user['https://examscheduler.netlify.app/roles'] : ['user'] : ['user'];
     console.log(user);
@@ -69,9 +73,11 @@ function ExamList(props){
                   <InfoIcon/>
                 </IconButton>
                 
-                <IconButton>
+                {userRoles.includes('admin') && <IconButton
+                  onClick = { (e) => {deleteExam(e)}}
+                  >
                   <DeleteIcon/>
-                </IconButton>
+                </IconButton>}
 
             </Grid>
            
@@ -141,7 +147,55 @@ function ExamList(props){
 
       
       )
+
+      /*
+      TODO:  needs to update UI on delete, and needs to close popover after button is clicked.
+      */
+      //deleteExam writes a delete HTTP request to delete an exam using the delete data function, and examId from props.
+      async function deleteExam ( event ) {
+        const token = await getAccessTokenSilently({  //token created for this request.  Does a token need to be created for each request?
+          audience: 'https://exam-scheduler.glitch.me/'
+        });
+    
+        //event.preventDefault();
+
+        deleteData(`${apiUrl}/exams?examId=${props.popoverExamObj.examId}`, token, {})  
+        .then((response) => {
+          props.deleteExamFromGlobalState(props.popoverExamObj.examId);  //remove deleted exam from global state (semesterExams) and update UI
+          console.log(response);
+        })
+        .catch(err => alert(`DELETE FAILED for examID: ${props.popoverExamObj.examId} Error = ${err}`))
+        props.handleExamPopoverClose();
+      }
    
+      }
+
+
+
+
+      //general delete http request that sends a delete request with an auth token and json payload
+      async function deleteData(url = '', token , data) {
+        // Default options are marked with *
+        const response = await fetch(url, {
+          method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+          mode: 'cors', // no-cors, *cors, same-origin
+          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: 'same-origin', // include, *same-origin, omit
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          redirect: 'manual', // manual, *follow, error
+          referrerPolicy: 'no-referrer', // no-referrer, *client
+          body: JSON.stringify(data) // body data type must match "Content-Type" header
+        });
+        
+        if( response.status === 200 ){
+          return await response.text(); // parses JSON response into native JavaScript objects
+        } 
+        throw new Error(`Request to ${response.url} failed with status code ${response.status}`);
+        
       }
 
 

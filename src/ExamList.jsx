@@ -4,13 +4,11 @@ import moment from 'moment';
 
 function ExamList(props){
   let examItems = props.exams.map((exam) => {
-    let levelColor = props.levelColors.find(levelColor => levelColor.level == exam.level);
-
-
+    let levelColor = props.levelColors.find(levelColor => levelColor.level == exam.level);  //search list of level colors to find color for level
 
     return(
       <div className="higlightRow">
-      <div className="examListItem" key={exam.examId} onClick={(event) => props.handleExamPopover(event.currentTarget, exam, levelColor.color)} style={{"cursor": "pointer"}}>
+      <div className="examListItem" key={exam.examId} onClick={(event) => props.handleExamPopover(event.currentTarget, exam, levelColor ? levelColor.color : "grey")} style={{"cursor": "pointer"}}>
       <div className="examListDate">{moment(exam.examStart).format("MMM D")}</div>
       <div className="levelColorDot" style={{backgroundColor: (levelColor ? levelColor.color : "grey")}}></div>&nbsp;
       <div className="examListTime">{moment(exam.examStart).format("h:mm A")} - {moment(exam.examEnd).format("h:mm A")}</div>

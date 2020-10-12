@@ -114,6 +114,7 @@ export default class ExamScheduler extends React.Component {
         popoverExamObj={this.state.popoverExamObj}
         popoverExamLevelColor={this.state.popoverExamLevelColor}
         handleExamPopoverClose={this.handleExamPopoverClose}
+        deleteExamFromGlobalState={this.props.deleteExamFromGlobalState}
       />
       
 
