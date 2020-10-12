@@ -74,7 +74,7 @@ function ExamList(props){
                 </IconButton>
                 
                 {userRoles.includes('admin') && <IconButton
-                  onClick = { (e) => {deleteExam(e)}}
+                  onClick = { (e) => {deleteExam(e)}}  //clicking the delete icon will delete the exam. TODO: Add warding box.  Are you sure you want to delete this exam?
                   >
                   <DeleteIcon/>
                 </IconButton>}
