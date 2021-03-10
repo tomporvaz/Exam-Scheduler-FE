@@ -14,9 +14,10 @@ import MenuList from '@material-ui/core/MenuList';
 
 const options = {
   //'Fall 1999': '9909',
-  'Spring 2020': '2001',
+  //'Spring 2020': '2001',
   'Summer 2020': '2007',
-  'Fall 2020': '2009'
+  'Fall 2020': '2009',
+  'Spring 2021': '2101'
 };
 
 export default class SemesterSelecter extends React.Component{
@@ -24,7 +25,7 @@ export default class SemesterSelecter extends React.Component{
     super(props);
     this.state = {
       open: false,
-      selectedSemester: 'Fall 2020'
+      selectedSemester: 'Spring 2021'
     }
     
   };
