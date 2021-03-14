@@ -224,3 +224,8 @@ main{
   }
 
 }
+
+/* this class brings the semesterSelecter poper forwad so it displays overtop of the calendar.*/
+.bringfwd {
+  z-index: 5;
+}
