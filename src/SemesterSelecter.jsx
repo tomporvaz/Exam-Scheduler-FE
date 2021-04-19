@@ -25,7 +25,7 @@ export default class SemesterSelecter extends React.Component{
     super(props);
     this.state = {
       open: false,
-      selectedSemester: 'Spring 2021'
+      selectedSemester: ''
     }
     
   };
@@ -38,6 +38,7 @@ anchorRef = React.createRef(null);
   handleMenuItemClick = (event, option) => {
     this.props.updateAppsSemester(options[option]);
     console.log(options[option]);
+    console.log('option:', option)
     this.setState({
       selectedSemester: option,
       open: false
@@ -69,7 +70,8 @@ anchorRef = React.createRef(null);
   render(){
     return (
           <div className="semesterSelecter" style={{color: "white", backgroundColor: "black"}} ref={this.anchorRef}>
-          {this.state.selectedSemester}
+           {Object.keys(options)[Object.values(options).indexOf(this.props.semester)]}
+           {/* {this.state.selectedSemester} */}
           <div/>
           <IconButton size="small" color="inherit" onClick={this.handleToggle}>
           <ArrowDropDownIcon fontSize="small"/>
