@@ -12,7 +12,7 @@ import PrivateRoute from './PrivateRoute';
 
 
 //apiURL
-let apiUrl ="https://exam-scheduler.glitch.me/api"
+let apiUrl = process.env.REACT_APP_EXAMSCHEDULER_API;
 
 //levelColors should come from server
 let levelColors = [
@@ -62,7 +62,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      semester: "9909",
+      semester: "2101",
       semesterExams: [],
       currentExams:[],
       levelColors: levelColors,
