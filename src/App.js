@@ -12,7 +12,8 @@ import PrivateRoute from './PrivateRoute';
 
 
 //apiURL
-let apiUrl ="https://exam-scheduler-production.glitch.me/api"
+let apiUrl = process.env.REACT_APP_EXAMSCHEDULER_API;
+
 
 //levelColors should come from server
 let levelColors = [

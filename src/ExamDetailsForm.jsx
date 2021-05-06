@@ -39,7 +39,8 @@ import DateFnsUtils from '@date-io/moment';
 import CourseSelecter from './CourseSelecter.jsx'
 
 //apiURL
-let apiUrl ="https://exam-scheduler-production.glitch.me/api"
+let apiUrl = process.env.REACT_APP_EXAMSCHEDULER_API;
+
 
 const software = [
   {

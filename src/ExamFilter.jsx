@@ -17,8 +17,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-let apiUrl ="https://exam-scheduler-production.glitch.me/api"
 
+let apiUrl = process.env.REACT_APP_EXAMSCHEDULER_API;
 
 
 export default class ExamFilter extends React.Component{
@@ -145,7 +145,7 @@ export default class ExamFilter extends React.Component{
         //this is baiscally a copy of the applyFilter function with the addition of some params
         //that can be used to remove one filterName from the filter object and pass the new
         //filter object up to the filter function in app.js.
-        //This function was added for the cancle buttons on filterSelectionItems
+        //This function was added for the cancel buttons on filterSelectionItems
         cancelFilter = (filterGroup, filterName) => {
           //filtersKeys dynamically builds an array of filterGroups from this.state.filters
           let filtersKeys = Object.keys(this.state.filters);
@@ -197,6 +197,7 @@ export default class ExamFilter extends React.Component{
               filterObject={this.state.filterObject} 
               levelColors={this.props.levelColors}
               updateAppsSemester={this.props.updateAppsSemester}
+              semester={this.props.semester}
               cancelFilter={(filterGroup, field) => {
                 this.cancelFilter(filterGroup, field)
                 }

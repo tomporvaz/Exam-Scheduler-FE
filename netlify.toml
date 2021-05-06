@@ -2,3 +2,14 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+
+[context.production.environment]
+API_ENDPOINT = "https://exam-scheduler-production.glitch.me/api"
+
+[context.staging.environment]
+REACT_APP_EXAMSCHEDULER_API="https://exam-scheduler.glitch.me/api"
+
+# no API server exists for other branches, but code will still want a URL here so need to set a "default"
+[context.branch-deploy.environment]
+API_ENDPOINT = "https://invalid"
