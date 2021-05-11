@@ -6,7 +6,11 @@ const { IconButton } = require("@material-ui/core");
 
 export default function AddExamButton () {
   let { user } = useAuth0();
-   let userRoles = user ? user['https://examscheduler.netlify.app/roles'] ? user['https://examscheduler.netlify.app/roles'] : ['user'] : ['user'];
+  /*
+  https://examscheduler.netlify.app/roles is set in auth0 rules to set app_metadata
+  TODO: setup an easier way to mangae roles.
+  */
+  let userRoles = (user ? (user['https://examscheduler.netlify.app/roles'] ? user['https://examscheduler.netlify.app/roles'] : ['user']) : ['user']);  
   console.log(userRoles);
   
   return (

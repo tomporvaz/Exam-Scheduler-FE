@@ -17,8 +17,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-let apiUrl = process.env.REACT_APP_EXAMSCHEDULER_API;
 
+let apiUrl = process.env.REACT_APP_EXAMSCHEDULER_API;
 
 
 export default class ExamFilter extends React.Component{

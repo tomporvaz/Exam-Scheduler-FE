@@ -15,7 +15,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 //import { withAuth0 } from '@auth0/auth0-react';
 
 
-let apiUrl ="https://exam-scheduler.glitch.me/api"
+let apiUrl ="https://exam-scheduler-production.glitch.me/api"
 
 function ExamList(props){
 
