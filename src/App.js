@@ -63,7 +63,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      semester: "2101",
+      semester: "2109",
       semesterExams: [],
       currentExams:[],
       levelColors: levelColors,

@@ -16,8 +16,8 @@ const options = {
   'Summer 2020': '2007',
   'Fall 2020': '2009',
   'Spring 2021': '2101',
-  'Summer 2021': '2107'
-
+  'Summer 2021': '2107',
+  'Fall 2021': '2109'
 };
 
 export default class SemesterSelecter extends React.Component{
