@@ -9,6 +9,7 @@ import { useAuth0 } from "./react-auth0-spa";
 import Auth0Loader from './Auth0Loader';
 import Profile from './Profile';
 import PrivateRoute from './PrivateRoute';
+import Settings from './Settings';
 
 
 //apiURL
@@ -63,7 +64,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      semester: "2109",
+      semester: "2201",
       semesterExams: [],
       currentExams:[],
       levelColors: levelColors,
@@ -125,7 +126,7 @@ export default class App extends React.Component {
         />
 
               
-<Route path="/editExam/:examId" render={(props) =>  <EditExamForm 
+      <Route path="/editExam/:examId" render={(props) =>  <EditExamForm 
             {...props} 
             examsArr = "test examArr"
             examObj = {this.state.semesterExams.find(examObj => examObj.examId === props.match.params.examId)}
@@ -136,6 +137,10 @@ export default class App extends React.Component {
           />}
         />
 
+      {/* todo: Create PrivateRoute to /settings and create setting component  */}
+      <Route path="/settings" render={(props) => <Settings {...props}/>
+        }
+      />
 
 
       {/* <Route path="/profile" component={Profile}/> */}
